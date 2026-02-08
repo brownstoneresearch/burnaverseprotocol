@@ -1,9 +1,13 @@
 <!-- =========================================================
-  COMPACT + PERFECT MOBILE FIT: /whitepaper/index.html
-  - Ultra-compact spacing + smaller typography on mobile
-  - Sticky "Contents" bar + bottom-sheet TOC (one-thumb friendly)
-  - Tables auto-scroll + condensed padding
-  - Works with shared ../assets/css/theme.css + ../assets/js/site.js
+  UPGRADED WHITEPAPER (NEAT + PREMIUM + MOBILE-PERFECT)
+  File: /whitepaper/index.html
+
+  ✅ Compact, clean, professional
+  ✅ Mobile-first typography + spacing
+  ✅ Sticky "Contents" bar + bottom-sheet TOC (one-thumb friendly)
+  ✅ Better structure + clearer writing (crypto/blockchain friendly)
+  ✅ Tables scroll on mobile, cards stack nicely
+  ✅ Uses shared: ../assets/css/theme.css + ../assets/js/site.js
 ========================================================== -->
 <!DOCTYPE html>
 <html lang="en">
@@ -11,9 +15,16 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
   <title>$BURNA Token — Whitepaper</title>
-  <meta name="description" content="$BURNA Token — objectives, tokenomics, roadmap, governance, security assumptions, and legal disclaimer." />
+  <meta name="description" content="$BURNA Token — overview, objectives, tokenomics, roadmap, governance, security posture, and risk disclaimer." />
   <meta name="theme-color" content="#070A12" />
   <meta name="color-scheme" content="dark" />
+
+  <!-- Social cards -->
+  <meta property="og:title" content="$BURNA Token — Whitepaper" />
+  <meta property="og:description" content="Overview, objectives, tokenomics, roadmap, governance, security posture, and risk disclaimer." />
+  <meta property="og:type" content="article" />
+  <meta property="og:image" content="https://i.ibb.co/pvhLTdRH/Burna-logo.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
 
   <link rel="icon" href="https://i.ibb.co/pvhLTdRH/Burna-logo.jpg" />
   <link rel="apple-touch-icon" href="https://i.ibb.co/pvhLTdRH/Burna-logo.jpg" />
@@ -26,28 +37,51 @@
   <link rel="stylesheet" href="../assets/css/theme.css" />
 
   <style>
-    /* ===== Compact mobile-first whitepaper ===== */
+    /* ===== PERFECTLY NEAT, MOBILE-FIRST WHITEPAPER ===== */
     :root{
-      --anchor-offset: calc(var(--nav-h) + 52px); /* nav + compact toc bar */
-      --pad: 12px;   /* base mobile padding */
-      --gap: 10px;   /* base mobile gap */
+      --anchor-offset: calc(var(--nav-h) + 54px); /* nav + tocbar */
+      --pad: 12px;
+      --gap: 10px;
+
+      --wp-card: linear-gradient(180deg, rgba(255,255,255,.055), rgba(255,255,255,.015));
+      --wp-stroke: rgba(255,255,255,.12);
+      --wp-soft: rgba(0,0,0,.18);
+      --wp-soft2: rgba(0,0,0,.10);
     }
     html{ scroll-behavior:smooth; }
     section[id]{ scroll-margin-top: var(--anchor-offset); }
 
-    /* Page shell */
     .wp{
       padding-top: calc(var(--nav-h) + 10px);
       padding-bottom: 22px;
     }
 
-    /* Compact header card */
+    /* Header card */
     .hero{
       background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
-      border:1px solid var(--border);
+      border:1px solid var(--wp-stroke);
       border-radius: 16px;
       padding: var(--pad);
       box-shadow: 0 14px 34px rgba(0,0,0,.28);
+    }
+    .kicker{
+      display:flex;gap:8px;flex-wrap:wrap;align-items:center;
+      margin:0 0 8px;
+    }
+    .badge{
+      display:inline-flex;align-items:center;gap:8px;
+      padding:6px 10px;border-radius:999px;
+      border:1px solid var(--wp-stroke);
+      background: var(--wp-soft);
+      color: var(--muted);
+      font-weight: 900;
+      font-size: 12px;
+      white-space:nowrap;
+    }
+    .dot{
+      width:7px;height:7px;border-radius:999px;
+      background: var(--neon);
+      box-shadow: 0 0 10px rgba(55,246,255,.55);
     }
     .title{
       margin:0;
@@ -59,7 +93,7 @@
       color: var(--muted);
       font-size: 13px;
       line-height: 1.45;
-      max-width: 85ch;
+      max-width: 90ch;
     }
 
     /* Compact sticky Contents bar (mobile) */
@@ -77,15 +111,12 @@
       overflow:hidden;
     }
     .tocbar-row{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:10px;
+      display:flex;align-items:center;justify-content:space-between;gap:10px;
       padding: 10px 10px;
     }
     .tocbar-left{display:flex;align-items:center;gap:10px;min-width:0}
     .tocbar-left img{
-      width:30px;height:30px;border-radius:12px;border:1px solid var(--border);object-fit:cover;
+      width:30px;height:30px;border-radius:12px;border:1px solid var(--wp-stroke);object-fit:cover;
     }
     .tocbar-left .txt{min-width:0}
     .tocbar-left strong{
@@ -93,46 +124,38 @@
       font-size: 12px;
       letter-spacing:.12em;
       text-transform:uppercase;
-      white-space:nowrap;
-      overflow:hidden;
-      text-overflow:ellipsis;
+      white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
     }
     .tocbar-left span{
       display:block;
-      font-size:12px;
-      color:var(--muted);
+      font-size:12px;color:var(--muted);
       margin-top:2px;
-      white-space:nowrap;
-      overflow:hidden;
-      text-overflow:ellipsis;
+      white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
     }
     .tocbtn{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      padding: 8px 10px;
-      border-radius: 12px;
+      display:inline-flex;align-items:center;gap:8px;
+      padding: 8px 10px;border-radius: 12px;
       border:1px solid rgba(255,255,255,.12);
       background: rgba(255,255,255,.04);
       color: var(--text);
-      font-weight: 800;
+      font-weight: 900;
       font-size: 12px;
       white-space:nowrap;
     }
     .tocbtn:active{transform:translateY(1px)}
     .tocbtn svg{width:18px;height:18px}
 
-    /* Layout: single column always (compact mobile) */
+    /* Main layout */
     .wrap{
       display:grid;
       gap: var(--gap);
       margin-top: var(--gap);
     }
 
-    /* Sections: compact padding and typography */
+    /* Section card */
     .sec{
-      background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.015));
-      border:1px solid rgba(255,255,255,.12);
+      background: var(--wp-card);
+      border:1px solid var(--wp-stroke);
       border-radius: 16px;
       padding: var(--pad);
       box-shadow: 0 12px 30px rgba(0,0,0,.22);
@@ -145,7 +168,7 @@
     .sec h3{
       margin: 10px 0 6px;
       color: var(--amber);
-      font: 800 13px/1.2 Inter,system-ui;
+      font: 900 13px/1.2 Inter,system-ui;
     }
     .sec p{
       margin: 6px 0;
@@ -162,7 +185,19 @@
     }
     .sec li{ margin: 5px 0; }
 
-    /* Two-column blocks collapse (compact) */
+    /* Neat callout */
+    .callout{
+      margin-top: 10px;
+      padding: 10px 10px;
+      border-radius: 14px;
+      border: 1px solid rgba(55,246,255,.22);
+      background: rgba(55,246,255,.08);
+      color: rgba(234,242,255,.90);
+      font-size: 12.5px;
+      line-height: 1.45;
+    }
+
+    /* Tight 2-col blocks */
     .two{
       display:grid;
       grid-template-columns: 1fr;
@@ -170,15 +205,12 @@
       margin-top: 8px;
     }
 
-    /* Token pills */
+    /* Pill */
     .pill{
-      display:inline-flex;
-      gap:8px;
-      align-items:center;
-      padding:6px 10px;
-      border-radius:999px;
+      display:inline-flex;gap:8px;align-items:center;
+      padding:6px 10px;border-radius:999px;
       border:1px solid rgba(255,255,255,.12);
-      background: rgba(0,0,0,.18);
+      background: var(--wp-soft);
       color: var(--muted);
       font-weight: 900;
       font-size: 12px;
@@ -192,7 +224,7 @@
       border-radius: 14px;
       border:1px solid rgba(255,255,255,.10);
       overflow:auto;
-      background: rgba(0,0,0,.12);
+      background: var(--wp-soft2);
     }
     table{border-collapse:collapse;min-width:640px;width:100%}
     th,td{
@@ -213,19 +245,13 @@
 
     /* Bottom-sheet TOC */
     .sheet{
-      position:fixed;
-      inset:0;
-      display:none;
-      z-index: 120;
+      position:fixed; inset:0;
+      display:none; z-index: 120;
     }
     .sheet.open{display:block}
-    .sheet .backdrop{
-      position:absolute; inset:0;
-      background: rgba(0,0,0,.60);
-    }
+    .sheet .backdrop{position:absolute;inset:0;background:rgba(0,0,0,.60)}
     .sheet .panel{
-      position:absolute;
-      left:0; right:0; bottom:0;
+      position:absolute; left:0; right:0; bottom:0;
       border-radius: 18px 18px 0 0;
       border:1px solid rgba(255,255,255,.12);
       background: linear-gradient(180deg, rgba(8,10,18,.96), rgba(8,10,18,.92));
@@ -236,14 +262,14 @@
       max-height: 78vh;
       overflow:auto;
     }
-    .sheet .grab{
+    .grab{
       width: 44px; height: 4px;
       background: rgba(255,255,255,.22);
       border-radius: 999px;
       margin: 6px auto 10px;
     }
     .sheet .head{
-      display:flex; align-items:center; justify-content:space-between; gap:10px;
+      display:flex;align-items:center;justify-content:space-between;gap:10px;
       padding: 0 2px 10px;
       border-bottom:1px solid rgba(255,255,255,.08);
       margin-bottom: 10px;
@@ -254,19 +280,15 @@
       text-transform:uppercase;
     }
     .xbtn{
-      display:inline-flex; align-items:center; justify-content:center;
-      width:36px; height:36px;
-      border-radius: 12px;
+      display:inline-flex;align-items:center;justify-content:center;
+      width:36px;height:36px;border-radius: 12px;
       border:1px solid rgba(255,255,255,.12);
       background: rgba(255,255,255,.04);
       color: var(--text);
     }
     .xbtn svg{width:18px;height:18px}
 
-    .sheet .links{
-      display:flex; flex-wrap:wrap; gap:8px;
-      margin-bottom: 10px;
-    }
+    .sheet .links{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px}
     .sheet .links a{
       display:inline-flex;
       padding:8px 10px;
@@ -278,7 +300,6 @@
       font-size: 12px;
       text-decoration:none;
     }
-
     .sheet nav{display:grid;gap:6px}
     .sheet nav a{
       padding: 10px 10px;
@@ -287,18 +308,28 @@
       background: rgba(255,255,255,.03);
       color: rgba(234,242,255,.86);
       text-decoration:none;
-      font-weight: 800;
+      font-weight: 900;
       font-size: 13px;
       line-height:1.25;
     }
     .sheet nav a:hover{background:rgba(255,255,255,.06)}
     .sheet nav a:active{transform:translateY(1px)}
 
-    /* Desktop: slightly roomier + optional 2-col for some blocks */
+    /* Footer */
+    .wp-footer{
+      text-align:center;
+      color: var(--muted);
+      font-size: 12px;
+      padding: 0 22px 30px;
+    }
+
+    /* Desktop enhancements */
     @media (min-width: 860px){
       :root{ --pad: 16px; --gap: 12px; --anchor-offset: calc(var(--nav-h) + 16px); }
-      .tocbar{ display:none; } /* desktop doesn't need sheet */
+      .tocbar{ display:none; } /* desktop doesn't need the sheet bar */
       .two{ grid-template-columns: repeat(2,1fr); }
+      .title{ font-size: 34px; }
+      .lead{ font-size: 14px; }
     }
 
     @media (prefers-reduced-motion:reduce){
@@ -333,12 +364,20 @@
 
 <div class="wp">
   <div class="container">
-    <div class="hero">
+
+    <header class="hero" aria-label="Whitepaper header">
+      <div class="kicker">
+        <span class="badge"><span class="dot"></span> ERC-20 • Ethereum</span>
+        <span class="badge">Version: 1.0</span>
+        <span class="badge">Status: Informational</span>
+      </div>
+
       <h1 class="title">$BURNA Token — Whitepaper</h1>
       <p class="lead">
-        Objectives, token mechanics, roadmap, governance path, and risk considerations for <strong>$BURNA</strong>.
+        A compact, verifiable overview of <strong>$BURNA</strong>: purpose, token mechanics, roadmap, governance path, security posture, and risk disclosure.
+        This document is informational and may be updated over time.
       </p>
-    </div>
+    </header>
 
     <!-- Compact mobile TOC bar -->
     <div class="tocbar" role="region" aria-label="Contents bar">
@@ -359,33 +398,36 @@
       </div>
     </div>
 
-    <!-- Content -->
     <main class="wrap" id="main" aria-label="Whitepaper content">
+
       <section class="sec" id="intro">
         <h2>1. Introduction</h2>
         <p>
           <strong>$BURNA</strong> is an ERC-20 token designed to support community programs, token-gated access, and on-chain incentives.
-          Official communication prioritizes contract verification and clear program rules.
+          The project emphasizes contract verification and clear, auditable communication for all major updates.
         </p>
+        <div class="callout">
+          <strong>Safety note:</strong> Always verify the contract on a trusted explorer before trading. Look-alike tokens and spoofed links are common across public launches.
+        </div>
       </section>
 
       <section class="sec" id="objectives">
         <h2>2. Objectives</h2>
         <div class="two">
           <div>
-            <h3>Primary</h3>
+            <h3>Core objectives</h3>
             <ul>
-              <li>Token-gated access and participation.</li>
-              <li>Incentives designed to be verifiable on-chain.</li>
-              <li>Phased governance path with controls.</li>
+              <li>Enable token-gated access and participation frameworks.</li>
+              <li>Deliver incentive programs designed to be verifiable on-chain (where feasible).</li>
+              <li>Introduce governance gradually with transparent controls.</li>
             </ul>
           </div>
           <div>
-            <h3>Principles</h3>
+            <h3>Operating principles</h3>
             <ul>
-              <li><strong>Clarity:</strong> publish dates and eligibility.</li>
-              <li><strong>Verification:</strong> contract-first updates.</li>
-              <li><strong>Iteration:</strong> phased delivery + logs.</li>
+              <li><strong>Clarity:</strong> publish timelines, eligibility, and criteria.</li>
+              <li><strong>Verification:</strong> contract-first announcements across channels.</li>
+              <li><strong>Change control:</strong> document updates and publish revision notes.</li>
             </ul>
           </div>
         </div>
@@ -394,18 +436,23 @@
       <section class="sec" id="context">
         <h2>3. Context</h2>
         <ul>
-          <li>Impersonation and malicious links are common risks.</li>
-          <li>Programs require criteria and auditability.</li>
-          <li>Transparency reduces operational risk.</li>
+          <li>Impersonation, malicious links, and contract clones are frequent risks.</li>
+          <li>Community programs require clear eligibility, transparency, and repeatable processes.</li>
+          <li>On-chain visibility improves accountability when paired with consistent disclosure.</li>
         </ul>
       </section>
 
       <section class="sec" id="approach">
         <h2>4. Proposed approach</h2>
+        <h3>Contract-first communication</h3>
+        <p>
+          The contract address published in official channels is treated as the primary source of truth. Any mismatch between the contract shown on-site and a shared link should be treated as suspicious.
+        </p>
+        <h3>Program execution standards</h3>
         <ul>
-          <li><strong>Contract-first:</strong> site and official posts reference the same contract.</li>
-          <li><strong>Rule clarity:</strong> terms are published before execution.</li>
-          <li><strong>Phased rollout:</strong> deliver in stages with reporting.</li>
+          <li>Programs are announced with clear eligibility criteria and time windows.</li>
+          <li>Where possible, distributions and outcomes should be verifiable through public transactions.</li>
+          <li>Major program changes should be disclosed before taking effect.</li>
         </ul>
       </section>
 
@@ -420,31 +467,31 @@
               <tr><th>Allocation</th><th>Share</th><th>Notes</th></tr>
             </thead>
             <tbody>
-              <tr><td>Community &amp; Rewards</td><td>40%</td><td>Programmatic distributions and incentives</td></tr>
+              <tr><td>Community &amp; Rewards</td><td>40%</td><td>Programmatic distributions, incentives, and community initiatives</td></tr>
               <tr><td>Public Sale / Liquidity</td><td>20%</td><td>Distribution + liquidity provisioning</td></tr>
-              <tr><td>Development</td><td>15%</td><td>Infrastructure, tooling, maintenance</td></tr>
-              <tr><td>Team &amp; Advisors</td><td>10%</td><td>Time-based vesting (published separately)</td></tr>
-              <tr><td>Treasury</td><td>10%</td><td>Reserves, grants, growth initiatives</td></tr>
-              <tr><td>Marketing &amp; Partnerships</td><td>5%</td><td>Listings, onboarding, communications</td></tr>
+              <tr><td>Development</td><td>15%</td><td>Infrastructure, tooling, maintenance, and upgrades</td></tr>
+              <tr><td>Team &amp; Advisors</td><td>10%</td><td>Time-based vesting (details disclosed separately)</td></tr>
+              <tr><td>Treasury</td><td>10%</td><td>Reserves, grants, and growth initiatives</td></tr>
+              <tr><td>Marketing &amp; Partnerships</td><td>5%</td><td>Listings, onboarding, communications, partnerships</td></tr>
             </tbody>
           </table>
         </div>
 
         <div class="two" style="margin-top:10px">
           <div>
-            <h3>Utility</h3>
+            <h3>Utility (high level)</h3>
             <ul>
-              <li>Access: token-gated participation.</li>
-              <li>Incentives: auditable programs (when feasible).</li>
-              <li>Payments: drops/tickets/digital goods (when supported).</li>
+              <li>Access: token-gated participation and eligibility-based perks.</li>
+              <li>Incentives: programs designed for on-chain visibility (when feasible).</li>
+              <li>Payments: potential use for drops/tickets/digital goods (where supported).</li>
             </ul>
           </div>
           <div>
-            <h3>Mechanics</h3>
+            <h3>Mechanics (high level)</h3>
             <ul>
-              <li>Fees: <strong>2% buy / 2% sell</strong> (as stated on main site).</li>
-              <li>Liquidity: described as “locked” (proof should be public).</li>
-              <li>Changes should be disclosed and time-stamped.</li>
+              <li>Fees: <strong>2% buy / 2% sell</strong> (as stated on the main site).</li>
+              <li>Liquidity posture: described as “locked” (proof should be published publicly).</li>
+              <li>Any major changes should be disclosed and time-stamped.</li>
             </ul>
           </div>
         </div>
@@ -454,19 +501,19 @@
         <h2>6. Use cases</h2>
         <div class="two">
           <div>
-            <h3>Holders</h3>
+            <h3>For holders</h3>
             <ul>
-              <li>Eligibility-based access.</li>
-              <li>Verified announcements.</li>
-              <li>Program participation (when live).</li>
+              <li>Eligibility-based participation (access frameworks).</li>
+              <li>Verified announcements and contract-referenced updates.</li>
+              <li>Participation in programs when published and active.</li>
             </ul>
           </div>
           <div>
-            <h3>Partners</h3>
+            <h3>For partners</h3>
             <ul>
-              <li>On-chain measurable engagement.</li>
-              <li>Reporting standards.</li>
-              <li>Security guardrails.</li>
+              <li>Campaigns with measurable on-chain engagement signals.</li>
+              <li>Transparent reporting standards and disclosure.</li>
+              <li>Phased delivery with security guardrails.</li>
             </ul>
           </div>
         </div>
@@ -474,44 +521,64 @@
 
       <section class="sec" id="security">
         <h2>7. Security &amp; transparency</h2>
+        <h3>Security posture</h3>
         <ul>
-          <li>Verify contract address; avoid unofficial links.</li>
-          <li>Audits (if any) should be published; absence implies risk.</li>
-          <li>Claims like “liquidity locked” should include evidence.</li>
+          <li>Users should verify the contract and avoid unofficial links.</li>
+          <li>Audits (if any) should be published; absence implies additional risk.</li>
+          <li>Operational wallets and program rules should be disclosed where applicable.</li>
+        </ul>
+        <h3>Transparency standards</h3>
+        <ul>
+          <li>Maintain a single source of truth for official links and contract.</li>
+          <li>Provide evidence for claims such as “liquidity locked.”</li>
+          <li>Document revisions and announce changes before they take effect.</li>
         </ul>
       </section>
 
       <section class="sec" id="roadmap">
         <h2>8. Roadmap</h2>
-        <h3>Phase 1</h3>
-        <ul><li>Deployment, liquidity, documentation.</li><li>Community onboarding.</li></ul>
-        <h3>Phase 2</h3>
-        <ul><li>Programs with public eligibility criteria.</li><li>Partner activations + reporting.</li></ul>
-        <h3>Phase 3</h3>
-        <ul><li>Token-gated experiences.</li><li>Iterate with security reviews.</li></ul>
+        <h3>Phase 1 — Launch &amp; foundation</h3>
+        <ul>
+          <li>Deployment, liquidity provisioning, documentation.</li>
+          <li>Community onboarding and verified communication channels.</li>
+        </ul>
+
+        <h3>Phase 2 — Ecosystem rollout</h3>
+        <ul>
+          <li>Structured programs with public eligibility criteria.</li>
+          <li>Partner activations and reporting standards.</li>
+        </ul>
+
+        <h3>Phase 3 — Experiences</h3>
+        <ul>
+          <li>Token-gated experiences and verifiable fulfillment.</li>
+          <li>Iteration based on feedback and security reviews.</li>
+        </ul>
       </section>
 
       <section class="sec" id="governance">
         <h2>9. Governance</h2>
         <p>
-          Governance (if introduced) should include proposal rules, thresholds, and transparent execution controls (e.g., multisig).
+          Governance (if introduced) should include clear proposal rules, voting thresholds, and transparent execution controls (e.g., multisig).
+          Governance details should be time-stamped and referenced from official channels.
         </p>
       </section>
 
       <section class="sec" id="legal">
         <h2>10. Legal &amp; risk disclaimer</h2>
         <ul>
-          <li>Informational only — not financial/legal/tax advice.</li>
+          <li>Informational only — not financial, legal, or tax advice.</li>
           <li>Digital assets are volatile and can result in total loss.</li>
-          <li>Smart contract, custody, and regulatory risk apply.</li>
+          <li>Smart contract, custody, and regulatory risks apply.</li>
           <li>Users are responsible for compliance and security hygiene.</li>
         </ul>
       </section>
+
     </main>
   </div>
 </div>
 
-<div class="wp-footer" style="text-align:center;color:var(--muted);font-size:12px;padding:0 22px 30px">
+<div class="wp-footer">
   <small>© <span id="year"></span> $BURNA — All rights reserved.</small>
 </div>
 
@@ -553,10 +620,10 @@
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-<!-- Shared JS wires contract + token link + DEXTools -->
+<!-- Shared JS: contract + Etherscan token link + DEXTools + year -->
 <script src="../assets/js/site.js" defer></script>
 
-<!-- Tiny page JS: open/close bottom sheet + close on link tap -->
+<!-- Page JS: TOC sheet behavior -->
 <script>
 (() => {
   const sheet = document.getElementById("tocSheet");
@@ -579,7 +646,7 @@
   closeBg?.addEventListener("click", close);
   xClose?.addEventListener("click", close);
 
-  // Close after selecting a section (mobile)
+  // Close after selecting a section
   sheet?.querySelectorAll(".tocLink").forEach(a => {
     a.addEventListener("click", () => setTimeout(close, 80));
   });
