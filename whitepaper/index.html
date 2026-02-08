@@ -1,458 +1,366 @@
-<!-- =========================================================
-  UPGRADED: $BURNA Whitepaper (whitepaper/index.html)
-  - More mature, finance/crypto-friendly writing
-  - Adds “Security & risk” and “Transparency” sections
-  - Clearer wording (informational, non-promotional)
-  - Keeps your existing TOC layout + auto Etherscan token link
-========================================================== -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-  <title>$BURNA Token — Whitepaper</title>
-  <meta name="description" content="$BURNA Token — overview, objectives, tokenomics, roadmap, governance, security assumptions, and legal disclaimer." />
+  <title>$BURNA — Culture × Web3 Utility</title>
+  <meta name="description" content="$BURNA is a community-led ERC-20 token designed for fan engagement, token-gated access, and on-chain incentives." />
   <meta name="theme-color" content="#070A12" />
   <meta name="color-scheme" content="dark" />
 
-  <!-- OG/Twitter -->
-  <meta property="og:title" content="$BURNA Token — Whitepaper" />
-  <meta property="og:description" content="Objectives, tokenomics, roadmap, governance, security assumptions, and legal disclaimer." />
-  <meta property="og:type" content="article" />
-  <meta property="og:image" content="https://i.ibb.co/pvhLTdRH/Burna-logo.jpg" />
-  <meta name="twitter:card" content="summary_large_image" />
-
   <link rel="icon" href="https://i.ibb.co/pvhLTdRH/Burna-logo.jpg" />
   <link rel="apple-touch-icon" href="https://i.ibb.co/pvhLTdRH/Burna-logo.jpg" />
+
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800&family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
 
+  <link rel="stylesheet" href="./assets/css/theme.css" />
+
   <style>
-    :root{
-      --bg:#05060a;
-      --panel:rgba(255,255,255,.045);
-      --panel2:rgba(255,255,255,.07);
-      --border:rgba(255,255,255,.12);
-      --text:#EAF2FF;
-      --muted:rgba(234,242,255,.72);
-      --neon:#37f6ff;
-      --amber:#ffc371;
-      --ring:0 0 0 3px rgba(55,246,255,.22);
-      --max:1140px;
-      --nav-h:74px;
+    /* Page-specific styles only */
+    header.hero{
+      position:relative;
+      min-height:100svh;
+      display:flex;
+      align-items:center;
+      padding:calc(var(--nav-h) + 18px) 0 32px;
     }
-    *{box-sizing:border-box}
-    body{
+    .hero-bg{position:absolute;inset:0;z-index:0;overflow:hidden}
+    .hero-bg video,.hero-bg img{
+      width:100%;height:100%;object-fit:cover;display:block;
+      filter:blur(7px) saturate(115%) brightness(.58);
+      transform:scale(1.03);
+    }
+    @media (prefers-reduced-motion:reduce){ .hero-bg video{display:none} }
+
+    .hero-card{
+      position:relative;z-index:1;
+      width:min(var(--max),100% - 24px);
+      margin:0 auto;
+      border-radius:var(--r-xl);
+      border:1px solid var(--border);
+      background:linear-gradient(180deg, rgba(255,255,255,.085), rgba(255,255,255,.035));
+      -webkit-backdrop-filter: blur(16px) saturate(120%);
+      backdrop-filter: blur(16px) saturate(120%);
+      box-shadow:var(--shadow);
+      padding:18px;
+    }
+    .hero-grid{
+      display:grid;
+      grid-template-columns:1.35fr .65fr;
+      gap:18px;
+      padding:16px;
+      border-radius:calc(var(--r-xl) - 8px);
+      border:1px solid rgba(255,255,255,.10);
+      background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+    }
+    @media (max-width:980px){.hero-grid{grid-template-columns:1fr}}
+
+    .h-title{
       margin:0;
-      background: radial-gradient(1200px 700px at 12% -10%, rgba(55,246,255,.10), transparent 60%),
-                  linear-gradient(180deg,#070A12,#05060a);
-      color:var(--text);
-      font:16px/1.65 Inter,system-ui,Segoe UI,Arial,sans-serif;
-      -webkit-font-smoothing:antialiased;
-      overflow-x:hidden;
+      font:800 clamp(28px,4.2vw,48px)/1.05 Orbitron,monospace;
+      letter-spacing:.35px;
     }
-    a{color:#7cf0ff;text-decoration:none}
-    a:hover{text-decoration:underline}
-    .container{max-width:var(--max);margin:0 auto;padding:0 22px}
+    .h-lead{margin:10px 0 14px;color:var(--muted);max-width:62ch}
 
-    /* Nav */
-    .site-nav{
-      position:fixed; inset:0 0 auto 0; height:var(--nav-h); z-index:70;
-      display:flex; align-items:center;
-      background:linear-gradient(180deg, rgba(3,4,10,.70), rgba(3,4,10,.22));
-      border-bottom:1px solid rgba(255,255,255,.06);
-      -webkit-backdrop-filter:saturate(120%) blur(12px);
-      backdrop-filter:saturate(120%) blur(12px);
+    .chips{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 0}
+    .chip{
+      display:inline-flex;align-items:center;gap:8px;
+      background:rgba(0,0,0,.22);
+      border:1px solid var(--border);
+      padding:8px 10px;border-radius:999px;
+      color:var(--muted);font-size:12px;font-weight:800;
     }
-    .nav-row{display:flex;align-items:center;gap:12px}
-    .nav-left{display:flex;align-items:center;gap:12px;margin-right:auto}
-    .nav-right{display:flex;align-items:center;gap:10px;margin-left:auto;flex-wrap:wrap}
+    .dot{width:7px;height:7px;border-radius:999px;background:var(--neon);box-shadow:0 0 10px rgba(55,246,255,.55)}
 
-    .brand{display:flex;gap:12px;align-items:center}
-    .brand img{width:46px;height:46px;border-radius:14px;border:1px solid var(--border);object-fit:cover}
-    .brand h1{margin:0;font:800 16px Orbitron,monospace;letter-spacing:.45px;white-space:nowrap}
+    .cta{display:flex;gap:12px;flex-wrap:wrap;margin:16px 0 8px}
+    @media (max-width:560px){.cta > *{flex:1 1 100%}}
 
-    .btn{
-      --bg:linear-gradient(90deg,var(--neon),#7cf0ff);
-      --fg:#07131A;
-      display:inline-flex;align-items:center;justify-content:center;gap:.55rem;
-      padding:10px 14px; min-height:44px;
-      border-radius:12px;
-      border:1px solid transparent;
-      background:var(--bg); color:var(--fg);
-      font:800 14px Orbitron,monospace;
-      box-shadow:0 10px 30px rgba(55,246,255,.14);
-      transition:transform .16s, filter .2s, box-shadow .2s;
+    .contract{
+      margin-top:14px;
+      display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+      padding:12px;background:rgba(0,0,0,.28);
+      border:1px solid var(--border);border-radius:14px;
     }
-    .btn:hover{transform:translateY(-2px);filter:saturate(112%)}
-    .btn:focus-visible{outline:none;box-shadow:0 10px 30px rgba(55,246,255,.14), var(--ring)}
-    .btn--ghost{background:transparent;border:1px solid var(--border);color:var(--text);font:600 14px Inter,system-ui;box-shadow:none}
-    .btn--amber{--bg:linear-gradient(90deg,var(--amber),#ffd296);color:#101820}
+    .contract .label{
+      font-weight:900;letter-spacing:.12em;text-transform:uppercase;
+      font-size:11px;color:rgba(234,242,255,.86);
+    }
+    .contract .addr{word-break:break-all;font-size:13px;color:rgba(234,242,255,.86);flex:1 1 320px}
+    .contract .actions{display:flex;gap:8px;flex-wrap:wrap;margin-left:auto}
 
+    .visual{
+      border:1px solid var(--border);border-radius:16px;overflow:hidden;
+      background:linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.01));
+    }
+    .visual img{width:100%;height:270px;object-fit:cover;display:block}
+    .visual .cap{padding:10px 12px;color:var(--muted);font-size:13px;line-height:1.45}
+
+    .ticker{
+      border-top:1px solid rgba(255,255,255,.10);
+      border-bottom:1px solid rgba(255,255,255,.10);
+      background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+      overflow:hidden;
+    }
+    .track{
+      display:inline-flex;gap:20px;padding:11px 0;white-space:nowrap;
+      animation:scroll 24s linear infinite;
+    }
+    @keyframes scroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+    @media (prefers-reduced-motion:reduce){.track{animation:none}}
     .pill{
-      display:inline-flex;gap:8px;align-items:center;padding:6px 10px;border-radius:999px;
-      border:1px solid var(--border);
-      background:rgba(0,0,0,.18);
-      color:var(--muted);
-      font-weight:800;
-      font-size:12px;
-      text-decoration:none;
+      display:inline-flex;gap:8px;align-items:center;padding:7px 12px;border-radius:999px;
+      border:1px solid var(--border);background:rgba(0,0,0,.18);
+      font-weight:900;font-size:12px;color:rgba(234,242,255,.86);
     }
-    .active{pointer-events:none;border-color:rgba(255,255,255,.22);background:rgba(255,255,255,.08);color:#EAF2FF}
+    .pill.live{border-color:rgba(55,246,255,.30);background:rgba(55,246,255,.10);box-shadow:0 0 0 1px rgba(55,246,255,.12) inset}
 
-    /* Hero */
-    .hero{padding-top:calc(var(--nav-h) + 22px);padding-bottom:16px}
-    .hdr{
-      background:linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.03));
-      border:1px solid var(--border);
-      border-radius:18px;
-      padding:18px;
-      box-shadow:0 18px 55px rgba(0,0,0,.35);
+    /* Roadmap */
+    .tl{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+    @media (max-width:900px){.tl{grid-template-columns:1fr}}
+    .phase{
+      position:relative;background:var(--panel);
+      border:1px solid var(--border);border-radius:16px;
+      padding:14px 14px 14px 54px;
+      transition:transform .16s, border-color .2s, box-shadow .2s;
     }
-    .page-title{margin:0;font:800 clamp(26px,3.4vw,38px) Orbitron,monospace;letter-spacing:.45px}
-    .lead{margin:8px 0 0;color:var(--muted);max-width:85ch}
-
-    /* Layout */
-    .wrap{display:grid;grid-template-columns:280px 1fr;gap:22px;max-width:var(--max);margin:0 auto;padding:16px 22px 34px}
-    @media (max-width:1020px){.wrap{grid-template-columns:1fr}}
-
-    aside{
-      position:sticky; top:calc(var(--nav-h) + 12px); align-self:start;
-      background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
-      border:1px solid var(--border);
-      border-radius:16px;
-      padding:14px;
-      box-shadow:0 14px 34px rgba(0,0,0,.25);
+    .phase:hover{transform:translateY(-2px);border-color:rgba(255,255,255,.16);box-shadow:0 16px 40px rgba(0,0,0,.35)}
+    .phase::before{
+      content:"";position:absolute;left:26px;top:22px;width:10px;height:10px;border-radius:50%;
+      background:var(--neon);box-shadow:0 0 12px rgba(55,246,255,.7);
     }
-    .toc-logo{display:flex;align-items:center;gap:10px;margin-bottom:10px}
-    .toc-logo img{width:32px;height:32px;border-radius:10px;border:1px solid var(--border);object-fit:cover}
+    .phase.is-active{border-color:rgba(55,246,255,.28);box-shadow:0 0 0 1px rgba(55,246,255,.16) inset}
+    .p-head{margin:0 0 6px;font:900 14px Orbitron,monospace}
+    .p-body{margin:0;color:var(--muted);font-size:14px;line-height:1.6}
+    .meta{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+    .progress{margin-top:14px;height:7px;border-radius:999px;background:rgba(255,255,255,.08);position:relative;overflow:hidden}
+    .bar{position:absolute;inset:0 auto 0 0;width:25%;background:linear-gradient(90deg,var(--neon),#7cf0ff);box-shadow:0 0 10px rgba(55,246,255,.32);transition:width .45s}
 
-    aside nav ul{list-style:none;margin:0;padding:0;display:grid;gap:6px}
-    aside nav a{
-      display:block;
-      padding:8px 10px;
-      border-radius:10px;
-      color:var(--muted);
-      text-decoration:none;
+    footer.footer{
+      padding:28px 0;border-top:1px solid rgba(255,255,255,.10);
+      background:linear-gradient(180deg, rgba(0,0,0,.30), rgba(0,0,0,.62));
     }
-    aside nav a:hover{background:rgba(255,255,255,.06);color:#EAF2FF}
-
-    main{display:grid;gap:16px}
-    section{
-      background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
-      border:1px solid var(--border);
-      border-radius:16px;
-      padding:18px;
-      box-shadow:0 14px 34px rgba(0,0,0,.22);
+    .foot{
+      display:grid;grid-template-columns:1.2fr .8fr .8fr;gap:18px;
     }
-    h2{margin:0 0 10px;font:800 clamp(20px,2.2vw,28px) Orbitron,monospace;letter-spacing:.2px}
-    h3{margin:10px 0 6px;color:var(--amber);font:800 16px/1.2 Inter,system-ui}
-    p{margin:8px 0;color:rgba(234,242,255,.86)}
-    ul{margin:6px 0 6px 18px;color:rgba(234,242,255,.84)}
-    .grid{display:grid;gap:12px}
-    .two{grid-template-columns:repeat(2,1fr)}
-    @media (max-width:820px){.two{grid-template-columns:1fr}}
-
-    table{width:100%;border-collapse:collapse;margin:10px 0;border:1px solid var(--border);overflow:hidden;border-radius:12px}
-    th,td{padding:10px;border-top:1px solid var(--border);vertical-align:top}
-    th{background:rgba(0,0,0,.18);text-align:left}
-    code,.mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
-
-    footer{max-width:var(--max);margin:18px auto 38px;color:var(--muted);padding:0 22px;text-align:center}
+    @media (max-width:900px){.foot{grid-template-columns:1fr}}
+    .foot-head{
+      font-weight:900;font-size:12px;letter-spacing:.14em;text-transform:uppercase;
+      color:rgba(234,242,255,.86);margin:0 0 10px;
+    }
+    .legal{
+      margin-top:16px;display:flex;gap:10px;flex-wrap:wrap;justify-content:space-between;
+      color:rgba(234,242,255,.60);font-size:12px;
+    }
   </style>
 </head>
 
 <body>
+<a class="skip" href="#content">Skip to content</a>
+
 <nav class="site-nav" role="navigation" aria-label="Primary">
   <div class="container nav-row">
     <div class="nav-left">
-      <a class="brand" href="../index.html" title="Back to $BURNA">
+      <a class="brand" href="/" aria-label="Home">
         <img src="https://i.ibb.co/pvhLTdRH/Burna-logo.jpg" alt="$BURNA logo" />
-        <h1>$BURNA</h1>
+        <div class="name">
+          <h1>$BURNA</h1>
+          <div class="sub">Culture × Web3 Utility</div>
+        </div>
       </a>
     </div>
+
     <div class="nav-right">
-      <a class="pill active" href="index.html" aria-current="page">Whitepaper</a>
-      <a class="btn btn--amber" id="buyNow"
-         href="https://www.dextools.io/app/en/ether/pair-explorer/0x4dec3aaba65caf1c2ad64d411fc575a23297532fb714518659530bb012015db0"
-         target="_blank" rel="noopener noreferrer">
+      <a class="btn btn--ghost" href="./whitepaper/" title="Read the Whitepaper">Whitepaper</a>
+      <a class="btn btn--neon" id="buyNow" href="https://www.dextools.io/app/en/ether/pair-explorer/0x4dec3aaba65caf1c2ad64d411fc575a23297532fb714518659530bb012015db0">
         Trade $BURNA
+        <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M5 12h14M12 5l7 7-7 7" stroke="#05121a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
       </a>
     </div>
   </div>
 </nav>
 
-<header class="hero">
-  <div class="container hdr">
-    <h1 class="page-title">$BURNA Token — Whitepaper</h1>
-    <p class="lead">
-      This document describes the objectives, token mechanics, governance roadmap, and risk considerations for <strong>$BURNA</strong>.
-      It is intended for informational purposes and may evolve over time.
-    </p>
+<header class="hero" id="content">
+  <div class="hero-bg" aria-hidden="true">
+    <video autoplay muted loop playsinline poster="assets/media/hero-poster.jpg">
+      <source src="assets/media/burna.mp4" type="video/mp4" />
+      <img src="https://images.unsplash.com/photo-1511379938547-c1f69419868d?auto=format&fit=crop&w=1400&q=70" alt="" />
+    </video>
+  </div>
+
+  <div class="hero-card">
+    <div class="hero-grid">
+      <section aria-label="Overview">
+        <h2 class="h-title">A tokenized fan experience — designed for transparency.</h2>
+        <p class="h-lead">
+          <strong>$BURNA</strong> is an ERC-20 token focused on community programs, token-gated access, and on-chain incentives.
+          This page provides official contract details, verified links, and an execution roadmap.
+        </p>
+
+        <div class="cta">
+          <a class="btn btn--neon big" href="https://www.dextools.io/app/en/ether/pair-explorer/0x4dec3aaba65caf1c2ad64d411fc575a23297532fb714518659530bb012015db0">
+            Trade $BURNA
+            <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M5 12h14M12 5l7 7-7 7" stroke="#05121a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </a>
+          <a class="btn" href="./whitepaper/#tokenomics">Tokenomics</a>
+          <a class="btn btn--ghost" href="#roadmap">Roadmap</a>
+        </div>
+
+        <div class="chips" aria-label="Key facts">
+          <span class="chip"><span class="dot"></span> Symbol: <strong>BURNA</strong></span>
+          <span class="chip"><span class="dot"></span> Network: <strong>Ethereum</strong> (ERC-20)</span>
+          <span class="chip"><span class="dot"></span> Supply: <strong>10,000,000,000</strong></span>
+          <span class="chip"><span class="dot"></span> Taxes: <strong>2% buy / 2% sell</strong></span>
+          <span class="chip"><span class="dot"></span> Liquidity: <strong>Locked</strong></span>
+        </div>
+
+        <div class="contract" aria-label="Contract details">
+          <div class="label">Contract</div>
+          <div class="addr mono" id="contractText"></div>
+          <div class="actions">
+            <button class="btn btn--ghost" type="button" id="copyBtn">Copy</button>
+            <a class="btn btn--ghost" id="explorerLink" href="#" aria-disabled="true">Explorer</a>
+          </div>
+        </div>
+
+        <p class="faint" style="margin:10px 0 0; font-size:12px; line-height:1.6">
+          Always verify the contract address on a trusted explorer before trading. Avoid look-alike tokens and impersonation links.
+        </p>
+      </section>
+
+      <aside class="visual" aria-label="Visual">
+        <img src="https://images.unsplash.com/photo-1511379938547-c1f69419868d?auto=format&fit=crop&w=1400&q=70" alt="Concert lighting and stage setup" />
+        <div class="cap">Utility focus: access, community programs, and verifiable on-chain incentives.</div>
+      </aside>
+    </div>
   </div>
 </header>
 
-<div class="wrap">
-  <aside>
-    <div class="toc-logo">
-      <img src="https://i.ibb.co/pvhLTdRH/Burna-logo.jpg" alt="$BURNA">
-      <strong>$BURNA Whitepaper</strong>
+<section class="ticker" aria-label="Project ticker">
+  <div class="container">
+    <div class="track">
+      <span class="pill"><span class="dot"></span> Pair: Live on DEXTools</span>
+      <span class="pill" id="airdropTicker"><span class="dot"></span> Airdrop: Starts Nov 14, 2025</span>
+      <span class="pill"><span class="dot"></span> Contract: Publish & verify</span>
+      <span class="pill"><span class="dot"></span> Community: Telegram & X</span>
+
+      <span class="pill"><span class="dot"></span> Pair: Live on DEXTools</span>
+      <span class="pill"><span class="dot"></span> Airdrop: Starts Nov 14, 2025</span>
+      <span class="pill"><span class="dot"></span> Contract: Publish & verify</span>
+      <span class="pill"><span class="dot"></span> Community: Telegram & X</span>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="utility">
+  <div class="container">
+    <h3 class="section-title">Utility & ecosystem</h3>
+    <p class="muted" style="margin:0 0 16px; max-width:80ch">
+      $BURNA is structured around practical on-chain mechanics: access, incentives, and transparent community programs.
+    </p>
+    <div class="grid3">
+      <div class="card"><h3>Token-gated access</h3><p>Eligibility-based experiences, published rules, and verifiable participation.</p></div>
+      <div class="card"><h3>On-chain incentives</h3><p>Programs designed to be auditable and communicated from official sources.</p></div>
+      <div class="card"><h3>Governance path</h3><p>Roadmapped governance with documented procedures and execution controls.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="roadmap">
+  <div class="container">
+    <h3 class="section-title">Roadmap</h3>
+
+    <div class="tl">
+      <div class="phase is-active" data-start="2025-11-01" data-end="2025-12-31">
+        <h4 class="p-head">Phase 1 — Launch & foundation</h4>
+        <p class="p-body">Deployment, liquidity, onboarding, and published documentation.</p>
+        <div class="meta">
+          <span class="chip" id="airdropChip">Airdrop: Starts <strong>Nov 14, 2025</strong> <span id="airdropCountdown"></span></span>
+          <span class="chip">Status: Live</span>
+        </div>
+      </div>
+      <div class="phase" data-start="2026-01-01" data-end="2026-03-31">
+        <h4 class="p-head">Phase 2 — Ecosystem rollout</h4>
+        <p class="p-body">Programs, partner activations, and reporting standards.</p>
+      </div>
+      <div class="phase" data-start="2026-04-01" data-end="2026-06-30">
+        <h4 class="p-head">Phase 3 — Experiences</h4>
+        <p class="p-body">Event-linked utilities and verifiable fulfillment processes.</p>
+      </div>
+      <div class="phase" data-start="2026-07-01" data-end="2026-09-30">
+        <h4 class="p-head">Phase 4 — Governance</h4>
+        <p class="p-body">Governance tooling and transparent funding frameworks.</p>
+      </div>
     </div>
 
-    <nav aria-label="Table of contents">
-      <ul>
-        <li><a href="#intro">1. Introduction</a></li>
-        <li><a href="#vision">2. Objectives</a></li>
-        <li><a href="#problem">3. Context</a></li>
-        <li><a href="#solution">4. Proposed approach</a></li>
-        <li><a href="#tokenomics">5. Tokenomics</a></li>
-        <li><a href="#usecases">6. Use cases</a></li>
-        <li><a href="#security">7. Security & transparency</a></li>
-        <li><a href="#roadmap">8. Roadmap</a></li>
-        <li><a href="#governance">9. Governance</a></li>
-        <li><a href="#legal">10. Legal & risk disclaimer</a></li>
-      </ul>
-    </nav>
-
-    <div style="margin-top:12px;display:grid;gap:8px">
-      <a class="pill" id="wl_token" href="#" target="_blank" rel="noopener">Etherscan (Token)</a>
-      <a class="pill" href="https://etherscan.io/address/0x00b8a9bb1dcab2cf2375284d70b39e6ef7d86aae" target="_blank" rel="noopener">Etherscan (Contract)</a>
-      <a class="pill" href="https://x.com/burnadapp?s=21" target="_blank" rel="noopener">X / Twitter</a>
-      <a class="pill" href="https://t.me/burnatokencommunity" target="_blank" rel="noopener">Telegram</a>
+    <div class="progress" aria-label="Roadmap progress">
+      <div class="bar" id="roadmapProgress"></div>
     </div>
-  </aside>
+  </div>
+</section>
 
-  <main>
-    <section id="intro">
-      <h2>1. Introduction</h2>
-      <p>
-        <strong>$BURNA</strong> is an ERC-20 token intended to support community programs, token-gated access, and on-chain incentives.
-        The project emphasizes link verification, transparent contract references, and public communication of program rules.
+<footer class="footer">
+  <div class="container foot">
+    <div>
+      <div class="brand" style="margin-bottom:10px">
+        <img src="https://i.ibb.co/pvhLTdRH/Burna-logo.jpg" alt="$BURNA logo" />
+        <div class="name">
+          <h1>$BURNA</h1>
+          <div class="sub">Culture × Web3 Utility</div>
+        </div>
+      </div>
+      <p class="muted" style="margin:0;max-width:70ch">
+        Informational only. Digital assets involve risk. Verify the contract address independently.
       </p>
-    </section>
+    </div>
 
-    <section id="vision">
-      <h2>2. Objectives</h2>
-      <div class="grid two">
-        <div>
-          <h3>Primary objectives</h3>
-          <ul>
-            <li>Enable token-gated access and community participation</li>
-            <li>Support transparent incentive programs that are verifiable on-chain</li>
-            <li>Build a structured path toward governance (where applicable)</li>
-          </ul>
-        </div>
-        <div>
-          <h3>Operating principles</h3>
-          <ul>
-            <li><strong>Clarity:</strong> publish rules, dates, and eligibility criteria</li>
-            <li><strong>Verification:</strong> contract-first communication to reduce impersonation risk</li>
-            <li><strong>Iteration:</strong> ship in phases, document changes, and maintain audit trails</li>
-          </ul>
-        </div>
+    <div>
+      <div class="foot-head">Token</div>
+      <div class="icon-grid">
+        <a id="footerContract" class="icon-btn" href="#" aria-label="Token on Etherscan" title="Token on Etherscan">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 1 1 0 20h-2v-6h2a4 4 0 0 0 0-8h-2V2h2Z"/></svg>
+        </a>
+        <a class="icon-btn" href="https://etherscan.io/address/0x00b8a9bb1dcab2cf2375284d70b39e6ef7d86aae" target="_blank" rel="noopener" aria-label="Contract on Etherscan" title="Contract on Etherscan">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 12a8 8 0 1 1 16 0v7H4v-7Z"/></svg>
+        </a>
+        <a class="icon-btn" href="https://www.dextools.io/app/en/ether/pair-explorer/0x4dec3aaba65caf1c2ad64d411fc575a23297532fb714518659530bb012015db0" target="_blank" rel="noopener" aria-label="DEXTools" title="DEXTools">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 17h4v2H4v-2Zm0-6h8v2H4v-2Zm0-6h16v2H4V5Zm10 12h6v2h-6v-2Zm-2-6h8v2h-8v-2Z"/></svg>
+        </a>
       </div>
-    </section>
+    </div>
 
-    <section id="problem">
-      <h2>3. Context</h2>
-      <ul>
-        <li>Digital communities often lack verifiable ownership and transparent incentive structures.</li>
-        <li>Impersonation and link spoofing are common risks for public token projects.</li>
-        <li>Programs (airdrops, gating, rewards) require consistent rules and public accountability.</li>
-      </ul>
-    </section>
-
-    <section id="solution">
-      <h2>4. Proposed approach</h2>
-      <div class="grid two">
-        <div>
-          <h3>Contract-first communication</h3>
-          <p>
-            The contract address is treated as the source of truth; official links should reference the same address, and any mismatch is considered a security signal.
-          </p>
-          <h3>Program structure</h3>
-          <p>
-            Community programs are announced with clear eligibility criteria, timelines, and on-chain verification methods where possible.
-          </p>
-        </div>
-        <div>
-          <h3>Measured rollout</h3>
-          <p>
-            Features are staged across phases to reduce operational risk and allow for transparency checkpoints (verification, reporting, and post-launch reviews).
-          </p>
-          <h3>Governance path</h3>
-          <p>
-            If governance is introduced, it should be accompanied by documented procedures, quorum thresholds, and treasury controls (e.g., multisig).
-          </p>
-        </div>
+    <div>
+      <div class="foot-head">Connect</div>
+      <div class="icon-grid">
+        <a class="icon-btn" href="https://x.com/burnadapp?s=21" target="_blank" rel="noopener" aria-label="X" title="X">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.9 3H22l-6.9 7.9L22.6 21h-6.3l-4.1-5.4L7.2 21H2l7.4-8.5L2 3h6.4l3.7 4.9L18.9 3Zm-2.2 16h1.8L8.5 5H6.7l10 14Z"/></svg>
+        </a>
+        <a class="icon-btn" href="https://t.me/burnatokencommunity" target="_blank" rel="noopener" aria-label="Telegram" title="Telegram">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M9.04 13.51 8.7 18.6c.5 0 .7-.2 .96-.44l2.31-2.2 4.79 3.51c.88 .49 1.5 .23 1.74 -.81l3.16 -14.83c.28 -1.3 -.47 -1.81 -1.32 -1.49L2.1 9.36c-1.28 .5 -1.26 1.22 -.22 1.54l5.53 1.73L18.9 6.2c.6 -.37 1.16 -.17 .7 .2Z"/></svg>
+        </a>
+        <a class="icon-btn" href="https://www.youtube.com/@burnadapp" target="_blank" rel="noopener" aria-label="YouTube" title="YouTube">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M21.6 7.2c-.2-.9-.9-1.6-1.8-1.8C18.2 5 12 5 12 5s-6.2 0-7.8.4c-.9.2-1.6.9-1.8 1.8C2 8.8 2 12 2 12s0 3.2.4 4.8c.2.9.9 1.6 1.8 1.8C5.8 19 12 19 12 19s6.2 0 7.8-.4c.9-.2 1.6-.9 1.8-1.8.4-1.6.4-4.8.4-4.8s0-3.2-.4-4.8zM10 15.5v-7l6 3.5-6 3.5z"/></svg>
+        </a>
+        <a class="icon-btn" href="/cdn-cgi/l/email-protection#463533363629343206243334282724293f32292d2328683e3f3c" aria-label="Email" title="Email">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 6h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2Zm0 0 8 6 8-6"/></svg>
+        </a>
       </div>
-    </section>
+    </div>
+  </div>
 
-    <section id="tokenomics">
-      <h2>5. Tokenomics</h2>
-      <p><strong>Network:</strong> Ethereum (ERC-20)</p>
-      <p><strong>Total Supply:</strong> <span class="pill" style="display:inline-flex">10,000,000,000 $BURNA</span></p>
-      <p><strong>Contract:</strong> <span id="contractText" class="mono">0x00b8a9bb1dcab2cf2375284d70b39e6ef7d86aae</span></p>
-
-      <table>
-        <thead><tr><th>Allocation</th><th>Share</th><th>Notes</th></tr></thead>
-        <tbody>
-          <tr><td>Community &amp; Rewards</td><td>40%</td><td>Programmatic distributions and participation incentives</td></tr>
-          <tr><td>Public Sale / Liquidity</td><td>20%</td><td>Distribution + DEX liquidity provisioning</td></tr>
-          <tr><td>Development</td><td>15%</td><td>Infrastructure, tooling, maintenance, and upgrades</td></tr>
-          <tr><td>Team &amp; Advisors</td><td>10%</td><td>Time-based vesting (details published separately)</td></tr>
-          <tr><td>Treasury</td><td>10%</td><td>Operational reserves, grants, growth initiatives</td></tr>
-          <tr><td>Marketing &amp; Partnerships</td><td>5%</td><td>Listings, onboarding, community communications</td></tr>
-        </tbody>
-      </table>
-
-      <div class="grid two">
-        <div>
-          <h3>Utility</h3>
-          <ul>
-            <li>Access (token-gated experiences and community participation)</li>
-            <li>Incentives (programs with on-chain verification where feasible)</li>
-            <li>Payments (potential use for tickets, drops, or digital goods)</li>
-          </ul>
-        </div>
-        <div>
-          <h3>Mechanics (high-level)</h3>
-          <ul>
-            <li>Transaction fees: <strong>2% buy / 2% sell</strong> (as stated on the main site)</li>
-            <li>Liquidity posture: described as “locked” (proof should be published)</li>
-            <li>Any burns/buybacks should be publicly disclosed and auditable</li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
-    <section id="usecases">
-      <h2>6. Use cases</h2>
-      <div class="grid two">
-        <div>
-          <h3>For holders</h3>
-          <ul>
-            <li>Token-gated access and eligibility-based participation</li>
-            <li>Verified announcements and contract-referenced updates</li>
-            <li>Optional participation in structured programs (where available)</li>
-          </ul>
-        </div>
-        <div>
-          <h3>For partners</h3>
-          <ul>
-            <li>Campaigns with measurable on-chain engagement</li>
-            <li>Transparent funding and reporting standards</li>
-            <li>Risk-aware, documented rollout timelines</li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
-    <section id="security">
-      <h2>7. Security &amp; transparency</h2>
-      <h3>Security assumptions</h3>
-      <ul>
-        <li>Users verify the contract address and avoid unofficial links.</li>
-        <li>Operational wallets should be documented and monitored.</li>
-        <li>Smart contracts may contain risk; audits (if any) should be published.</li>
-      </ul>
-      <h3>Transparency practices</h3>
-      <ul>
-        <li>Publish contract address, links, and program rules in one source of truth.</li>
-        <li>Provide evidence for claims such as “liquidity locked” via public references.</li>
-        <li>Document major changes to token mechanics and timelines.</li>
-      </ul>
-    </section>
-
-    <section id="roadmap">
-      <h2>8. Roadmap</h2>
-      <h3>Phase 1 — Launch &amp; foundation</h3>
-      <ul>
-        <li>Deployment, initial liquidity provisioning, documentation</li>
-        <li>Community onboarding and verified communication channels</li>
-      </ul>
-
-      <h3>Phase 2 — Ecosystem rollout</h3>
-      <ul>
-        <li>Structured community programs with public eligibility criteria</li>
-        <li>Partner activations and reporting standards</li>
-      </ul>
-
-      <h3>Phase 3 — Experiences</h3>
-      <ul>
-        <li>Token-gated experiences and verifiable fulfillment processes</li>
-        <li>Iterate based on community feedback and security reviews</li>
-      </ul>
-    </section>
-
-    <section id="governance">
-      <h2>9. Governance</h2>
-      <p>
-        Governance (if introduced) should include clear proposal rules, voting thresholds, and transparent execution controls (e.g., multisig).
-        Governance details should be documented separately and referenced from official channels.
-      </p>
-    </section>
-
-    <section id="legal">
-      <h2>10. Legal &amp; risk disclaimer</h2>
-      <ul>
-        <li>Informational only — not legal, tax, or financial advice.</li>
-        <li>Digital assets are volatile and may result in total loss.</li>
-        <li>Smart contract risk, custody risk, and regulatory risk apply.</li>
-        <li>Users are responsible for jurisdictional compliance and security hygiene.</li>
-      </ul>
-    </section>
-  </main>
-</div>
-
-<footer>
-  <small>© <span id="year"></span> $BURNA — All rights reserved.</small>
+  <div class="container legal">
+    <span>© <span id="year"></span> $BURNA. All rights reserved.</span>
+    <span>Contract: <span class="mono" style="opacity:.75" id="contractFooter"></span></span>
+  </div>
 </footer>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
-<script>
-(() => {
-  const ETH_ADDR_RE = /^0x[a-fA-F0-9]{40}$/;
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-  const contractEl = document.getElementById("contractText");
-  const wl_token   = document.getElementById("wl_token");
-  const yearEl     = document.getElementById("year");
-
-  yearEl.textContent = new Date().getFullYear();
-
-  function addr(){ return (contractEl?.textContent || "").trim(); }
-
-  function wireTokenLink(){
-    const a = addr();
-    const valid = ETH_ADDR_RE.test(a);
-    if (!wl_token) return;
-
-    if (valid){
-      wl_token.href = `https://etherscan.io/token/${a}`;
-      wl_token.setAttribute("aria-disabled","false");
-      wl_token.title = "Open on Etherscan (Token)";
-    } else {
-      wl_token.href = "#";
-      wl_token.setAttribute("aria-disabled","true");
-      wl_token.title = "Invalid contract address";
-    }
-  }
-
-  wireTokenLink();
-
-  if (window.MutationObserver && contractEl){
-    new MutationObserver(wireTokenLink).observe(contractEl, {characterData:true, childList:true, subtree:true});
-  }
-
-  const DEX = "https://www.dextools.io/app/en/ether/pair-explorer/0x4dec3aaba65caf1c2ad64d411fc575a23297532fb714518659530bb012015db0";
-  document.querySelectorAll(`#buyNow, a[href="${DEX}"]`).forEach(a=>{
-    a.setAttribute("target","_blank");
-    a.setAttribute("rel","noopener noreferrer");
-  });
-})();
-</script>
-
-<script defer src="https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015" integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ==" data-cf-beacon='{"version":"2024.11.0","token":"84ad82a6ab23429c9d5c2f08d86cffeb","r":1}' crossorigin="anonymous"></script>
+<script src="./assets/js/site.js" defer></script>
 </body>
 </html>
