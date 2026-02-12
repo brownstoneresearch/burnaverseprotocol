@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <radialGradient id="r1" cx="20%" cy="15%" r="70%">
+      <stop offset="0" stop-color="#8b5cf6" stop-opacity="0.55"/>
+      <stop offset="1" stop-color="#070a12" stop-opacity="1"/>
+    </radialGradient>
+    <radialGradient id="r2" cx="85%" cy="20%" r="60%">
+      <stop offset="0" stop-color="#22c55e" stop-opacity="0.35"/>
+      <stop offset="1" stop-color="#070a12" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="g" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#8b5cf6"/>
+      <stop offset="1" stop-color="#22c55e"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#r1)"/>
+  <rect width="1200" height="630" fill="url(#r2)"/>
+  <rect x="90" y="90" width="1020" height="450" rx="40" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.14)"/>
+  <rect x="140" y="150" width="86" height="86" rx="22" fill="url(#g)"/>
+  <rect x="164" y="174" width="38" height="38" rx="14" fill="rgba(7,10,18,0.6)" stroke="rgba(255,255,255,0.22)"/>
+  <text x="250" y="205" font-family="system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="46" font-weight="800" fill="#e8eefc">Burnaverse Protocol</text>
+  <text x="250" y="250" font-family="system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="26" font-weight="600" fill="rgba(232,238,252,0.78)">Web3 + Impact Hybrid on BNB Chain • $BUV</text>
+  <text x="140" y="330" font-family="system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="28" font-weight="700" fill="#e8eefc">Culture to Capital. Capital to Community.</text>
+  <text x="140" y="372" font-family="ui-monospace, Menlo, Monaco, Consolas" font-size="18" fill="rgba(232,238,252,0.72)">Contract: 0xd14Ec02A022D2BD4117a0EEba966423253a48ad1</text>
+  <text x="140" y="430" font-family="system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="22" fill="rgba(232,238,252,0.72)">B U R N A — Build • Uplift • Reward • Network • Advance</text>
+</svg>

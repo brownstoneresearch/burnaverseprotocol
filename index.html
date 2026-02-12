@@ -4,544 +4,131 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <meta name="theme-color" content="#0b0f1a" />
-  <title>Burnaverse Protocol (BUV) — Official Website</title>
-  <meta name="description" content="Burnaverse Protocol (BUV) on BNB Chain. Community-driven token and ecosystem. Contract: 0xd14Ec02A022D2BD4117a0EEba966423253a48ad1" />
-  <meta property="og:title" content="Burnaverse Protocol (BUV)" />
-  <meta property="og:description" content="Official site for Burnaverse Protocol (BUV) on BNB Chain." />
+  <title>Burnaverse Protocol (BUV) — Web3 + Impact Hybrid</title>
+  <meta name="description" content="Official site for Burnaverse Protocol (BUV) on BNB Chain. Culture to Capital. Capital to Community." />
+  <meta property="og:title" content="Burnaverse Protocol (BUV) — Web3 + Impact Hybrid" />
+  <meta property="og:description" content="Official site for Burnaverse Protocol (BUV) on BNB Chain. Culture to Capital. Capital to Community." />
   <meta property="og:type" content="website" />
-  <meta property="og:image" content="https://placehold.co/1200x630/png?text=Burnaverse+Protocol+BUV" />
+  <meta property="og:url" content="https://burnaverseprotocol.xyz/" />
+  <meta property="og:image" content="https://burnaverseprotocol.xyz/assets/og.svg" />
   <meta name="twitter:card" content="summary_large_image" />
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="assets/styles.css" />
 
-  <style>
-    :root{
-      --bg:#070a12;
-      --panel:rgba(255,255,255,.06);
-      --panel2:rgba(255,255,255,.08);
-      --text:#e8eefc;
-      --muted:rgba(232,238,252,.72);
-      --line:rgba(255,255,255,.12);
-      --accent:#8b5cf6;
-      --accent2:#22c55e;
-      --danger:#ef4444;
-      --shadow: 0 18px 60px rgba(0,0,0,.45);
-      --radius:18px;
-      --radius2:26px;
-      --max:1120px;
-      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-      --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
-    }
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0;
-      font-family:var(--sans);
-      background:
-        radial-gradient(1000px 650px at 18% 10%, rgba(139,92,246,.30), transparent 55%),
-        radial-gradient(900px 550px at 85% 16%, rgba(34,197,94,.22), transparent 50%),
-        radial-gradient(900px 650px at 70% 85%, rgba(59,130,246,.16), transparent 55%),
-        var(--bg);
-      color:var(--text);
-      overflow-x:hidden;
-    }
-    a{color:inherit;text-decoration:none}
-    .wrap{max-width:var(--max);margin:0 auto;padding:22px}
-    header{
-      position:sticky;top:0;z-index:50;
-      backdrop-filter:saturate(150%) blur(14px);
-      background:linear-gradient(to bottom, rgba(7,10,18,.78), rgba(7,10,18,.35));
-      border-bottom:1px solid rgba(255,255,255,.08);
-    }
-    .nav{
-      display:flex;align-items:center;justify-content:space-between;gap:14px;
-    }
-    .brand{display:flex;align-items:center;gap:12px}
-    .logo{
-      width:38px;height:38px;border-radius:12px;
-      background:linear-gradient(135deg, rgba(139,92,246,.95), rgba(34,197,94,.85));
-      box-shadow:0 10px 30px rgba(139,92,246,.25);
-      position:relative;
-    }
-    .logo:after{
-      content:"";position:absolute;inset:10px;border-radius:10px;
-      background:rgba(7,10,18,.55);border:1px solid rgba(255,255,255,.14);
-    }
-    .brand h1{font-size:14px;margin:0;letter-spacing:.2px}
-    .brand p{margin:0;color:var(--muted);font-size:12px}
-    .links{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
-    .pill{
-      padding:10px 12px;border:1px solid rgba(255,255,255,.12);
-      background:rgba(255,255,255,.04);
-      border-radius:999px;
-      font-size:13px;color:var(--muted);
-      transition:.18s transform, .18s background, .18s border-color;
-      display:inline-flex;align-items:center;gap:8px;
-    }
-    .pill:hover{transform:translateY(-1px);background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.20)}
-    .btn{
-      padding:11px 14px;border-radius:999px;border:1px solid rgba(255,255,255,.14);
-      background:linear-gradient(135deg, rgba(139,92,246,.92), rgba(34,197,94,.82));
-      color:#0b0f1a;font-weight:700;
-      box-shadow:0 12px 38px rgba(139,92,246,.22);
-      transition:.18s transform, .18s filter;
-      display:inline-flex;align-items:center;gap:8px;
-      cursor:pointer;
-    }
-    .btn:hover{transform:translateY(-1px);filter:saturate(1.1)}
-    .btn.ghost{
-      background:rgba(255,255,255,.05);
-      color:var(--text);
-      font-weight:600;
-      box-shadow:none;
-    }
-
-    .hero{
-      padding:56px 0 18px;
-      display:grid;grid-template-columns: 1.2fr .8fr;gap:22px;align-items:stretch;
-    }
-    .card{
-      background:linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.03));
-      border:1px solid rgba(255,255,255,.12);
-      border-radius:var(--radius2);
-      box-shadow:var(--shadow);
-    }
-    .hero .left{padding:28px}
-    .kicker{
-      display:inline-flex;gap:8px;align-items:center;
-      padding:7px 10px;border-radius:999px;
-      background:rgba(139,92,246,.14);
-      border:1px solid rgba(139,92,246,.30);
-      color:rgba(232,238,252,.92);
-      font-size:13px;
-    }
-    .kdot{width:7px;height:7px;border-radius:999px;background:var(--accent)}
-    .hero h2{font-size:44px;line-height:1.05;margin:16px 0 10px;letter-spacing:-.6px}
-    .hero p{margin:0;color:var(--muted);font-size:16px;line-height:1.6;max-width:58ch}
-    .cta{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
-    .stats{
-      margin-top:18px;
-      display:grid;grid-template-columns:repeat(3, minmax(0,1fr));gap:10px;
-    }
-    .stat{
-      padding:12px 12px;border-radius:16px;
-      background:rgba(255,255,255,.04);
-      border:1px solid rgba(255,255,255,.10);
-    }
-    .stat .k{font-size:12px;color:var(--muted);margin:0}
-    .stat .v{margin:6px 0 0;font-weight:750;font-size:15px}
-    .hero .right{padding:18px;display:flex;flex-direction:column;gap:12px}
-    .contractBox{padding:16px}
-    .label{font-size:12px;color:var(--muted);margin:0 0 8px}
-    .addrRow{
-      display:flex;gap:10px;align-items:center;justify-content:space-between;
-      padding:12px;border-radius:16px;
-      background:rgba(0,0,0,.18);
-      border:1px solid rgba(255,255,255,.10);
-    }
-    .addr{
-      font-family:var(--mono);
-      font-size:12.5px;color:rgba(232,238,252,.92);
-      word-break:break-all;
-    }
-    .smallBtns{display:flex;gap:8px;flex-wrap:wrap}
-    .mini{
-      padding:9px 10px;border-radius:999px;
-      background:rgba(255,255,255,.05);
-      border:1px solid rgba(255,255,255,.12);
-      color:var(--text);
-      font-size:12.5px;
-      cursor:pointer;
-      transition:.18s transform, .18s background, .18s border-color;
-    }
-    .mini:hover{transform:translateY(-1px);background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.18)}
-    .mini.good{border-color:rgba(34,197,94,.35);background:rgba(34,197,94,.10)}
-    .mini.bad{border-color:rgba(239,68,68,.35);background:rgba(239,68,68,.10)}
-    .note{
-      padding:14px 16px;
-      border-radius:16px;
-      border:1px solid rgba(255,255,255,.10);
-      background:rgba(255,255,255,.04);
-      color:var(--muted);
-      font-size:13px;line-height:1.55;
-    }
-    section{padding:18px 0}
-    .grid{
-      display:grid;grid-template-columns:repeat(12,1fr);gap:14px;
-    }
-    .col6{grid-column:span 6}
-    .col4{grid-column:span 4}
-    .col8{grid-column:span 8}
-    .col12{grid-column:span 12}
-    .sectionTitle{
-      display:flex;align-items:flex-end;justify-content:space-between;gap:16px;
-      margin-bottom:12px;
-    }
-    .sectionTitle h3{margin:0;font-size:22px}
-    .sectionTitle p{margin:0;color:var(--muted);font-size:13px}
-    .pad{padding:18px}
-    .list{display:flex;flex-direction:column;gap:10px;margin:0;padding:0;list-style:none}
-    .li{
-      padding:12px 12px;border-radius:16px;background:rgba(255,255,255,.04);
-      border:1px solid rgba(255,255,255,.10);
-      display:flex;gap:10px;align-items:flex-start;
-    }
-    .icon{
-      width:30px;height:30px;border-radius:12px;
-      background:rgba(139,92,246,.14);
-      border:1px solid rgba(139,92,246,.25);
-      display:flex;align-items:center;justify-content:center;
-      flex:0 0 auto;
-    }
-    .li b{display:block;margin-bottom:3px}
-    .li span{color:var(--muted);font-size:13px;line-height:1.5}
-    .steps{counter-reset:step}
-    .step::before{
-      counter-increment:step;
-      content:counter(step);
-      width:30px;height:30px;border-radius:12px;
-      background:rgba(34,197,94,.14);
-      border:1px solid rgba(34,197,94,.30);
-      display:flex;align-items:center;justify-content:center;
-      font-weight:800;
-      flex:0 0 auto;
-    }
-    .roadmapItem{
-      padding:14px 14px;border-radius:18px;
-      background:rgba(255,255,255,.04);
-      border:1px solid rgba(255,255,255,.10);
-    }
-    .roadmapItem h4{margin:0 0 6px;font-size:15px}
-    .roadmapItem p{margin:0;color:var(--muted);font-size:13px;line-height:1.55}
-    footer{
-      padding:28px 0 44px;color:var(--muted);font-size:13px;
-      border-top:1px solid rgba(255,255,255,.08);
-    }
-    .footRow{display:flex;gap:14px;align-items:flex-start;justify-content:space-between;flex-wrap:wrap}
-    .footRow .left{max-width:70ch}
-    .hr{height:1px;background:rgba(255,255,255,.10);margin:14px 0}
-    .toast{
-      position:fixed;left:50%;bottom:18px;transform:translateX(-50%);
-      background:rgba(10,14,26,.88);
-      border:1px solid rgba(255,255,255,.14);
-      border-radius:999px;
-      padding:10px 14px;
-      color:rgba(232,238,252,.9);
-      font-size:13px;
-      box-shadow:0 16px 50px rgba(0,0,0,.5);
-      opacity:0;pointer-events:none;
-      transition:.22s opacity, .22s transform;
-    }
-    .toast.show{opacity:1;transform:translateX(-50%) translateY(-2px)}
-    @media (max-width: 980px){
-      .hero{grid-template-columns:1fr; padding-top:34px}
-      .hero h2{font-size:36px}
-      .col6,.col4,.col8{grid-column:span 12}
-      .stats{grid-template-columns:1fr;gap:10px}
-      .links{justify-content:flex-start}
-    }
-  </style>
 </head>
-
 <body>
   <header>
     <div class="wrap nav">
-      <a class="brand" href="#top" aria-label="Burnaverse Protocol home">
+      <a class="brand" href="index.html" aria-label="Home">
         <div class="logo" aria-hidden="true"></div>
         <div>
-          <h1>Burnaverse Protocol <span style="opacity:.8">(BUV)</span></h1>
-          <p>BNB Chain • Community-driven</p>
+          <h1><span data-name>Burnaverse Protocol</span> <span style="opacity:.8">(<span data-symbol>BUV</span>)</span></h1>
+          <p>BNB Chain • Web3 + Impact Hybrid</p>
         </div>
       </a>
-
       <div class="links">
-        <a class="pill" href="#token" title="Tokenomics">Tokenomics</a>
-        <a class="pill" href="#buy" title="How to Buy">How to Buy</a>
-        <a class="pill" href="#roadmap" title="Roadmap">Roadmap</a>
-        <a class="pill" href="#faq" title="FAQ">FAQ</a>
-        <a class="pill" href="https://bscscan.com/address/0xd14Ec02A022D2BD4117a0EEba966423253a48ad1" target="_blank" rel="noreferrer">BscScan</a>
-        <a class="btn ghost" href="#community">Community</a>
+        <a class="pill" data-nav href="tokenomics.html">Tokenomics</a>
+        <a class="pill" data-nav href="impact.html">Impact</a>
+        <a class="pill" data-nav href="entertainment.html">Entertainment</a>
+        <a class="pill" data-nav href="sports.html">Sports</a>
+        <a class="pill" data-nav href="academics.html">Academics</a>
+        <a class="pill" data-nav href="community.html">Community</a>
+        <a class="pill" data-nav href="civic.html">Civic</a>
+        <a class="pill" data-nav href="roadmap.html">Roadmap</a>
+        <a class="pill" data-nav href="faq.html">FAQ</a>
+        <a class="btn ghost" data-nav href="contact.html">Contact</a>
       </div>
+
     </div>
   </header>
 
-  <main id="top" class="wrap">
-    <!-- HERO -->
+  <main class="wrap">
     <div class="hero">
       <div class="card left">
-        <div class="kicker"><span class="kdot"></span> Official Burnaverse Protocol Website</div>
-        <h2>Build the Burnaverse. <br/>Hold $BUV.</h2>
+        <div class="kicker"><span class="kdot"></span> Investor-grade narrative + measurable community outcomes</div>
+        <h2>Culture to Capital.<br/>Capital to Community.</h2>
         <p>
-          Burnaverse Protocol (BUV) is a token on BNB Chain designed to power a growing community and future ecosystem experiences.
-          Use this page as the official hub: contract, links, tokenomics, and how to buy.
+          <b>Burnaverse Protocol (<span data-symbol>BUV</span>)</b> is a Web3 investor + impact hybrid building a culture-powered growth network for Nigeria and Africa.
+          We fund talent, support youth development, enable learning, and execute community programs — with transparent reporting and partner-ready structure.
         </p>
 
         <div class="cta">
-          <!-- TODO: Replace PancakeSwap link with your exact swap URL when LP is live -->
-          <a class="btn" href="https://pancakeswap.finance/" target="_blank" rel="noreferrer">Buy on PancakeSwap</a>
-          <button class="btn ghost" id="btnAddToken" type="button">Add $BUV to Wallet</button>
-          <a class="pill" href="#token">View Token Details</a>
+          <a class="btn" data-link="pancakeswap" target="_blank" rel="noreferrer">Buy on PancakeSwap</a>
+          <button class="btn ghost" type="button" data-add-token>Add <span data-symbol>BUV</span> to Wallet</button>
+          <a class="pill" href="impact.html">Explore the Impact Model</a>
         </div>
 
         <div class="stats">
-          <div class="stat">
-            <p class="k">Chain</p>
-            <p class="v">BNB Smart Chain</p>
-          </div>
-          <div class="stat">
-            <p class="k">Total Supply</p>
-            <p class="v">10,000,000,000</p>
-          </div>
-          <div class="stat">
-            <p class="k">Decimals</p>
-            <p class="v">18</p>
-          </div>
+          <div class="stat"><p class="k">Framework</p><p class="v">BURNA</p></div>
+          <div class="stat"><p class="k">Chain</p><p class="v">BNB Smart Chain</p></div>
+          <div class="stat"><p class="k">Supply</p><p class="v">10,000,000,000</p></div>
         </div>
       </div>
 
       <div class="card right">
-        <div class="contractBox">
-          <p class="label">Contract Address (BUV)</p>
+        <div class="pad">
+          <div class="sectionTitle" style="margin:0 0 10px">
+            <h3 style="margin:0">Verified Contract</h3>
+            <p style="margin:0;color:var(--muted);font-size:13px">Always verify before buying.</p>
+          </div>
+
           <div class="addrRow">
-            <div class="addr" id="contract">0xd14Ec02A022D2BD4117a0EEba966423253a48ad1</div>
-            <button class="mini" id="copyBtn" type="button">Copy</button>
+            <div class="addr" data-contract>0xd14Ec02A022D2BD4117a0EEba966423253a48ad1</div>
+            <button class="mini" type="button" data-copy-contract>Copy</button>
           </div>
 
-          <div class="smallBtns" style="margin-top:10px">
-            <a class="mini good" href="https://bscscan.com/token/0xd14Ec02A022D2BD4117a0EEba966423253a48ad1" target="_blank" rel="noreferrer">Token Page</a>
-            <a class="mini" href="https://dexscreener.com/bsc" target="_blank" rel="noreferrer">DexScreener</a>
-            <a class="mini" href="https://www.dextools.io/app/en/bnb" target="_blank" rel="noreferrer">DexTools</a>
+          <div class="badgeRow" style="margin-top:10px">
+            <a class="mini good" data-link="bscscan-token" target="_blank" rel="noreferrer">BscScan Token</a>
+            <a class="mini" data-link="bscscan-contract" target="_blank" rel="noreferrer">BscScan Contract</a>
           </div>
-        </div>
 
-        <div class="note">
-          <b style="color:rgba(232,238,252,.92)">Safety tip:</b>
-          Always verify the contract address before buying. Avoid fake tokens with similar names.
-        </div>
+          <div class="hr"></div>
 
-        <div class="note">
-          <b style="color:rgba(232,238,252,.92)">Brand kit:</b>
-          Replace the placeholder OG image in the HTML head with your real banner/logo for link previews.
+          <div class="note">
+            <b style="color:rgba(232,238,252,.92)">BURNA Framework</b><br/>
+            <b>B</b>uild • <b>U</b>plift • <b>R</b>eward • <b>N</b>etwork • <b>A</b>dvance
+            <div class="hr"></div>
+            Burnaverse turns Afro cultural energy into structured opportunity:
+            creator grants, sports support, learning incentives, community programs, and civic education — designed for scale and accountability.
+          </div>
+
+          <div class="hr"></div>
+
+          <div class="badgeRow">
+            <a class="pill" data-social="telegram">Telegram</a>
+            <a class="pill" data-social="x">X</a>
+            <a class="pill" data-social="email">Email</a>
+          </div>
         </div>
       </div>
     </div>
 
-    <!-- TOKENOMICS / ABOUT -->
-    <section id="token">
+    <section>
       <div class="sectionTitle">
-        <h3>Tokenomics</h3>
-        <p>Simple, transparent basics.</p>
+        <h3>What we build</h3>
+        <p>Programs designed for distribution + proof.</p>
       </div>
 
       <div class="grid">
-        <div class="card pad col6">
+        <div class="card pad col4">
           <ul class="list">
-            <li class="li">
-              <div class="icon">⛓️</div>
-              <div>
-                <b>Network</b>
-                <span>BNB Smart Chain (BSC)</span>
-              </div>
-            </li>
-            <li class="li">
-              <div class="icon">🏷️</div>
-              <div>
-                <b>Symbol</b>
-                <span>$BUV</span>
-              </div>
-            </li>
-            <li class="li">
-              <div class="icon">🧮</div>
-              <div>
-                <b>Total Supply</b>
-                <span>10,000,000,000 BUV</span>
-              </div>
-            </li>
-            <li class="li">
-              <div class="icon">🔢</div>
-              <div>
-                <b>Decimals</b>
-                <span>18</span>
-              </div>
-            </li>
-            <li class="li">
-              <div class="icon">📄</div>
-              <div>
-                <b>Contract</b>
-                <span class="mono">0xd14Ec02A022D2BD4117a0EEba966423253a48ad1</span>
-              </div>
-            </li>
-          </ul>
-        </div>
-
-        <div class="card pad col6">
-          <h4 style="margin:0 0 10px;font-size:16px">What is Burnaverse?</h4>
-          <p style="margin:0;color:var(--muted);line-height:1.65;font-size:14px">
-            Burnaverse Protocol is built around a community-first vision. This website is the central hub for
-            verified links, token info, and the project roadmap.
-            <br/><br/>
-            <b style="color:rgba(232,238,252,.92)">Customize this section</b> with your real mission:
-            utilities, ecosystem plans, partnerships, and any burn/reward mechanics (if applicable).
-          </p>
-
-          <div class="hr"></div>
-
-          <div style="display:flex;gap:10px;flex-wrap:wrap">
-            <!-- TODO: Replace with real links -->
-            <a class="pill" href="#" id="linkWhitepaper">Whitepaper (PDF)</a>
-            <a class="pill" href="#" id="linkAudit">Audit</a>
-            <a class="pill" href="#" id="linkGitHub">GitHub</a>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- HOW TO BUY -->
-    <section id="buy">
-      <div class="sectionTitle">
-        <h3>How to Buy</h3>
-        <p>Quick steps for PancakeSwap.</p>
-      </div>
-
-      <div class="grid">
-        <div class="card pad col8">
-          <ul class="list steps">
-            <li class="li step">
-              <div>
-                <b>Set up a wallet</b>
-                <span>Install MetaMask (or Trust Wallet) and switch to <b>BNB Smart Chain</b>.</span>
-              </div>
-            </li>
-            <li class="li step">
-              <div>
-                <b>Get BNB</b>
-                <span>Buy BNB from an exchange and send it to your wallet address.</span>
-              </div>
-            </li>
-            <li class="li step">
-              <div>
-                <b>Open PancakeSwap</b>
-                <span>Connect your wallet, then choose BNB → BUV.</span>
-              </div>
-            </li>
-            <li class="li step">
-              <div>
-                <b>Paste the contract</b>
-                <span>Use the verified contract: <span style="font-family:var(--mono)">0xd14Ec02A022D2BD4117a0EEba966423253a48ad1</span></span>
-              </div>
-            </li>
-            <li class="li step">
-              <div>
-                <b>Swap & confirm</b>
-                <span>Confirm the transaction. Then add the token to your wallet to view your balance.</span>
-              </div>
-            </li>
+            <li class="li"><div class="icon">🎭</div><div><b>Entertainment</b><span>Creator grants, showcases, and distribution partnerships with verifiable deliverables.</span></div></li>
+            <li class="li"><div class="icon">🏅</div><div><b>Sports</b><span>Youth support: kits, training, local leagues, and pathways to exposure.</span></div></li>
           </ul>
         </div>
 
         <div class="card pad col4">
-          <h4 style="margin:0 0 10px;font-size:16px">Links</h4>
-          <p style="margin:0 0 10px;color:var(--muted);font-size:13.5px;line-height:1.55">
-            Replace these with your official links once live (LP, charts, socials).
-          </p>
-          <div class="smallBtns">
-            <a class="mini good" href="https://pancakeswap.finance/" target="_blank" rel="noreferrer">PancakeSwap</a>
-            <a class="mini" href="https://bscscan.com/address/0xd14Ec02A022D2BD4117a0EEba966423253a48ad1" target="_blank" rel="noreferrer">Contract</a>
-            <button class="mini" id="copyBtn2" type="button">Copy Contract</button>
-            <button class="mini" id="btnAddToken2" type="button">Add to MetaMask</button>
-          </div>
-
-          <div class="hr"></div>
-
-          <div class="note" style="margin:0">
-            If you haven’t launched liquidity yet, this section can still be published as the
-            <b>official verification hub</b> (contract + socials).
-          </div>
+          <ul class="list">
+            <li class="li"><div class="icon">🎓</div><div><b>Academics</b><span>Learn-to-earn incentives, micro-scholarships, and campus growth networks.</span></div></li>
+            <li class="li"><div class="icon">🤲</div><div><b>Community</b><span>Milestone-based projects with public reporting (what, where, how much, proof).</span></div></li>
+          </ul>
         </div>
-      </div>
-    </section>
 
-    <!-- ROADMAP -->
-    <section id="roadmap">
-      <div class="sectionTitle">
-        <h3>Roadmap</h3>
-        <p>Example milestones — edit to your real plan.</p>
-      </div>
-
-      <div class="grid">
         <div class="card pad col4">
-          <div class="roadmapItem">
-            <h4>Phase 1 — Launch</h4>
-            <p>Website + verified contract, socials, initial liquidity, community onboarding.</p>
-          </div>
-        </div>
-        <div class="card pad col4">
-          <div class="roadmapItem">
-            <h4>Phase 2 — Growth</h4>
-            <p>Listings, partnerships, marketing pushes, and ecosystem utility announcements.</p>
-          </div>
-        </div>
-        <div class="card pad col4">
-          <div class="roadmapItem">
-            <h4>Phase 3 — Burnaverse</h4>
-            <p>Expanded utilities, integrations, community events, and long-term governance plans.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- COMMUNITY -->
-    <section id="community">
-      <div class="sectionTitle">
-        <h3>Community</h3>
-        <p>Official channels (replace placeholders).</p>
-      </div>
-
-      <div class="grid">
-        <div class="card pad col12">
-          <div style="display:flex;gap:10px;flex-wrap:wrap">
-            <!-- TODO: replace # with real links -->
-            <a class="btn ghost" href="#" id="linkTelegram">Telegram</a>
-            <a class="btn ghost" href="#" id="linkX">X (Twitter)</a>
-            <a class="btn ghost" href="#" id="linkDiscord">Discord</a>
-            <a class="btn ghost" href="#" id="linkMedium">Medium</a>
-            <a class="btn ghost" href="#" id="linkEmail">Contact Email</a>
-          </div>
-
-          <div class="hr"></div>
-
-          <p style="margin:0;color:var(--muted);font-size:13.5px;line-height:1.65">
-            Want this to look more “premium”? Add your logo SVG, a real OG banner, and swap the placeholder copy with
-            your true utility + narrative.
-          </p>
-        </div>
-      </div>
-    </section>
-
-    <!-- FAQ -->
-    <section id="faq">
-      <div class="sectionTitle">
-        <h3>FAQ</h3>
-        <p>Basics for new holders.</p>
-      </div>
-
-      <div class="grid">
-        <div class="card pad col6">
-          <h4 style="margin:0 0 10px;font-size:16px">Is this the official contract?</h4>
-          <p style="margin:0;color:var(--muted);line-height:1.65;font-size:14px">
-            This site shows the verified contract address. Always compare it with the official socials and BscScan.
-          </p>
-        </div>
-        <div class="card pad col6">
-          <h4 style="margin:0 0 10px;font-size:16px">Where can I view charts?</h4>
-          <p style="margin:0;color:var(--muted);line-height:1.65;font-size:14px">
-            Common charting tools are DexScreener and DexTools once liquidity is available.
-          </p>
-        </div>
-
-        <div class="card pad col12">
-          <h4 style="margin:0 0 10px;font-size:16px">Disclaimer</h4>
-          <p style="margin:0;color:var(--muted);line-height:1.65;font-size:14px">
-            Crypto assets are high risk. Nothing on this site is financial advice. Do your own research.
-          </p>
+          <ul class="list">
+            <li class="li"><div class="icon">🗳️</div><div><b>Civic</b><span>Non-partisan civic education and leadership development — pro-people, not pro-party.</span></div></li>
+            <li class="li"><div class="icon">🤝</div><div><b>Partnerships</b><span>Brands and NGOs plug into programs with measurable KPIs and execution transparency.</span></div></li>
+          </ul>
         </div>
       </div>
     </section>
@@ -549,116 +136,25 @@
     <footer>
       <div class="footRow">
         <div class="left">
-          <b style="color:rgba(232,238,252,.92)">Burnaverse Protocol (BUV)</b><br/>
-          Contract: <span style="font-family:var(--mono)">0xd14Ec02A022D2BD4117a0EEba966423253a48ad1</span>
+          <b style="color:rgba(232,238,252,.92)"><span data-name>Burnaverse Protocol</span> (<span data-symbol>BUV</span>)</b><br/>
+          Contract: <span style="font-family:var(--mono)" data-contract></span>
           <div class="hr"></div>
-          <div>
-            © <span id="year"></span> Burnaverse Protocol. All rights reserved.
-          </div>
+          © <span id="year"></span> Burnaverse Protocol. All rights reserved.
         </div>
-        <div>
-          <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end">
-            <a class="pill" href="#top">Back to top</a>
-            <a class="pill" href="https://bscscan.com/address/0xd14Ec02A022D2BD4117a0EEba966423253a48ad1" target="_blank" rel="noreferrer">BscScan</a>
-          </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end">
+          <a class="pill" href="impact.html">Impact</a>
+          <a class="pill" href="tokenomics.html">Tokenomics</a>
+          <a class="pill" data-link="bscscan-contract" target="_blank" rel="noreferrer">BscScan</a>
         </div>
       </div>
+      <div class="note" style="margin-top:14px">
+        Disclaimer: Crypto assets are high risk. Nothing here is financial advice. Do your own research.
+      </div>
     </footer>
+
   </main>
 
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
-
-  <script>
-    const CONTRACT = "0xd14Ec02A022D2BD4117a0EEba966423253a48ad1";
-    const TOKEN_SYMBOL = "BUV";
-    const TOKEN_DECIMALS = 18;
-
-    // If you have a token logo image URL (png/svg), set it here:
-    // Example: "https://yourdomain.com/buv.png"
-    const TOKEN_IMAGE = "";
-
-    // Optional: if you know the token name exactly:
-    const TOKEN_NAME = "Burnaverse Protocol";
-
-    const toast = (msg) => {
-      const el = document.getElementById("toast");
-      el.textContent = msg;
-      el.classList.add("show");
-      window.clearTimeout(window.__toastTimer);
-      window.__toastTimer = window.setTimeout(() => el.classList.remove("show"), 1800);
-    };
-
-    const copyContract = async () => {
-      try{
-        await navigator.clipboard.writeText(CONTRACT);
-        toast("Contract copied");
-      }catch(e){
-        // Fallback
-        const t = document.createElement("textarea");
-        t.value = CONTRACT;
-        document.body.appendChild(t);
-        t.select();
-        document.execCommand("copy");
-        t.remove();
-        toast("Contract copied");
-      }
-    };
-
-    const addTokenToWallet = async () => {
-      if (!window.ethereum) {
-        toast("No wallet detected (install MetaMask)");
-        return;
-      }
-      try {
-        const wasAdded = await window.ethereum.request({
-          method: "wallet_watchAsset",
-          params: {
-            type: "ERC20",
-            options: {
-              address: CONTRACT,
-              symbol: TOKEN_SYMBOL,
-              decimals: TOKEN_DECIMALS,
-              image: TOKEN_IMAGE || undefined
-            }
-          }
-        });
-        toast(wasAdded ? "Token added to wallet" : "Token not added");
-      } catch (err) {
-        console.error(err);
-        toast("Could not add token");
-      }
-    };
-
-    document.getElementById("copyBtn").addEventListener("click", copyContract);
-    document.getElementById("copyBtn2").addEventListener("click", copyContract);
-    document.getElementById("btnAddToken").addEventListener("click", addTokenToWallet);
-    document.getElementById("btnAddToken2").addEventListener("click", addTokenToWallet);
-    document.getElementById("year").textContent = new Date().getFullYear();
-
-    // Placeholder links: set to your real URLs
-    const setHref = (id, url) => {
-      const el = document.getElementById(id);
-      if (!el) return;
-      if (!url || url === "#") {
-        el.addEventListener("click", (e) => {
-          e.preventDefault();
-          toast("Link not set yet");
-        });
-      } else {
-        el.setAttribute("href", url);
-        el.setAttribute("target", "_blank");
-        el.setAttribute("rel", "noreferrer");
-      }
-    };
-
-    setHref("linkTelegram", "#");
-    setHref("linkX", "#");
-    setHref("linkDiscord", "#");
-    setHref("linkMedium", "#");
-    setHref("linkEmail", "mailto:contact@yourdomain.com");
-    setHref("linkWhitepaper", "#");
-    setHref("linkAudit", "#");
-    setHref("linkGitHub", "#");
-  </script>
+  <script src="assets/app.js"></script>
 </body>
 </html>
