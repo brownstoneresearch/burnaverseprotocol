@@ -84,8 +84,8 @@ function fillGlobals(){
 
   // Social links (placeholders unless you set them)
   const socials = {
-    telegram: "#",
-    x: "#",
+    telegram: "https://t.me/burnaverseprotocol",
+    x: "https://x.com/burnaversedapp?s=21",
     discord: "#",
     medium: "#",
     email: "mailto:contact@burnaverseprotocol.xyz",

@@ -90,13 +90,24 @@
     </div>
   </div>
 
+  <div class="sidebarAd adSlot">
+  <div class="adLabel"><span>Sponsored</span><span style="opacity:.7">Ad space</span></div>
+  <div class="adBox">Sidebar ad (300×250)</div>
+</div>
+
   <div class="sidebarBottom">
     <div class="walletMeta">
       <span id="walletStatusChip" class="walletChip bad">Network: —</span>
-      <span class="walletChip"><b id="walletBalance">—</b></span>
+      <span class="walletChip"><b id="walletBalance">BNB: —</b></span>
+      <span class="walletChip"><b id="walletTokenBalance">BUV: —</b></span>
     </div>
     <button id="connectWallet" class="btn wallet" type="button">Connect Wallet</button>
     <button class="sidebarTheme pill" type="button" data-theme-toggle title="Toggle theme">Theme: <span id="themeToggleText">Dark</span></button>
+
+    <div class="socialRow sidebarSocial">
+      <a class="iconLink" href="https://x.com/burnaversedapp?s=21" target="_blank" rel="noreferrer"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M18.9 2H22l-6.8 7.8L23 22h-6.6l-5.2-6.6L5.4 22H2.3l7.3-8.3L1 2h6.8l4.7 6.1L18.9 2Zm-1.2 18h1.8L6.2 3.9H4.3L17.7 20Z"/></svg><span>X</span></a>
+      <a class="iconLink" href="https://t.me/burnaverseprotocol" target="_blank" rel="noreferrer"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M21.8 4.6c.3-1.2-.9-2.1-2-1.7L2.9 9.5c-1.3.5-1.3 2.3.1 2.7l4.3 1.4 1.6 5.1c.4 1.2 2 1.5 2.8.6l2.4-2.7 4.7 3.4c1 .7 2.4.1 2.6-1.1l2.4-14.3ZM8.4 12.9l9.9-6.2c.2-.1.4.2.2.3l-8.2 7.7-.3 3.3c0 .3-.4.4-.5.1l-1.2-3.9-3.3-1.1c-.3-.1-.3-.5 0-.6l16-6.2"/></svg><span>Telegram</span></a>
+    </div>
   </div>
 </div>
 
@@ -174,14 +185,29 @@
 
           <div class="hr"></div>
 
-          <div class="badgeRow">
-            <a class="pill" data-social="telegram">Telegram</a>
-            <a class="pill" data-social="x">X</a>
-            <a class="pill" data-social="email">Email</a>
+          <div class="socialRow">
+            <a class="iconLink" href="https://x.com/burnaversedapp?s=21" target="_blank" rel="noreferrer"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M18.9 2H22l-6.8 7.8L23 22h-6.6l-5.2-6.6L5.4 22H2.3l7.3-8.3L1 2h6.8l4.7 6.1L18.9 2Zm-1.2 18h1.8L6.2 3.9H4.3L17.7 20Z"/></svg><span>X</span></a>
+            <a class="iconLink" href="https://t.me/burnaverseprotocol" target="_blank" rel="noreferrer"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M21.8 4.6c.3-1.2-.9-2.1-2-1.7L2.9 9.5c-1.3.5-1.3 2.3.1 2.7l4.3 1.4 1.6 5.1c.4 1.2 2 1.5 2.8.6l2.4-2.7 4.7 3.4c1 .7 2.4.1 2.6-1.1l2.4-14.3ZM8.4 12.9l9.9-6.2c.2-.1.4.2.2.3l-8.2 7.7-.3 3.3c0 .3-.4.4-.5.1l-1.2-3.9-3.3-1.1c-.3-.1-.3-.5 0-.6l16-6.2"/></svg><span>Telegram</span></a>
+            <a class="iconLink" href="mailto:contact@burnaverseprotocol.xyz" aria-label="Email">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2Zm0 4-8 5L4 8V6l8 5 8-5v2Z"/></svg>
+              <span>Email</span>
+            </a>
           </div>
         </div>
       </div>
     </div>
+
+    <section>
+      <div class="grid">
+        <div class="card pad col12 adSlot">
+          <div class="adLabel">
+            <span>Sponsored</span>
+            <span style="opacity:.7">Ad space</span>
+          </div>
+          <div class="adBox">Place your banner ad here (728×90 desktop / 320×100 mobile)</div>
+        </div>
+      </div>
+    </section>
 
     <section>
       <div class="sectionTitle">
@@ -244,9 +270,12 @@
 
           <div class="chipRow">
             <div class="chip"><span class="dot"></span> 24h Change: <b data-live-change style="color:var(--text)">—</b></div>
-            <div class="chip"><span class="dot g"></span> Verified contract</div>
-            <div class="chip"><span class="dot p"></span> Quarterly impact reporting</div>
+            <div class="chip" data-live-buys>Buys: —</div>
+            <div class="chip" data-live-sells>Sells: —</div>
+            <div class="chip" data-live-pairaddr>Pair: —</div>
+            <a class="chip" data-live-dexlink href="#" target="_blank" rel="noreferrer">View on DexScreener</a>
           </div>
+          <div class="poolList" data-live-pools></div>
         </div>
       </div>
     </section>
@@ -259,21 +288,64 @@
           <div class="hr"></div>
           © <span id="year"></span> Burnaverse Protocol. All rights reserved.
         </div>
-        <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end">
-          <a class="pill" href="tokenomics.html">Tokenomics</a>
-          <a class="pill" href="impact.html">Impact</a>
-          <a class="pill" href="entertainment.html">Entertainment</a>
-          <a class="pill" href="sports.html">Sports</a>
-          <a class="pill" href="academics.html">Academics</a>
-          <a class="pill" href="community.html">Community</a>
-          <a class="pill" href="civic.html">Civic</a>
-          <a class="pill" href="roadmap.html">Roadmap</a>
-          <a class="pill" href="faq.html">FAQ</a>
-          <a class="pill" href="contact.html">Contact</a>
-          <a class="pill" href="assets/whitepaper.pdf" download>Whitepaper</a>
-          <a class="pill" data-link="bscscan-contract" target="_blank" rel="noreferrer">BscScan</a>
-        </div>
+        
+<div class="footerDesktop" style="display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end">
+  <a class="pill" href="tokenomics.html">Tokenomics</a>
+  <a class="pill" href="impact.html">Impact</a>
+  <a class="pill" href="entertainment.html">Entertainment</a>
+  <a class="pill" href="sports.html">Sports</a>
+  <a class="pill" href="academics.html">Academics</a>
+  <a class="pill" href="community.html">Community</a>
+  <a class="pill" href="civic.html">Civic</a>
+  <a class="pill" href="roadmap.html">Roadmap</a>
+  <a class="pill" href="faq.html">FAQ</a>
+  <a class="pill" href="contact.html">Contact</a>
+  <a class="pill" href="assets/whitepaper.pdf" download>Whitepaper</a>
+  <a class="pill" data-link="bscscan-contract" target="_blank" rel="noreferrer">BscScan</a>
+  <a class="iconLink" href="https://x.com/burnaversedapp?s=21" target="_blank" rel="noreferrer" aria-label="X"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M18.9 2H22l-6.8 7.8L23 22h-6.6l-5.2-6.6L5.4 22H2.3l7.3-8.3L1 2h6.8l4.7 6.1L18.9 2Zm-1.2 18h1.8L6.2 3.9H4.3L17.7 20Z"/></svg><span>X</span></a>
+  <a class="iconLink" href="https://t.me/burnaverseprotocol" target="_blank" rel="noreferrer" aria-label="Telegram"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M21.8 4.6c.3-1.2-.9-2.1-2-1.7L2.9 9.5c-1.3.5-1.3 2.3.1 2.7l4.3 1.4 1.6 5.1c.4 1.2 2 1.5 2.8.6l2.4-2.7 4.7 3.4c1 .7 2.4.1 2.6-1.1l2.4-14.3ZM8.4 12.9l9.9-6.2c.2-.1.4.2.2.3l-8.2 7.7-.3 3.3c0 .3-.4.4-.5.1l-1.2-3.9-3.3-1.1c-.3-.1-.3-.5 0-.6l16-6.2"/></svg><span>Telegram</span></a>
+</div>
+
+<div class="footerMobile">
+  <details>
+    <summary>Explore</summary>
+    <div class="footerGrid">
+      <a class="pill" href="tokenomics.html">Tokenomics</a>
+      <a class="pill" href="impact.html">Impact</a>
+      <a class="pill" href="roadmap.html">Roadmap</a>
+      <a class="pill" href="faq.html">FAQ</a>
+      <a class="pill" href="contact.html">Contact</a>
+      <a class="pill" href="assets/whitepaper.pdf" download>Whitepaper</a>
+    </div>
+  </details>
+
+  <details>
+    <summary>Ecosystem</summary>
+    <div class="footerGrid">
+      <a class="pill" href="entertainment.html">Entertainment</a>
+      <a class="pill" href="sports.html">Sports</a>
+      <a class="pill" href="academics.html">Academics</a>
+      <a class="pill" href="community.html">Community</a>
+      <a class="pill" href="civic.html">Civic</a>
+      <a class="pill" data-link="bscscan-contract" target="_blank" rel="noreferrer">BscScan</a>
+    </div>
+  </details>
+
+  <details open>
+    <summary>Social</summary>
+    <div class="footerGrid">
+      <a class="iconLink" href="https://x.com/burnaversedapp?s=21" target="_blank" rel="noreferrer"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M18.9 2H22l-6.8 7.8L23 22h-6.6l-5.2-6.6L5.4 22H2.3l7.3-8.3L1 2h6.8l4.7 6.1L18.9 2Zm-1.2 18h1.8L6.2 3.9H4.3L17.7 20Z"/></svg><span>X</span></a>
+      <a class="iconLink" href="https://t.me/burnaverseprotocol" target="_blank" rel="noreferrer"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M21.8 4.6c.3-1.2-.9-2.1-2-1.7L2.9 9.5c-1.3.5-1.3 2.3.1 2.7l4.3 1.4 1.6 5.1c.4 1.2 2 1.5 2.8.6l2.4-2.7 4.7 3.4c1 .7 2.4.1 2.6-1.1l2.4-14.3ZM8.4 12.9l9.9-6.2c.2-.1.4.2.2.3l-8.2 7.7-.3 3.3c0 .3-.4.4-.5.1l-1.2-3.9-3.3-1.1c-.3-.1-.3-.5 0-.6l16-6.2"/></svg><span>Telegram</span></a>
+    </div>
+  </details>
+</div>
+
       </div>
+      <div class="card pad col12 adSlot footerAdSlot" style="margin-top:14px">
+  <div class="adLabel"><span>Sponsored</span><span style="opacity:.7">Ad space</span></div>
+  <div class="adBox">Footer ad (responsive)</div>
+</div>
+
       <div class="note" style="margin-top:14px">
         Disclaimer: Crypto assets are high risk. Nothing here is financial advice. Do your own research.
       </div>

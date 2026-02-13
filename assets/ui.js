@@ -1,4 +1,36 @@
 
+function hexPad32(hex){
+  const h = (hex || "").replace(/^0x/, "");
+  return h.padStart(64, "0");
+}
+
+async function ethCall(to, data){
+  return await window.ethereum.request({
+    method: "eth_call",
+    params: [{ to, data }, "latest"]
+  });
+}
+
+async function getErc20Balance(token, owner){
+  // balanceOf(address) selector: 0x70a08231
+  const data = "0x70a08231" + hexPad32(owner);
+  const res = await ethCall(token, data);
+  return BigInt(res);
+}
+
+function formatAmount(bi, decimals=18, precision=4){
+  if(bi === null || bi === undefined) return "—";
+  const neg = bi < 0n;
+  const v = neg ? -bi : bi;
+  const base = 10n ** BigInt(decimals);
+  const whole = v / base;
+  const frac = v % base;
+  const fracStr = frac.toString().padStart(decimals, "0").slice(0, precision);
+  const out = whole.toString() + (precision > 0 ? ("." + fracStr) : "");
+  return (neg ? "-" : "") + out.replace(/\.0+$/,"");
+}
+
+
 function setInert(el, inert){
   if(!el) return;
   try{
@@ -21,6 +53,31 @@ function formatUSD(n){
   if(num >= 1e3) return "$" + (num/1e3).toFixed(2) + "K";
   return "$" + num.toFixed(num >= 1 ? 2 : 6);
 }
+
+function animateNumberText(el, toText, duration=450){
+  if(!el) return;
+  const fromText = el.getAttribute("data-prev") || el.textContent || "—";
+  el.setAttribute("data-prev", toText);
+
+  const toNum = Number(String(toText).replace(/[^0-9.\-]/g,""));
+  const fromNum = Number(String(fromText).replace(/[^0-9.\-]/g,""));
+  if(!Number.isFinite(toNum) || !Number.isFinite(fromNum)){
+    el.textContent = toText;
+    return;
+  }
+  const start = performance.now();
+  const tick = (t)=>{
+    const p = Math.min(1, (t-start)/duration);
+    const v = fromNum + (toNum-fromNum)*(1 - Math.pow(1-p,3));
+    const prefix = (String(toText).match(/^\D+/) || [""])[0];
+    const suffix = (String(toText).match(/\D+$/) || [""])[0];
+    const decimals = ((String(toText).split(".")[1]||"").match(/^\d+/) || [""])[0].length;
+    el.textContent = prefix + v.toFixed(Math.min(6, decimals)) + suffix;
+    if(p < 1) requestAnimationFrame(tick);
+  };
+  requestAnimationFrame(tick);
+}
+
 function formatNum(n){
   if(n === null || n === undefined || Number.isNaN(n)) return "—";
   const num = Number(n);
@@ -99,6 +156,11 @@ async function initLiveStats(){
   const fdvEl = box.querySelector("[data-live-fdv]");
   const pairEl = box.querySelector("[data-live-pair]");
   const chgEl = box.querySelector("[data-live-change]");
+  const buysEl = box.querySelector("[data-live-buys]");
+  const sellsEl = box.querySelector("[data-live-sells]");
+  const pairAddrEl = box.querySelector("[data-live-pairaddr]");
+  const dexLinkEl = box.querySelector("[data-live-dexlink]");
+  const poolsEl = box.querySelector("[data-live-pools]");
 
   const setStatus = (txt, type)=>{
     if(!status) return;
@@ -117,12 +179,21 @@ async function initLiveStats(){
     }
     pairs.sort((a,b)=> (Number(b.liquidity?.usd||0) - Number(a.liquidity?.usd||0)));
     const p = pairs[0];
+
     setStatus("Live market data", "good");
-    if(priceEl) priceEl.textContent = formatUSD(p.priceUsd);
-    if(liqEl) liqEl.textContent = formatUSD(p.liquidity?.usd);
-    if(volEl) volEl.textContent = formatUSD(p.volume?.h24);
-    if(fdvEl) fdvEl.textContent = formatUSD(p.fdv);
-    if(pairEl) pairEl.textContent = `${(p.dexId||"DEX").toUpperCase()} • ${(p.chainId||"BSC").toUpperCase()}`;
+
+    const priceTxt = formatUSD(p.priceUsd);
+    const liqTxt = formatUSD(p.liquidity?.usd);
+    const volTxt = formatUSD(p.volume?.h24);
+    const fdvTxt = formatUSD(p.fdv);
+
+    if(priceEl) animateNumberText(priceEl, priceTxt);
+    if(liqEl) animateNumberText(liqEl, liqTxt);
+    if(volEl) animateNumberText(volEl, volTxt);
+    if(fdvEl) animateNumberText(fdvEl, fdvTxt);
+
+    if(pairEl) pairEl.textContent = `${(p.dexId||"DEX").toUpperCase()} • ${(p.chainId||"BSC").toUpperCase()} • ${p.baseToken?.symbol||""}/${p.quoteToken?.symbol||""}`;
+
     if(chgEl){
       const ch = p.priceChange?.h24;
       if(ch === undefined || ch === null) chgEl.textContent = "—";
@@ -130,6 +201,28 @@ async function initLiveStats(){
         const num = Number(ch);
         chgEl.textContent = (num>0?"+":"") + num.toFixed(2) + "%";
       }
+    }
+
+    const buys = p.txns?.h24?.buys;
+    const sells = p.txns?.h24?.sells;
+    if(buysEl) buysEl.textContent = (buys==null) ? "Buys: —" : `Buys: ${buys}`;
+    if(sellsEl) sellsEl.textContent = (sells==null) ? "Sells: —" : `Sells: ${sells}`;
+
+    if(pairAddrEl) pairAddrEl.textContent = p.pairAddress ? ("Pair: " + p.pairAddress.slice(0,10) + "…" + p.pairAddress.slice(-6)) : "Pair: —";
+    if(dexLinkEl){
+      const url = p.url || "";
+      dexLinkEl.href = url || "#";
+      dexLinkEl.style.opacity = url ? "1" : ".6";
+    }
+
+    if(poolsEl){
+      const top = pairs.slice(0,3).map(pp=>{
+        const dex = (pp.dexId||"DEX").toUpperCase();
+        const liq = formatUSD(pp.liquidity?.usd);
+        const sym = (pp.baseToken?.symbol||"") + "/" + (pp.quoteToken?.symbol||"");
+        return `<a class="poolItem" href="${pp.url||"#"}" target="_blank" rel="noreferrer"><b>${dex}</b><span>${sym}</span><span>${liq}</span></a>`;
+      }).join("");
+      poolsEl.innerHTML = top;
     }
   }catch(e){
     console.error(e);
@@ -322,22 +415,28 @@ async function connectWallet(){
     return;
   }
   try{
+    try{
+      await window.ethereum.request({
+        method: "wallet_requestPermissions",
+        params: [{ eth_accounts: {} }]
+      });
+    }catch(_){}
     await ensureBSC();
     const accts = await window.ethereum.request({ method: "eth_requestAccounts" });
     const addr = (accts && accts[0]) ? accts[0] : null;
     if(addr){
-      window.toast && window.toast("Wallet connected");
       if(btn){
         btn.textContent = shortAddr(addr);
         btn.classList.add("wallet");
       }
       localStorage.setItem("bv_wallet", addr);
-      updateWalletUI();
+      window.toast && window.toast("Wallet connected");
+      await updateWalletUI();
     }
   }catch(e){
     console.error(e);
     window.toast && window.toast("Wallet connection canceled.");
-    updateWalletUI();
+    await updateWalletUI();
   }
 }
 
@@ -345,22 +444,18 @@ function initWalletButton(){
   const btn = document.getElementById("connectWallet");
   if(!btn) return;
   btn.addEventListener("click", connectWallet);
+
   const saved = localStorage.getItem("bv_wallet");
   if(saved) btn.textContent = shortAddr(saved);
+
   if(window.ethereum && window.ethereum.on){
-    window.ethereum.on("chainChanged", ()=>{ updateWalletUI(); });
-    window.ethereum.on("accountsChanged", (accs)=>{
+    window.ethereum.on("accountsChanged", async (accs)=>{
       const a = (accs && accs[0]) ? accs[0] : "";
-      if(a){
-        localStorage.setItem("bv_wallet", a);
-        btn.textContent = shortAddr(a);
-        updateWalletUI();
-      }else{
-        localStorage.removeItem("bv_wallet");
-        btn.textContent = "Connect Wallet";
-        updateWalletUI();
-      }
+      if(a) localStorage.setItem("bv_wallet", a);
+      else localStorage.removeItem("bv_wallet");
+      await updateWalletUI();
     });
+    window.ethereum.on("chainChanged", async ()=>{ await updateWalletUI(); });
   }
 }
 
@@ -389,59 +484,57 @@ function setStatusChip(el, text, tone){
 async function updateWalletUI(){
   const btn = document.getElementById("connectWallet");
   const chip = document.getElementById("walletStatusChip");
-  const bal = document.getElementById("walletBalance");
-  if(!btn && !chip && !bal) return;
+  const bnbEl = document.getElementById("walletBalance");
+  const buvEl = document.getElementById("walletTokenBalance");
+  if(!btn && !chip && !bnbEl && !buvEl) return;
 
   if(!window.ethereum){
     if(chip) setStatusChip(chip, "Wallet: Not installed", "bad");
-    if(bal) bal.textContent = "—";
+    if(bnbEl) bnbEl.textContent = "BNB: —";
+    if(buvEl) buvEl.textContent = "BUV: —";
     if(btn) btn.textContent = "Connect Wallet";
-        updateWalletUI();
     return;
   }
 
-  // Determine chain
   let chainId = null;
-  try{
-    chainId = await window.ethereum.request({ method: "eth_chainId" });
-  }catch(e){}
-
+  try{ chainId = await window.ethereum.request({ method: "eth_chainId" }); }catch(_ ){}
   const isBSC = (chainId === "0x38");
   if(chip){
-    if(!isBSC) setStatusChip(chip, "Network: Wrong (Switch to BSC)", "bad");
+    if(!isBSC) setStatusChip(chip, "Network: Wrong (switch to BSC)", "bad");
     else setStatusChip(chip, "Network: BSC", "good");
   }
 
-  // Determine address (connected)
-  let addr = localStorage.getItem("bv_wallet") || "";
+  let addr = "";
   try{
     const accts = await window.ethereum.request({ method: "eth_accounts" });
     if(accts && accts[0]) addr = accts[0];
-  }catch(e){}
+  }catch(_ ){}
+  if(!addr) addr = localStorage.getItem("bv_wallet") || "";
 
   if(!addr){
     if(btn) btn.textContent = "Connect Wallet";
-        updateWalletUI();
-    if(bal) bal.textContent = "—";
+    if(bnbEl) bnbEl.textContent = "BNB: —";
+    if(buvEl) buvEl.textContent = "BUV: —";
     return;
   }
 
-  // Update button label
   if(btn){
     btn.textContent = shortAddr(addr);
     btn.classList.add("wallet");
   }
 
-  // Balance (only meaningful on BSC)
   try{
     const b = await getBNBBalance(addr);
-    if(bal){
-      if(b === null || Number.isNaN(b)) bal.textContent = "—";
-      else bal.textContent = b.toFixed(b >= 1 ? 3 : 4) + " BNB";
+    if(bnbEl){
+      if(b === null || Number.isNaN(b)) bnbEl.textContent = "BNB: —";
+      else bnbEl.textContent = "BNB: " + (b >= 1 ? b.toFixed(3) : b.toFixed(4));
     }
-  }catch(e){
-    if(bal) bal.textContent = "—";
-  }
+  }catch(_ ){ if(bnbEl) bnbEl.textContent = "BNB: —"; }
+
+  try{
+    const bal = await getErc20Balance("0xd14Ec02A022D2BD4117a0EEba966423253a48ad1", addr);
+    if(buvEl) buvEl.textContent = "BUV: " + formatAmount(bal, 18, 4);
+  }catch(_ ){ if(buvEl) buvEl.textContent = "BUV: —"; }
 }
 
 
@@ -562,8 +655,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
   initNavDrawer();
   initDrawerAccordion();
   initWalletButton();
-  updateWalletUI();
-  initThemeToggle();
+    initThemeToggle();
   initPageTransitions();
   animateCounters();
   initLiveStats();
