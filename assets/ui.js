@@ -512,22 +512,48 @@ function initDrawerAccordion(){
 
 function initSidebar(){
   const body = document.body;
-  const mobileBtn = document.getElementById("navToggle");
+  const btn = document.getElementById("navToggle");
   const overlay = document.getElementById("sidebarOverlay");
   const closeBtn = document.getElementById("sidebarCloseMobile");
 
-  const close = ()=> body.classList.remove("sidebar-open");
-  const toggle = ()=> body.classList.toggle("sidebar-open");
+  const isMobile = ()=> window.innerWidth <= 980;
 
-  mobileBtn && mobileBtn.addEventListener("click", (e)=>{ e.preventDefault(); toggle(); });
-  overlay && overlay.addEventListener("click", close);
-  closeBtn && closeBtn.addEventListener("click", close);
+  const closeMobile = ()=> body.classList.remove("sidebar-open");
+  const toggleMobile = ()=> body.classList.toggle("sidebar-open");
 
-  document.addEventListener("keydown",(e)=>{ if(e.key === "Escape") close(); });
-  document.querySelectorAll(".sidebar a[href]").forEach(a=>a.addEventListener("click", ()=> close()));
+  const toggleDesktop = ()=> body.classList.toggle("sidebar-closed");
 
-  window.addEventListener("resize", ()=>{ if(window.innerWidth > 980) close(); });
+  const handleToggle = (e)=>{
+    e.preventDefault();
+    if(isMobile()) toggleMobile();
+    else toggleDesktop();
+  };
+
+  btn && btn.addEventListener("click", handleToggle);
+
+  overlay && overlay.addEventListener("click", closeMobile);
+  closeBtn && closeBtn.addEventListener("click", closeMobile);
+
+  document.addEventListener("keydown",(e)=>{
+    if(e.key === "Escape"){
+      closeMobile();
+    }
+  });
+
+  document.querySelectorAll(".sidebar a[href]").forEach(a=>{
+    a.addEventListener("click", ()=> closeMobile());
+  });
+
+  // Prevent stuck state on resize/rotate
+  window.addEventListener("resize", ()=>{
+    if(isMobile()){
+      body.classList.remove("sidebar-closed");
+    }else{
+      body.classList.remove("sidebar-open");
+    }
+  });
 }
+
 
 
 document.addEventListener("DOMContentLoaded", ()=>{
