@@ -168,19 +168,27 @@ function initModal(){
 function initNavDrawer(){
   const btn = document.getElementById("navToggle");
   const links = document.getElementById("navLinks");
+  const overlay = document.getElementById("navOverlay");
+  const closeBtn = document.getElementById("drawerClose");
   if(!btn || !links) return;
 
-  const close = ()=> links.classList.remove("open");
-  const toggle = ()=> links.classList.toggle("open");
+  const close = ()=> {
+    links.classList.remove("open");
+    overlay && overlay.classList.remove("show");
+  };
+  const open = ()=> {
+    links.classList.add("open");
+    overlay && overlay.classList.add("show");
+  };
+  const toggle = ()=> (links.classList.contains("open") ? close() : open());
 
   btn.addEventListener("click", (e)=>{ e.stopPropagation(); toggle(); });
+  closeBtn && closeBtn.addEventListener("click", close);
+  overlay && overlay.addEventListener("click", close);
 
-  links.querySelectorAll("a").forEach(a=>a.addEventListener("click", close));
-
-  document.addEventListener("click",(e)=>{
-    if(links.classList.contains("open")){
-      if(!links.contains(e.target) && !btn.contains(e.target)) close();
-    }
+  // close on link click
+  links.querySelectorAll("a").forEach(a=>{
+    a.addEventListener("click", ()=> close());
   });
 
   document.addEventListener("keydown",(e)=>{ if(e.key === "Escape") close(); });
