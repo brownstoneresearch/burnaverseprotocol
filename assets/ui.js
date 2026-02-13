@@ -516,20 +516,17 @@ function initSidebar(){
   const overlay = document.getElementById("sidebarOverlay");
   const closeBtn = document.getElementById("sidebarCloseMobile");
 
-  const open = ()=> body.classList.add("sidebar-open");
   const close = ()=> body.classList.remove("sidebar-open");
-  const toggleMobile = ()=> body.classList.toggle("sidebar-open");
+  const toggle = ()=> body.classList.toggle("sidebar-open");
 
-  mobileBtn && mobileBtn.addEventListener("click", (e)=>{ e.preventDefault(); toggleMobile(); });
+  mobileBtn && mobileBtn.addEventListener("click", (e)=>{ e.preventDefault(); toggle(); });
   overlay && overlay.addEventListener("click", close);
   closeBtn && closeBtn.addEventListener("click", close);
 
   document.addEventListener("keydown",(e)=>{ if(e.key === "Escape") close(); });
+  document.querySelectorAll(".sidebar a[href]").forEach(a=>a.addEventListener("click", ()=> close()));
 
-  // close sidebar on navigation (mobile)
-  document.querySelectorAll(".sidebar a[href]").forEach(a=>{
-    a.addEventListener("click", ()=> close());
-  });
+  window.addEventListener("resize", ()=>{ if(window.innerWidth > 980) close(); });
 }
 
 
