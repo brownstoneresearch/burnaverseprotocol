@@ -138,6 +138,15 @@ function animateCounters(){
   }, {threshold: 0.35});
   els.forEach(el=>io.observe(el));
 }
+
+function liquidityBadge(p){
+  const liq = Number(p?.liquidity?.usd || 0);
+  const tx = Number(p?.txns?.h24?.buys || 0) + Number(p?.txns?.h24?.sells || 0);
+  if(liq > 50000 && tx > 100) return "High activity";
+  if(liq > 5000) return "Growing";
+  return "Low liquidity";
+}
+
 async function initLiveStats(){
   const box = document.querySelector("[data-live-stats]");
   if(!box) return;
@@ -169,13 +178,13 @@ async function initLiveStats(){
     const data = await fetchDexScreener(addr);
     const pairs = (data && data.pairs) ? data.pairs : [];
     if(!pairs.length){
-      setStatus("No live pair data yet (liquidity not detected).", "bad");
+      setStatus("Liquidity not detected yet — live stats will appear after pool + first swap.", "bad");
       return;
     }
     pairs.sort((a,b)=> (Number(b.liquidity?.usd||0) - Number(a.liquidity?.usd||0)));
     const p = pairs[0];
 
-    setStatus("Live market data", "good");
+    setStatus("Live market data • " + liquidityBadge(p), "good");
 
     const priceTxt = formatUSD(p.priceUsd);
     const liqTxt = formatUSD(p.liquidity?.usd);
