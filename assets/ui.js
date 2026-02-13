@@ -187,9 +187,174 @@ function initNavDrawer(){
 }
 
 
+
+function shortAddr(a){
+  if(!a || a.length < 10) return a || "";
+  return a.slice(0,6) + "…" + a.slice(-4);
+}
+
+async function ensureBSC(){
+  if(!window.ethereum) return;
+  const chainId = await window.ethereum.request({ method: "eth_chainId" });
+  if(chainId === "0x38") return;
+  try{
+    await window.ethereum.request({
+      method: "wallet_switchEthereumChain",
+      params: [{ chainId: "0x38" }]
+    });
+  }catch(e){
+    if(e && (e.code === 4902 || String(e.message||"").includes("4902"))){
+      await window.ethereum.request({
+        method: "wallet_addEthereumChain",
+        params: [{
+          chainId: "0x38",
+          chainName: "BNB Smart Chain",
+          nativeCurrency: { name: "BNB", symbol: "BNB", decimals: 18 },
+          rpcUrls: ["https://bsc-dataseed.binance.org/"],
+          blockExplorerUrls: ["https://bscscan.com/"]
+        }]
+      });
+    }else{
+      throw e;
+    }
+  }
+}
+
+async function connectWallet(){
+  const btn = document.getElementById("connectWallet");
+  if(!window.ethereum){
+    window.toast && window.toast("Install MetaMask to connect.");
+    return;
+  }
+  try{
+    await ensureBSC();
+    const accts = await window.ethereum.request({ method: "eth_requestAccounts" });
+    const addr = (accts && accts[0]) ? accts[0] : null;
+    if(addr){
+      window.toast && window.toast("Wallet connected");
+      if(btn){
+        btn.textContent = shortAddr(addr);
+        btn.classList.add("wallet");
+      }
+      localStorage.setItem("bv_wallet", addr);
+      updateWalletUI();
+    }
+  }catch(e){
+    console.error(e);
+    window.toast && window.toast("Wallet connection canceled.");
+    updateWalletUI();
+  }
+}
+
+function initWalletButton(){
+  const btn = document.getElementById("connectWallet");
+  if(!btn) return;
+  btn.addEventListener("click", connectWallet);
+  const saved = localStorage.getItem("bv_wallet");
+  if(saved) btn.textContent = shortAddr(saved);
+  if(window.ethereum && window.ethereum.on){
+    window.ethereum.on("chainChanged", ()=>{ updateWalletUI(); });
+    window.ethereum.on("accountsChanged", (accs)=>{
+      const a = (accs && accs[0]) ? accs[0] : "";
+      if(a){
+        localStorage.setItem("bv_wallet", a);
+        btn.textContent = shortAddr(a);
+        updateWalletUI();
+      }else{
+        localStorage.removeItem("bv_wallet");
+        btn.textContent = "Connect Wallet";
+        updateWalletUI();
+      }
+    });
+  }
+}
+
+
+
+async function getBNBBalance(address){
+  if(!window.ethereum || !address) return null;
+  // use eth_getBalance on current chain
+  const hex = await window.ethereum.request({
+    method: "eth_getBalance",
+    params: [address, "latest"]
+  });
+  // hex to decimal BNB
+  const wei = BigInt(hex);
+  const bnb = Number(wei) / 1e18; // safe enough for display
+  return bnb;
+}
+
+function setStatusChip(el, text, tone){
+  if(!el) return;
+  el.textContent = text;
+  el.classList.remove("good","bad");
+  if(tone) el.classList.add(tone);
+}
+
+async function updateWalletUI(){
+  const btn = document.getElementById("connectWallet");
+  const chip = document.getElementById("walletStatusChip");
+  const bal = document.getElementById("walletBalance");
+  if(!btn && !chip && !bal) return;
+
+  if(!window.ethereum){
+    if(chip) setStatusChip(chip, "Wallet: Not installed", "bad");
+    if(bal) bal.textContent = "—";
+    if(btn) btn.textContent = "Connect Wallet";
+        updateWalletUI();
+    return;
+  }
+
+  // Determine chain
+  let chainId = null;
+  try{
+    chainId = await window.ethereum.request({ method: "eth_chainId" });
+  }catch(e){}
+
+  const isBSC = (chainId === "0x38");
+  if(chip){
+    if(!isBSC) setStatusChip(chip, "Network: Wrong (Switch to BSC)", "bad");
+    else setStatusChip(chip, "Network: BSC", "good");
+  }
+
+  // Determine address (connected)
+  let addr = localStorage.getItem("bv_wallet") || "";
+  try{
+    const accts = await window.ethereum.request({ method: "eth_accounts" });
+    if(accts && accts[0]) addr = accts[0];
+  }catch(e){}
+
+  if(!addr){
+    if(btn) btn.textContent = "Connect Wallet";
+        updateWalletUI();
+    if(bal) bal.textContent = "—";
+    return;
+  }
+
+  // Update button label
+  if(btn){
+    btn.textContent = shortAddr(addr);
+    btn.classList.add("wallet");
+  }
+
+  // Balance (only meaningful on BSC)
+  try{
+    const b = await getBNBBalance(addr);
+    if(bal){
+      if(b === null || Number.isNaN(b)) bal.textContent = "—";
+      else bal.textContent = b.toFixed(b >= 1 ? 3 : 4) + " BNB";
+    }
+  }catch(e){
+    if(bal) bal.textContent = "—";
+  }
+}
+
+
 document.addEventListener("DOMContentLoaded", ()=>{
   initTheme();
   initNavDrawer();
+  initWalletButton();
+  updateWalletUI();
   initThemeToggle();
   initPageTransitions();
   animateCounters();

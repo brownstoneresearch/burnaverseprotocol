@@ -481,3 +481,86 @@ html[data-theme="light"] .navToggle{
 @media (max-width: 980px){
   .sectionTitle{flex-direction:column; align-items:flex-start}
 }
+
+
+/* === State-of-the-art blockchain styling (mature) === */
+:root{
+  --bg:#060812;
+  --bg2:#0a0e1f;
+  --grid: rgba(255,255,255,.05);
+  --accent:#7c5cff;
+  --accent2:#21d19f;
+  --accent3:#46b5ff;
+  --text:#eef2ff;
+  --muted:rgba(238,242,255,.72);
+  --shadow: 0 18px 70px rgba(0,0,0,.55);
+  --shadow2: 0 12px 40px rgba(0,0,0,.38);
+}
+
+body{
+  font-family: "Space Grotesk", ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+  background:
+    radial-gradient(900px 550px at 18% 10%, rgba(124,92,255,.30), transparent 60%),
+    radial-gradient(800px 500px at 85% 16%, rgba(33,209,159,.20), transparent 60%),
+    radial-gradient(900px 650px at 70% 85%, rgba(70,181,255,.16), transparent 60%),
+    linear-gradient(180deg, var(--bg), var(--bg2));
+  position:relative;
+}
+
+body::before{
+  content:"";
+  position:fixed; inset:0;
+  background-image:
+    linear-gradient(to right, var(--grid) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid) 1px, transparent 1px);
+  background-size: 58px 58px;
+  opacity:.25;
+  pointer-events:none;
+  mask-image: radial-gradient(circle at 30% 20%, rgba(0,0,0,1), rgba(0,0,0,.35) 55%, rgba(0,0,0,0) 78%);
+}
+
+.card{ background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.03)); }
+.pill{font-weight:600}
+.btn{letter-spacing:.2px}
+.brand h1{letter-spacing:.3px}
+.brand p{opacity:.9}
+
+header{
+  background:linear-gradient(to bottom, rgba(6,8,18,.88), rgba(6,8,18,.45));
+  border-bottom:1px solid rgba(255,255,255,.10);
+}
+
+/* Mobile drawer: dark, not transparent */
+@media (max-width: 980px){
+  .links{
+    background: rgba(6,8,18,.96) !important;
+    border:1px solid rgba(255,255,255,.14);
+    backdrop-filter: none !important;
+  }
+}
+
+/* Connect wallet button variant */
+.btn.wallet{
+  background: linear-gradient(135deg, rgba(124,92,255,.95), rgba(33,209,159,.85));
+  color:#071014;
+  font-weight:900;
+}
+
+
+/* Header wallet status + balance chips */
+.walletMeta{display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:flex-end}
+.walletChip{
+  padding:9px 10px;border-radius:999px;
+  background:rgba(255,255,255,.05);
+  border:1px solid rgba(255,255,255,.12);
+  color:var(--muted);
+  font-size:12.5px;
+  display:inline-flex;align-items:center;gap:8px;
+}
+.walletChip.good{border-color: rgba(33,209,159,.35); background: rgba(33,209,159,.10); color: rgba(238,242,255,.88);}
+.walletChip.bad{border-color: rgba(239,68,68,.35); background: rgba(239,68,68,.10); color: rgba(238,242,255,.88);}
+.walletChip b{color:var(--text)}
+@media (max-width:980px){
+  .walletMeta{justify-content:stretch}
+  .walletChip{width:100%; justify-content:center}
+}
