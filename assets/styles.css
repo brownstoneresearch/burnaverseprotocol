@@ -1076,7 +1076,6 @@ main.wrap{padding-top:10px;}
   .sidebarOverlay{display:none !important;}
 }
 
-
 /* === v12 polish: social icons, footer mobile, ad slots, live pools === */
 .socialRow{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
 .iconLink{
@@ -1169,14 +1168,3 @@ main.wrap{padding-top:10px;}
 .poolItem b{font-weight:900}
 .poolItem span{color:rgba(238,242,255,.72); font-size:12.5px}
 .poolItem span:last-child{text-align:right}
-
-
-/* v12: sidebar sponsor slot */
-.sidebarAd{
-  border:1px dashed rgba(255,255,255,.18);
-  background:rgba(255,255,255,.03);
-  border-radius:18px;
-  padding:12px;
-  margin-top:10px;
-}
-.sidebarAd .adBox{height:80px;}

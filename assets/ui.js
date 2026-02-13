@@ -3,21 +3,17 @@ function hexPad32(hex){
   const h = (hex || "").replace(/^0x/, "");
   return h.padStart(64, "0");
 }
-
 async function ethCall(to, data){
   return await window.ethereum.request({
     method: "eth_call",
     params: [{ to, data }, "latest"]
   });
 }
-
 async function getErc20Balance(token, owner){
-  // balanceOf(address) selector: 0x70a08231
   const data = "0x70a08231" + hexPad32(owner);
   const res = await ethCall(token, data);
   return BigInt(res);
 }
-
 function formatAmount(bi, decimals=18, precision=4){
   if(bi === null || bi === undefined) return "—";
   const neg = bi < 0n;
@@ -58,7 +54,6 @@ function animateNumberText(el, toText, duration=450){
   if(!el) return;
   const fromText = el.getAttribute("data-prev") || el.textContent || "—";
   el.setAttribute("data-prev", toText);
-
   const toNum = Number(String(toText).replace(/[^0-9.\-]/g,""));
   const fromNum = Number(String(fromText).replace(/[^0-9.\-]/g,""));
   if(!Number.isFinite(toNum) || !Number.isFinite(fromNum)){
@@ -444,10 +439,8 @@ function initWalletButton(){
   const btn = document.getElementById("connectWallet");
   if(!btn) return;
   btn.addEventListener("click", connectWallet);
-
   const saved = localStorage.getItem("bv_wallet");
   if(saved) btn.textContent = shortAddr(saved);
-
   if(window.ethereum && window.ethereum.on){
     window.ethereum.on("accountsChanged", async (accs)=>{
       const a = (accs && accs[0]) ? accs[0] : "";
