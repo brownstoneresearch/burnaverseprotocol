@@ -482,7 +482,7 @@ function initLiveStatsAuto(){
 
 
 function initDrawerAccordion(){
-  const sections = Array.from(document.querySelectorAll("[data-accordion]"));
+  const sections = Array.from(document.querySelectorAll(".sidebar [data-accordion]"));
   if(!sections.length) return;
 
   const openSection = (sec)=>{
@@ -500,8 +500,7 @@ function initDrawerAccordion(){
     });
   });
 
-  // Auto-open section that contains current active nav
-  const active = document.querySelector("#navLinks .pill.active");
+  const active = document.querySelector(".sidebar .sidebarLink.active");
   if(active){
     const parent = active.closest("[data-accordion]");
     if(parent) parent.classList.add("open");
@@ -509,8 +508,46 @@ function initDrawerAccordion(){
 }
 
 
+
+
+function initSidebar(){
+  const body = document.body;
+  const mobileBtn = document.getElementById("navToggle");
+  const overlay = document.getElementById("sidebarOverlay");
+  const collapseBtn = document.getElementById("sidebarToggle");
+
+  // restore collapse preference (desktop)
+  const saved = localStorage.getItem("bv_sidebar");
+  if(saved === "collapsed") body.classList.add("sidebar-collapsed");
+
+  const open = ()=> body.classList.add("sidebar-open");
+  const close = ()=> body.classList.remove("sidebar-open");
+  const toggleMobile = ()=> body.classList.toggle("sidebar-open");
+
+  mobileBtn && mobileBtn.addEventListener("click", (e)=>{ e.preventDefault(); toggleMobile(); });
+  overlay && overlay.addEventListener("click", close);
+
+  document.addEventListener("keydown",(e)=>{
+    if(e.key === "Escape") close();
+  });
+
+  // collapse toggle (desktop)
+  collapseBtn && collapseBtn.addEventListener("click", (e)=>{
+    e.preventDefault();
+    body.classList.toggle("sidebar-collapsed");
+    localStorage.setItem("bv_sidebar", body.classList.contains("sidebar-collapsed") ? "collapsed" : "expanded");
+  });
+
+  // close sidebar on navigation (mobile)
+  document.querySelectorAll(".sidebar a[href]").forEach(a=>{
+    a.addEventListener("click", ()=> close());
+  });
+}
+
+
 document.addEventListener("DOMContentLoaded", ()=>{
   initTheme();
+  initSidebar();
   initNavDrawer();
   initDrawerAccordion();
   initWalletButton();
