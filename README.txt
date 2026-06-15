@@ -29,3 +29,11 @@ Latest operational upgrades:
 
 Deployment:
 Upload the full folder to Cloudflare Pages, Netlify, Vercel, or any static hosting provider. Keep the file structure unchanged.
+
+
+Web3 v15 upgrade:
+- Added /support.html as a shareable external application link for Burnaverse Support.
+- Added mobile wallet launch links for MetaMask, Trust Wallet, SafePal and OKX Wallet.
+- Connect Wallet and Add Token now guide users into mobile wallet dApp browsers when no injected wallet is detected.
+- Simplified premium footer for desktop and minimized footer for mobile.
+- Added support page to sitemap, PWA shortcuts and service worker cache.

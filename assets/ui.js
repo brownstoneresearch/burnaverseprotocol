@@ -415,7 +415,11 @@ async function ensureBSC(){
 async function connectWallet(){
   const btn = document.getElementById("connectWallet");
   if(!window.ethereum){
-    window.toast && window.toast("Install MetaMask to connect.");
+    if(window.BurnaverseWallets && window.BurnaverseWallets.open){
+      window.BurnaverseWallets.open("connect");
+    }else{
+      window.toast && window.toast("Open in a mobile wallet browser to connect.");
+    }
     return;
   }
   try{
@@ -649,6 +653,125 @@ function initSidebar(){
   });
 }
 
+
+
+
+/* === Burnaverse Web3 mobile wallet launcher + support utilities === */
+(function(){
+  const APP_URL = "https://burnaverseprotocol.pages.dev/";
+  const SUPPORT_URL = "https://burnaverseprotocol.pages.dev/support.html";
+  const currentUrl = () => {
+    try{
+      const href = window.location.href || APP_URL;
+      return href.startsWith("file:") ? APP_URL : href;
+    }catch(_){ return APP_URL; }
+  };
+  const enc = (v) => encodeURIComponent(v);
+  const walletLinks = (url=currentUrl()) => ({
+    metamask: "https://metamask.app.link/dapp/" + url.replace(/^https?:\/\//,""),
+    trust: "https://link.trustwallet.com/open_url?coin_id=20000714&url=" + enc(url),
+    safepal: "https://link.safepal.io/open?url=" + enc(url),
+    okx: "https://www.okx.com/download?deeplink=" + enc("okx://wallet/dapp/url?dappUrl=" + enc(url))
+  });
+
+  function ensureSheet(){
+    let sheet = document.getElementById("walletSheet");
+    if(sheet) return sheet;
+    sheet = document.createElement("div");
+    sheet.id = "walletSheet";
+    sheet.className = "walletSheet";
+    sheet.setAttribute("aria-hidden","true");
+    sheet.innerHTML = `
+      <div class="walletSheetBackdrop" data-wallet-close></div>
+      <div class="walletSheetPanel" role="dialog" aria-modal="true" aria-label="Connect mobile wallet">
+        <div class="walletSheetHandle" aria-hidden="true"></div>
+        <div class="walletSheetHead">
+          <div><b>Connect a Web3 wallet</b><span>Open Burnaverse inside a mobile wallet dApp browser.</span></div>
+          <button class="mini" type="button" data-wallet-close>Close</button>
+        </div>
+        <div class="walletSheetBody">
+          <a class="walletChoice" data-wallet-choice="metamask" target="_blank" rel="noreferrer"><b>MetaMask</b><span>Open site in MetaMask mobile</span></a>
+          <a class="walletChoice" data-wallet-choice="trust" target="_blank" rel="noreferrer"><b>Trust Wallet</b><span>Open site in Trust Wallet</span></a>
+          <a class="walletChoice" data-wallet-choice="safepal" target="_blank" rel="noreferrer"><b>SafePal</b><span>Open site in SafePal wallet</span></a>
+          <a class="walletChoice" data-wallet-choice="okx" target="_blank" rel="noreferrer"><b>OKX Wallet</b><span>Open site in OKX wallet</span></a>
+        </div>
+        <div class="walletSheetFoot">
+          <button class="mini good" type="button" data-copy-dapp-url>Copy dApp URL</button>
+          <button class="mini" type="button" data-share-support-link>Share Support Link</button>
+        </div>
+        <p class="walletSafety">Never enter seed phrases or private keys. Only connect through wallet apps you personally installed.</p>
+      </div>`;
+    document.body.appendChild(sheet);
+    sheet.addEventListener("click", (e)=>{ if(e.target.matches("[data-wallet-close], .walletSheetBackdrop")) closeWalletSheet(); });
+    return sheet;
+  }
+  function applyLinks(scope=document){
+    const links = walletLinks(currentUrl());
+    scope.querySelectorAll("[data-wallet-choice='metamask'], [data-wallet-open='metamask']").forEach(a=>a.href=links.metamask);
+    scope.querySelectorAll("[data-wallet-choice='trust'], [data-wallet-open='trust']").forEach(a=>a.href=links.trust);
+    scope.querySelectorAll("[data-wallet-choice='safepal'], [data-wallet-open='safepal']").forEach(a=>a.href=links.safepal);
+    scope.querySelectorAll("[data-wallet-choice='okx'], [data-wallet-open='okx']").forEach(a=>a.href=links.okx);
+  }
+  function openWalletSheet(reason){
+    const sheet = ensureSheet();
+    applyLinks(sheet);
+    sheet.classList.add("open");
+    sheet.setAttribute("aria-hidden","false");
+    document.body.style.overflow = "hidden";
+    window.toast && window.toast(reason === "add-token" ? "Open in a wallet app to add BUV." : "Choose a wallet app to continue.");
+  }
+  function closeWalletSheet(){
+    const sheet = document.getElementById("walletSheet");
+    if(!sheet) return;
+    sheet.classList.remove("open");
+    sheet.setAttribute("aria-hidden","true");
+    document.body.style.overflow = "";
+  }
+  async function copyText(text, msg){
+    try{ await navigator.clipboard.writeText(text); }
+    catch(_){ const t=document.createElement('textarea'); t.value=text; document.body.appendChild(t); t.select(); document.execCommand('copy'); t.remove(); }
+    window.toast && window.toast(msg || "Copied");
+  }
+  async function shareSupport(){
+    const url = SUPPORT_URL;
+    const data = { title:"Apply for Burnaverse Support", text:"Submit a Burnaverse Protocol support or partnership application.", url };
+    if(navigator.share){ try{ await navigator.share(data); return; }catch(_){} }
+    await copyText(url, "Support link copied");
+  }
+  function initSupportUtilities(){
+    applyLinks(document);
+    const linkText = document.getElementById("supportLinkText");
+    if(linkText) linkText.textContent = SUPPORT_URL;
+    document.querySelectorAll("[data-copy-support-link]").forEach(btn=>btn.addEventListener("click", ()=>copyText(SUPPORT_URL, "Support link copied")));
+    document.querySelectorAll("[data-share-support-link]").forEach(btn=>btn.addEventListener("click", shareSupport));
+    document.querySelectorAll("[data-copy-dapp-url]").forEach(btn=>btn.addEventListener("click", ()=>copyText(currentUrl(), "dApp URL copied")));
+    const inline = document.getElementById("connectWalletInline");
+    if(inline) inline.addEventListener("click", connectWallet);
+    document.querySelectorAll("[data-fill-connected-wallet]").forEach(btn=>btn.addEventListener("click", ()=>{
+      const field = document.getElementById("walletAddress");
+      const saved = localStorage.getItem("bv_wallet") || "";
+      if(field && saved){ field.value = saved; window.toast && window.toast("Connected wallet added"); }
+      else { window.toast && window.toast("Connect wallet first"); }
+    }));
+    const form = document.getElementById("applyForm");
+    if(form && !form.dataset.supportReady){
+      form.dataset.supportReady = "1";
+      form.addEventListener("submit", (e)=>{
+        if(form.closest("#modalBack")) return; // modal handler will handle old embedded forms
+        e.preventDefault();
+        const data = Object.fromEntries(new FormData(form).entries());
+        const key = "burnaverse_support_applications";
+        let cur=[]; try{ cur=JSON.parse(localStorage.getItem(key)||"[]")||[]; }catch(_){ cur=[]; }
+        cur.unshift({...data, url: currentUrl(), ts:new Date().toISOString()});
+        localStorage.setItem(key, JSON.stringify(cur).slice(0,200000));
+        form.reset();
+        window.toast && window.toast("Application saved locally. Connect backend/email for live delivery.");
+      }, {capture:true});
+    }
+  }
+  window.BurnaverseWallets = { open: openWalletSheet, close: closeWalletSheet, links: walletLinks };
+  document.addEventListener("DOMContentLoaded", initSupportUtilities);
+})();
 
 
 document.addEventListener("DOMContentLoaded", ()=>{

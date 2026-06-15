@@ -72,6 +72,19 @@
           "type": "image/png"
         }
       ]
+    },
+    {
+      "name": "Apply for Support",
+      "short_name": "Support",
+      "description": "Apply for Burnaverse Support",
+      "url": "/support.html",
+      "icons": [
+        {
+          "src": "/assets/logo.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
     }
   ]
 }

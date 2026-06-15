@@ -11,6 +11,7 @@ window.CONFIG = {
   bscscanToken: "https://bscscan.com/token/0xd14Ec02A022D2BD4117a0EEba966423253a48ad1",
   bscscanContract: "https://bscscan.com/address/0xd14Ec02A022D2BD4117a0EEba966423253a48ad1",
   pancakeswap: "https://pancakeswap.finance/swap?chain=bsc&outputCurrency=0xd14Ec02A022D2BD4117a0EEba966423253a48ad1",
+  supportUrl: "https://burnaverseprotocol.pages.dev/support.html",
   totalSupply: 10000000000
 };
 
@@ -40,7 +41,11 @@ async function copyContract(){
 
 async function addTokenToWallet(){
   if(!window.ethereum){
-    toast("No wallet detected (install MetaMask)");
+    if(window.BurnaverseWallets && window.BurnaverseWallets.open){
+      window.BurnaverseWallets.open("add-token");
+    }else{
+      toast("Open this site inside a mobile wallet browser to add BUV.");
+    }
     return;
   }
   try{
@@ -82,6 +87,7 @@ function fillGlobals(){
   document.querySelectorAll("[data-link='bscscan-token']").forEach(a=>a.href = window.CONFIG.bscscanToken);
   document.querySelectorAll("[data-link='bscscan-contract']").forEach(a=>a.href = window.CONFIG.bscscanContract);
   document.querySelectorAll("[data-link='pancakeswap']").forEach(a=>a.href = window.CONFIG.pancakeswap);
+  document.querySelectorAll("[data-link='support']").forEach(a=>a.href = window.CONFIG.supportUrl || 'support.html');
 
   // Social links (placeholders unless you set them)
   const socials = {

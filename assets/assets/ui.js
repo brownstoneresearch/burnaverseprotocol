@@ -1,4 +1,32 @@
 
+function hexPad32(hex){
+  const h = (hex || "").replace(/^0x/, "");
+  return h.padStart(64, "0");
+}
+async function ethCall(to, data){
+  return await window.ethereum.request({
+    method: "eth_call",
+    params: [{ to, data }, "latest"]
+  });
+}
+async function getErc20Balance(token, owner){
+  const data = "0x70a08231" + hexPad32(owner);
+  const res = await ethCall(token, data);
+  return BigInt(res);
+}
+function formatAmount(bi, decimals=18, precision=4){
+  if(bi === null || bi === undefined) return "—";
+  const neg = bi < 0n;
+  const v = neg ? -bi : bi;
+  const base = 10n ** BigInt(decimals);
+  const whole = v / base;
+  const frac = v % base;
+  const fracStr = frac.toString().padStart(decimals, "0").slice(0, precision);
+  const out = whole.toString() + (precision > 0 ? ("." + fracStr) : "");
+  return (neg ? "-" : "") + out.replace(/\.0+$/,"");
+}
+
+
 function setInert(el, inert){
   if(!el) return;
   try{
@@ -21,6 +49,30 @@ function formatUSD(n){
   if(num >= 1e3) return "$" + (num/1e3).toFixed(2) + "K";
   return "$" + num.toFixed(num >= 1 ? 2 : 6);
 }
+
+function animateNumberText(el, toText, duration=450){
+  if(!el) return;
+  const fromText = el.getAttribute("data-prev") || el.textContent || "—";
+  el.setAttribute("data-prev", toText);
+  const toNum = Number(String(toText).replace(/[^0-9.\-]/g,""));
+  const fromNum = Number(String(fromText).replace(/[^0-9.\-]/g,""));
+  if(!Number.isFinite(toNum) || !Number.isFinite(fromNum)){
+    el.textContent = toText;
+    return;
+  }
+  const start = performance.now();
+  const tick = (t)=>{
+    const p = Math.min(1, (t-start)/duration);
+    const v = fromNum + (toNum-fromNum)*(1 - Math.pow(1-p,3));
+    const prefix = (String(toText).match(/^\D+/) || [""])[0];
+    const suffix = (String(toText).match(/\D+$/) || [""])[0];
+    const decimals = ((String(toText).split(".")[1]||"").match(/^\d+/) || [""])[0].length;
+    el.textContent = prefix + v.toFixed(Math.min(6, decimals)) + suffix;
+    if(p < 1) requestAnimationFrame(tick);
+  };
+  requestAnimationFrame(tick);
+}
+
 function formatNum(n){
   if(n === null || n === undefined || Number.isNaN(n)) return "—";
   const num = Number(n);
@@ -86,6 +138,15 @@ function animateCounters(){
   }, {threshold: 0.35});
   els.forEach(el=>io.observe(el));
 }
+
+function liquidityBadge(p){
+  const liq = Number(p?.liquidity?.usd || 0);
+  const tx = Number(p?.txns?.h24?.buys || 0) + Number(p?.txns?.h24?.sells || 0);
+  if(liq > 50000 && tx > 100) return "High activity";
+  if(liq > 5000) return "Growing";
+  return "Low liquidity";
+}
+
 async function initLiveStats(){
   const box = document.querySelector("[data-live-stats]");
   if(!box) return;
@@ -99,6 +160,11 @@ async function initLiveStats(){
   const fdvEl = box.querySelector("[data-live-fdv]");
   const pairEl = box.querySelector("[data-live-pair]");
   const chgEl = box.querySelector("[data-live-change]");
+  const buysEl = box.querySelector("[data-live-buys]");
+  const sellsEl = box.querySelector("[data-live-sells]");
+  const pairAddrEl = box.querySelector("[data-live-pairaddr]");
+  const dexLinkEl = box.querySelector("[data-live-dexlink]");
+  const poolsEl = box.querySelector("[data-live-pools]");
 
   const setStatus = (txt, type)=>{
     if(!status) return;
@@ -112,17 +178,26 @@ async function initLiveStats(){
     const data = await fetchDexScreener(addr);
     const pairs = (data && data.pairs) ? data.pairs : [];
     if(!pairs.length){
-      setStatus("No live pair data yet (liquidity not detected).", "bad");
+      setStatus("Liquidity not detected yet — live stats will appear after pool + first swap.", "bad");
       return;
     }
     pairs.sort((a,b)=> (Number(b.liquidity?.usd||0) - Number(a.liquidity?.usd||0)));
     const p = pairs[0];
-    setStatus("Live market data", "good");
-    if(priceEl) priceEl.textContent = formatUSD(p.priceUsd);
-    if(liqEl) liqEl.textContent = formatUSD(p.liquidity?.usd);
-    if(volEl) volEl.textContent = formatUSD(p.volume?.h24);
-    if(fdvEl) fdvEl.textContent = formatUSD(p.fdv);
-    if(pairEl) pairEl.textContent = `${(p.dexId||"DEX").toUpperCase()} • ${(p.chainId||"BSC").toUpperCase()}`;
+
+    setStatus("Live market data • " + liquidityBadge(p), "good");
+
+    const priceTxt = formatUSD(p.priceUsd);
+    const liqTxt = formatUSD(p.liquidity?.usd);
+    const volTxt = formatUSD(p.volume?.h24);
+    const fdvTxt = formatUSD(p.fdv);
+
+    if(priceEl) animateNumberText(priceEl, priceTxt);
+    if(liqEl) animateNumberText(liqEl, liqTxt);
+    if(volEl) animateNumberText(volEl, volTxt);
+    if(fdvEl) animateNumberText(fdvEl, fdvTxt);
+
+    if(pairEl) pairEl.textContent = `${(p.dexId||"DEX").toUpperCase()} • ${(p.chainId||"BSC").toUpperCase()} • ${p.baseToken?.symbol||""}/${p.quoteToken?.symbol||""}`;
+
     if(chgEl){
       const ch = p.priceChange?.h24;
       if(ch === undefined || ch === null) chgEl.textContent = "—";
@@ -130,6 +205,28 @@ async function initLiveStats(){
         const num = Number(ch);
         chgEl.textContent = (num>0?"+":"") + num.toFixed(2) + "%";
       }
+    }
+
+    const buys = p.txns?.h24?.buys;
+    const sells = p.txns?.h24?.sells;
+    if(buysEl) buysEl.textContent = (buys==null) ? "Buys: —" : `Buys: ${buys}`;
+    if(sellsEl) sellsEl.textContent = (sells==null) ? "Sells: —" : `Sells: ${sells}`;
+
+    if(pairAddrEl) pairAddrEl.textContent = p.pairAddress ? ("Pair: " + p.pairAddress.slice(0,10) + "…" + p.pairAddress.slice(-6)) : "Pair: —";
+    if(dexLinkEl){
+      const url = p.url || "";
+      dexLinkEl.href = url || "#";
+      dexLinkEl.style.opacity = url ? "1" : ".6";
+    }
+
+    if(poolsEl){
+      const top = pairs.slice(0,3).map(pp=>{
+        const dex = (pp.dexId||"DEX").toUpperCase();
+        const liq = formatUSD(pp.liquidity?.usd);
+        const sym = (pp.baseToken?.symbol||"") + "/" + (pp.quoteToken?.symbol||"");
+        return `<a class="poolItem" href="${pp.url||"#"}" target="_blank" rel="noreferrer"><b>${dex}</b><span>${sym}</span><span>${liq}</span></a>`;
+      }).join("");
+      poolsEl.innerHTML = top;
     }
   }catch(e){
     console.error(e);
@@ -318,26 +415,36 @@ async function ensureBSC(){
 async function connectWallet(){
   const btn = document.getElementById("connectWallet");
   if(!window.ethereum){
-    window.toast && window.toast("Install MetaMask to connect.");
+    if(window.BurnaverseWallets && window.BurnaverseWallets.open){
+      window.BurnaverseWallets.open("connect");
+    }else{
+      window.toast && window.toast("Open in a mobile wallet browser to connect.");
+    }
     return;
   }
   try{
+    try{
+      await window.ethereum.request({
+        method: "wallet_requestPermissions",
+        params: [{ eth_accounts: {} }]
+      });
+    }catch(_){}
     await ensureBSC();
     const accts = await window.ethereum.request({ method: "eth_requestAccounts" });
     const addr = (accts && accts[0]) ? accts[0] : null;
     if(addr){
-      window.toast && window.toast("Wallet connected");
       if(btn){
         btn.textContent = shortAddr(addr);
         btn.classList.add("wallet");
       }
       localStorage.setItem("bv_wallet", addr);
-      updateWalletUI();
+      window.toast && window.toast("Wallet connected");
+      await updateWalletUI();
     }
   }catch(e){
     console.error(e);
     window.toast && window.toast("Wallet connection canceled.");
-    updateWalletUI();
+    await updateWalletUI();
   }
 }
 
@@ -348,19 +455,13 @@ function initWalletButton(){
   const saved = localStorage.getItem("bv_wallet");
   if(saved) btn.textContent = shortAddr(saved);
   if(window.ethereum && window.ethereum.on){
-    window.ethereum.on("chainChanged", ()=>{ updateWalletUI(); });
-    window.ethereum.on("accountsChanged", (accs)=>{
+    window.ethereum.on("accountsChanged", async (accs)=>{
       const a = (accs && accs[0]) ? accs[0] : "";
-      if(a){
-        localStorage.setItem("bv_wallet", a);
-        btn.textContent = shortAddr(a);
-        updateWalletUI();
-      }else{
-        localStorage.removeItem("bv_wallet");
-        btn.textContent = "Connect Wallet";
-        updateWalletUI();
-      }
+      if(a) localStorage.setItem("bv_wallet", a);
+      else localStorage.removeItem("bv_wallet");
+      await updateWalletUI();
     });
+    window.ethereum.on("chainChanged", async ()=>{ await updateWalletUI(); });
   }
 }
 
@@ -389,59 +490,57 @@ function setStatusChip(el, text, tone){
 async function updateWalletUI(){
   const btn = document.getElementById("connectWallet");
   const chip = document.getElementById("walletStatusChip");
-  const bal = document.getElementById("walletBalance");
-  if(!btn && !chip && !bal) return;
+  const bnbEl = document.getElementById("walletBalance");
+  const buvEl = document.getElementById("walletTokenBalance");
+  if(!btn && !chip && !bnbEl && !buvEl) return;
 
   if(!window.ethereum){
     if(chip) setStatusChip(chip, "Wallet: Not installed", "bad");
-    if(bal) bal.textContent = "—";
+    if(bnbEl) bnbEl.textContent = "BNB: —";
+    if(buvEl) buvEl.textContent = "BUV: —";
     if(btn) btn.textContent = "Connect Wallet";
-        updateWalletUI();
     return;
   }
 
-  // Determine chain
   let chainId = null;
-  try{
-    chainId = await window.ethereum.request({ method: "eth_chainId" });
-  }catch(e){}
-
+  try{ chainId = await window.ethereum.request({ method: "eth_chainId" }); }catch(_ ){}
   const isBSC = (chainId === "0x38");
   if(chip){
-    if(!isBSC) setStatusChip(chip, "Network: Wrong (Switch to BSC)", "bad");
+    if(!isBSC) setStatusChip(chip, "Network: Wrong (switch to BSC)", "bad");
     else setStatusChip(chip, "Network: BSC", "good");
   }
 
-  // Determine address (connected)
-  let addr = localStorage.getItem("bv_wallet") || "";
+  let addr = "";
   try{
     const accts = await window.ethereum.request({ method: "eth_accounts" });
     if(accts && accts[0]) addr = accts[0];
-  }catch(e){}
+  }catch(_ ){}
+  if(!addr) addr = localStorage.getItem("bv_wallet") || "";
 
   if(!addr){
     if(btn) btn.textContent = "Connect Wallet";
-        updateWalletUI();
-    if(bal) bal.textContent = "—";
+    if(bnbEl) bnbEl.textContent = "BNB: —";
+    if(buvEl) buvEl.textContent = "BUV: —";
     return;
   }
 
-  // Update button label
   if(btn){
     btn.textContent = shortAddr(addr);
     btn.classList.add("wallet");
   }
 
-  // Balance (only meaningful on BSC)
   try{
     const b = await getBNBBalance(addr);
-    if(bal){
-      if(b === null || Number.isNaN(b)) bal.textContent = "—";
-      else bal.textContent = b.toFixed(b >= 1 ? 3 : 4) + " BNB";
+    if(bnbEl){
+      if(b === null || Number.isNaN(b)) bnbEl.textContent = "BNB: —";
+      else bnbEl.textContent = "BNB: " + (b >= 1 ? b.toFixed(3) : b.toFixed(4));
     }
-  }catch(e){
-    if(bal) bal.textContent = "—";
-  }
+  }catch(_ ){ if(bnbEl) bnbEl.textContent = "BNB: —"; }
+
+  try{
+    const bal = await getErc20Balance("0xd14Ec02A022D2BD4117a0EEba966423253a48ad1", addr);
+    if(buvEl) buvEl.textContent = "BUV: " + formatAmount(bal, 18, 4);
+  }catch(_ ){ if(buvEl) buvEl.textContent = "BUV: —"; }
 }
 
 
@@ -512,33 +611,167 @@ function initDrawerAccordion(){
 
 function initSidebar(){
   const body = document.body;
-  const mobileBtn = document.getElementById("navToggle");
+  const btn = document.getElementById("navToggle");
   const overlay = document.getElementById("sidebarOverlay");
   const closeBtn = document.getElementById("sidebarCloseMobile");
 
-  const open = ()=> body.classList.add("sidebar-open");
-  const close = ()=> body.classList.remove("sidebar-open");
+  const isMobile = ()=> window.innerWidth <= 980;
+
+  const closeMobile = ()=> body.classList.remove("sidebar-open");
   const toggleMobile = ()=> body.classList.toggle("sidebar-open");
 
-  mobileBtn && mobileBtn.addEventListener("click", (e)=>{ e.preventDefault(); toggleMobile(); });
-  overlay && overlay.addEventListener("click", close);
-  closeBtn && closeBtn.addEventListener("click", close);
+  const toggleDesktop = ()=> body.classList.toggle("sidebar-closed");
 
-  document.addEventListener("keydown",(e)=>{ if(e.key === "Escape") close(); });
+  const handleToggle = (e)=>{
+    e.preventDefault();
+    if(isMobile()) toggleMobile();
+    else toggleDesktop();
+  };
 
-  // close sidebar on navigation (mobile)
-  document.querySelectorAll(".sidebar a[href]").forEach(a=>{
-    a.addEventListener("click", ()=> close());
-  });
+  btn && btn.addEventListener("click", handleToggle);
 
-  // v9: prevent stuck scroll if user opens sidebar on mobile then rotates/resizes to desktop
-  window.addEventListener("resize", ()=>{
-    if(window.innerWidth > 980){
-      document.body.classList.remove("sidebar-open");
+  overlay && overlay.addEventListener("click", closeMobile);
+  closeBtn && closeBtn.addEventListener("click", closeMobile);
+
+  document.addEventListener("keydown",(e)=>{
+    if(e.key === "Escape"){
+      closeMobile();
     }
   });
 
+  document.querySelectorAll(".sidebar a[href]").forEach(a=>{
+    a.addEventListener("click", ()=> closeMobile());
+  });
+
+  // Prevent stuck state on resize/rotate
+  window.addEventListener("resize", ()=>{
+    if(isMobile()){
+      body.classList.remove("sidebar-closed");
+    }else{
+      body.classList.remove("sidebar-open");
+    }
+  });
 }
+
+
+
+
+/* === Burnaverse Web3 mobile wallet launcher + support utilities === */
+(function(){
+  const APP_URL = "https://burnaverseprotocol.pages.dev/";
+  const SUPPORT_URL = "https://burnaverseprotocol.pages.dev/support.html";
+  const currentUrl = () => {
+    try{
+      const href = window.location.href || APP_URL;
+      return href.startsWith("file:") ? APP_URL : href;
+    }catch(_){ return APP_URL; }
+  };
+  const enc = (v) => encodeURIComponent(v);
+  const walletLinks = (url=currentUrl()) => ({
+    metamask: "https://metamask.app.link/dapp/" + url.replace(/^https?:\/\//,""),
+    trust: "https://link.trustwallet.com/open_url?coin_id=20000714&url=" + enc(url),
+    safepal: "https://link.safepal.io/open?url=" + enc(url),
+    okx: "https://www.okx.com/download?deeplink=" + enc("okx://wallet/dapp/url?dappUrl=" + enc(url))
+  });
+
+  function ensureSheet(){
+    let sheet = document.getElementById("walletSheet");
+    if(sheet) return sheet;
+    sheet = document.createElement("div");
+    sheet.id = "walletSheet";
+    sheet.className = "walletSheet";
+    sheet.setAttribute("aria-hidden","true");
+    sheet.innerHTML = `
+      <div class="walletSheetBackdrop" data-wallet-close></div>
+      <div class="walletSheetPanel" role="dialog" aria-modal="true" aria-label="Connect mobile wallet">
+        <div class="walletSheetHandle" aria-hidden="true"></div>
+        <div class="walletSheetHead">
+          <div><b>Connect a Web3 wallet</b><span>Open Burnaverse inside a mobile wallet dApp browser.</span></div>
+          <button class="mini" type="button" data-wallet-close>Close</button>
+        </div>
+        <div class="walletSheetBody">
+          <a class="walletChoice" data-wallet-choice="metamask" target="_blank" rel="noreferrer"><b>MetaMask</b><span>Open site in MetaMask mobile</span></a>
+          <a class="walletChoice" data-wallet-choice="trust" target="_blank" rel="noreferrer"><b>Trust Wallet</b><span>Open site in Trust Wallet</span></a>
+          <a class="walletChoice" data-wallet-choice="safepal" target="_blank" rel="noreferrer"><b>SafePal</b><span>Open site in SafePal wallet</span></a>
+          <a class="walletChoice" data-wallet-choice="okx" target="_blank" rel="noreferrer"><b>OKX Wallet</b><span>Open site in OKX wallet</span></a>
+        </div>
+        <div class="walletSheetFoot">
+          <button class="mini good" type="button" data-copy-dapp-url>Copy dApp URL</button>
+          <button class="mini" type="button" data-share-support-link>Share Support Link</button>
+        </div>
+        <p class="walletSafety">Never enter seed phrases or private keys. Only connect through wallet apps you personally installed.</p>
+      </div>`;
+    document.body.appendChild(sheet);
+    sheet.addEventListener("click", (e)=>{ if(e.target.matches("[data-wallet-close], .walletSheetBackdrop")) closeWalletSheet(); });
+    return sheet;
+  }
+  function applyLinks(scope=document){
+    const links = walletLinks(currentUrl());
+    scope.querySelectorAll("[data-wallet-choice='metamask'], [data-wallet-open='metamask']").forEach(a=>a.href=links.metamask);
+    scope.querySelectorAll("[data-wallet-choice='trust'], [data-wallet-open='trust']").forEach(a=>a.href=links.trust);
+    scope.querySelectorAll("[data-wallet-choice='safepal'], [data-wallet-open='safepal']").forEach(a=>a.href=links.safepal);
+    scope.querySelectorAll("[data-wallet-choice='okx'], [data-wallet-open='okx']").forEach(a=>a.href=links.okx);
+  }
+  function openWalletSheet(reason){
+    const sheet = ensureSheet();
+    applyLinks(sheet);
+    sheet.classList.add("open");
+    sheet.setAttribute("aria-hidden","false");
+    document.body.style.overflow = "hidden";
+    window.toast && window.toast(reason === "add-token" ? "Open in a wallet app to add BUV." : "Choose a wallet app to continue.");
+  }
+  function closeWalletSheet(){
+    const sheet = document.getElementById("walletSheet");
+    if(!sheet) return;
+    sheet.classList.remove("open");
+    sheet.setAttribute("aria-hidden","true");
+    document.body.style.overflow = "";
+  }
+  async function copyText(text, msg){
+    try{ await navigator.clipboard.writeText(text); }
+    catch(_){ const t=document.createElement('textarea'); t.value=text; document.body.appendChild(t); t.select(); document.execCommand('copy'); t.remove(); }
+    window.toast && window.toast(msg || "Copied");
+  }
+  async function shareSupport(){
+    const url = SUPPORT_URL;
+    const data = { title:"Apply for Burnaverse Support", text:"Submit a Burnaverse Protocol support or partnership application.", url };
+    if(navigator.share){ try{ await navigator.share(data); return; }catch(_){} }
+    await copyText(url, "Support link copied");
+  }
+  function initSupportUtilities(){
+    applyLinks(document);
+    const linkText = document.getElementById("supportLinkText");
+    if(linkText) linkText.textContent = SUPPORT_URL;
+    document.querySelectorAll("[data-copy-support-link]").forEach(btn=>btn.addEventListener("click", ()=>copyText(SUPPORT_URL, "Support link copied")));
+    document.querySelectorAll("[data-share-support-link]").forEach(btn=>btn.addEventListener("click", shareSupport));
+    document.querySelectorAll("[data-copy-dapp-url]").forEach(btn=>btn.addEventListener("click", ()=>copyText(currentUrl(), "dApp URL copied")));
+    const inline = document.getElementById("connectWalletInline");
+    if(inline) inline.addEventListener("click", connectWallet);
+    document.querySelectorAll("[data-fill-connected-wallet]").forEach(btn=>btn.addEventListener("click", ()=>{
+      const field = document.getElementById("walletAddress");
+      const saved = localStorage.getItem("bv_wallet") || "";
+      if(field && saved){ field.value = saved; window.toast && window.toast("Connected wallet added"); }
+      else { window.toast && window.toast("Connect wallet first"); }
+    }));
+    const form = document.getElementById("applyForm");
+    if(form && !form.dataset.supportReady){
+      form.dataset.supportReady = "1";
+      form.addEventListener("submit", (e)=>{
+        if(form.closest("#modalBack")) return; // modal handler will handle old embedded forms
+        e.preventDefault();
+        const data = Object.fromEntries(new FormData(form).entries());
+        const key = "burnaverse_support_applications";
+        let cur=[]; try{ cur=JSON.parse(localStorage.getItem(key)||"[]")||[]; }catch(_){ cur=[]; }
+        cur.unshift({...data, url: currentUrl(), ts:new Date().toISOString()});
+        localStorage.setItem(key, JSON.stringify(cur).slice(0,200000));
+        form.reset();
+        window.toast && window.toast("Application saved locally. Connect backend/email for live delivery.");
+      }, {capture:true});
+    }
+  }
+  window.BurnaverseWallets = { open: openWalletSheet, close: closeWalletSheet, links: walletLinks };
+  document.addEventListener("DOMContentLoaded", initSupportUtilities);
+})();
 
 
 document.addEventListener("DOMContentLoaded", ()=>{
@@ -547,8 +780,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
   initNavDrawer();
   initDrawerAccordion();
   initWalletButton();
-  updateWalletUI();
-  initThemeToggle();
+    initThemeToggle();
   initPageTransitions();
   animateCounters();
   initLiveStats();
