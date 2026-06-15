@@ -1,675 +1,405 @@
-<!-- =========================================================
-  UPGRADED WHITEPAPER (NEAT + PREMIUM + MOBILE-PERFECT)
-  File: /whitepaper/index.html
-
-  ✅ Compact, clean, professional
-  ✅ Mobile-first typography + spacing
-  ✅ Sticky "Contents" bar + bottom-sheet TOC (one-thumb friendly)
-  ✅ Better structure + clearer writing (crypto/blockchain friendly)
-  ✅ Tables scroll on mobile, cards stack nicely
-  ✅ Uses shared: ../assets/css/theme.css + ../assets/js/site.js
-========================================================== -->
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-  <title>$BURNA Token — Whitepaper</title>
-  <meta name="description" content="$BURNA Token — overview, objectives, tokenomics, roadmap, governance, security posture, and risk disclaimer." />
-  <meta name="theme-color" content="#070A12" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Burnaverse Protocol ($BUV) — Whitepaper</title>
+  <meta name="description" content="Burnaverse Protocol ($BUV) whitepaper: a culture-powered, community-first Web3 ecosystem built on BNB Chain." />
+  <meta name="theme-color" content="#05070d" />
   <meta name="color-scheme" content="dark" />
 
-  <!-- Social cards -->
-  <meta property="og:title" content="$BURNA Token — Whitepaper" />
-  <meta property="og:description" content="Overview, objectives, tokenomics, roadmap, governance, security posture, and risk disclaimer." />
+  <meta property="og:title" content="Burnaverse Protocol ($BUV) — Whitepaper" />
+  <meta property="og:description" content="Culture. Community. Blockchain. Burnaverse Protocol is a BNB Chain ecosystem built around participation, utility and transparent Web3 growth." />
   <meta property="og:type" content="article" />
-  <meta property="og:image" content="https://i.ibb.co/pvhLTdRH/Burna-logo.jpg" />
+  <meta property="og:image" content="https://i.ibb.co/WvhRxjF3/photo-2026-03-04-13-48-45.jpg" />
   <meta name="twitter:card" content="summary_large_image" />
 
-  <link rel="icon" href="https://i.ibb.co/pvhLTdRH/Burna-logo.jpg" />
-  <link rel="apple-touch-icon" href="https://i.ibb.co/pvhLTdRH/Burna-logo.jpg" />
-
+  <link rel="icon" href="https://i.ibb.co/WvhRxjF3/photo-2026-03-04-13-48-45.jpg" />
+  <link rel="apple-touch-icon" href="https://i.ibb.co/WvhRxjF3/photo-2026-03-04-13-48-45.jpg" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800&family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
-
-  <!-- Shared theme -->
-  <link rel="stylesheet" href="../assets/css/theme.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Orbitron:wght@600;700;800;900&display=swap" rel="stylesheet" />
 
   <style>
-    /* ===== PERFECTLY NEAT, MOBILE-FIRST WHITEPAPER ===== */
     :root{
-      --anchor-offset: calc(var(--nav-h) + 54px); /* nav + tocbar */
-      --pad: 12px;
-      --gap: 10px;
+      --bg:#05070d;
+      --panel:#0b1020;
+      --panel2:#0f1730;
+      --text:#eef6ff;
+      --muted:#a8b5c7;
+      --soft:#748198;
+      --line:rgba(255,255,255,.12);
+      --green:#38ff7a;
+      --purple:#a855f7;
+      --gold:#f6c744;
+      --cyan:#4de9ff;
+      --red:#ff647c;
+      --shadow:0 22px 80px rgba(0,0,0,.45);
+      --radius:24px;
+      --nav-h:76px;
+      --max:1180px;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth;background:var(--bg);}
+    body{margin:0;color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif;background:
+      radial-gradient(circle at 12% 0%, rgba(56,255,122,.16), transparent 30%),
+      radial-gradient(circle at 88% 10%, rgba(168,85,247,.20), transparent 32%),
+      radial-gradient(circle at 50% 100%, rgba(77,233,255,.09), transparent 30%),
+      linear-gradient(180deg,#05070d 0%,#070b16 42%,#05070d 100%);
+      min-height:100vh; overflow-x:hidden;
+    }
+    body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:-2;background-image:
+      linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px),
+      linear-gradient(90deg,rgba(255,255,255,.035) 1px, transparent 1px);
+      background-size:72px 72px;mask-image:linear-gradient(to bottom, rgba(0,0,0,.75), transparent 85%);
+    }
+    body:after{content:"";position:fixed;inset:-35%;pointer-events:none;z-index:-1;background:conic-gradient(from 120deg, transparent, rgba(56,255,122,.07), transparent, rgba(168,85,247,.08), transparent);filter:blur(50px);animation:spin 26s linear infinite;opacity:.65}
+    @keyframes spin{to{transform:rotate(360deg)}}
+    @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto} body:after{animation:none}.reveal{opacity:1!important;transform:none!important}}
 
-      --wp-card: linear-gradient(180deg, rgba(255,255,255,.055), rgba(255,255,255,.015));
-      --wp-stroke: rgba(255,255,255,.12);
-      --wp-soft: rgba(0,0,0,.18);
-      --wp-soft2: rgba(0,0,0,.10);
-    }
-    html{ scroll-behavior:smooth; }
-    section[id]{ scroll-margin-top: var(--anchor-offset); }
+    a{color:inherit}.container{width:min(var(--max),calc(100% - 32px));margin-inline:auto}.skip{position:absolute;left:16px;top:-80px;background:#fff;color:#000;padding:10px 14px;border-radius:12px;z-index:1000}.skip:focus{top:12px}.progress{position:fixed;top:0;left:0;width:0;height:3px;background:linear-gradient(90deg,var(--green),var(--purple),var(--gold));z-index:9999;box-shadow:0 0 18px rgba(56,255,122,.55)}
 
-    .wp{
-      padding-top: calc(var(--nav-h) + 10px);
-      padding-bottom: 22px;
-    }
+    .nav{position:sticky;top:0;z-index:200;height:var(--nav-h);display:flex;align-items:center;border-bottom:1px solid var(--line);background:rgba(5,7,13,.72);backdrop-filter:blur(18px) saturate(130%)}
+    .nav-row{display:flex;align-items:center;justify-content:space-between;gap:14px}.brand{display:flex;align-items:center;gap:12px;text-decoration:none;min-width:0}.brand img{width:46px;height:46px;border-radius:16px;object-fit:cover;border:1px solid rgba(255,255,255,.20);box-shadow:0 0 28px rgba(56,255,122,.18)}.brand b{display:block;font:900 15px/1 Orbitron,monospace;letter-spacing:.06em}.brand span{display:block;color:var(--muted);font-size:12px;margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.nav-actions{display:flex;align-items:center;gap:8px}.btn{border:1px solid var(--line);background:rgba(255,255,255,.045);color:var(--text);border-radius:999px;padding:10px 14px;text-decoration:none;font-weight:900;font-size:12px;display:inline-flex;align-items:center;gap:8px;cursor:pointer;transition:.2s ease}.btn:hover{transform:translateY(-1px);border-color:rgba(56,255,122,.45);box-shadow:0 12px 32px rgba(0,0,0,.25)}.btn.primary{background:linear-gradient(135deg,rgba(56,255,122,.22),rgba(168,85,247,.16));border-color:rgba(56,255,122,.38)}.btn .hide-sm{display:inline}
 
-    /* Header card */
-    .hero{
-      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
-      border:1px solid var(--wp-stroke);
-      border-radius: 16px;
-      padding: var(--pad);
-      box-shadow: 0 14px 34px rgba(0,0,0,.28);
-    }
-    .kicker{
-      display:flex;gap:8px;flex-wrap:wrap;align-items:center;
-      margin:0 0 8px;
-    }
-    .badge{
-      display:inline-flex;align-items:center;gap:8px;
-      padding:6px 10px;border-radius:999px;
-      border:1px solid var(--wp-stroke);
-      background: var(--wp-soft);
-      color: var(--muted);
-      font-weight: 900;
-      font-size: 12px;
-      white-space:nowrap;
-    }
-    .dot{
-      width:7px;height:7px;border-radius:999px;
-      background: var(--neon);
-      box-shadow: 0 0 10px rgba(55,246,255,.55);
-    }
-    .title{
-      margin:0;
-      font: 800 clamp(18px, 5vw, 28px)/1.1 Orbitron,monospace;
-      letter-spacing:.35px;
-    }
-    .lead{
-      margin: 8px 0 0;
-      color: var(--muted);
-      font-size: 13px;
-      line-height: 1.45;
-      max-width: 90ch;
-    }
+    .hero{padding:34px 0 18px}.hero-grid{display:grid;grid-template-columns:1.08fr .92fr;gap:18px;align-items:stretch}.glass{border:1px solid var(--line);background:linear-gradient(180deg,rgba(255,255,255,.075),rgba(255,255,255,.025));border-radius:var(--radius);box-shadow:var(--shadow);position:relative;overflow:hidden}.glass:before{content:"";position:absolute;inset:0;background:linear-gradient(120deg,rgba(56,255,122,.12),transparent 35%,rgba(168,85,247,.10));pointer-events:none}.hero-main{padding:28px;min-height:430px;display:flex;flex-direction:column;justify-content:space-between}.badges{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px}.badge{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);background:rgba(0,0,0,.24);border-radius:999px;padding:8px 11px;color:var(--muted);font-weight:900;font-size:12px}.pulse{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 0 0 rgba(56,255,122,.58);animation:pulse 2.1s infinite}@keyframes pulse{70%{box-shadow:0 0 0 10px rgba(56,255,122,0)}}
+    h1{margin:0;font:900 clamp(34px,7vw,72px)/.98 Orbitron,monospace;letter-spacing:-.045em;text-transform:uppercase}.gradient{background:linear-gradient(90deg,#fff,var(--green),var(--purple));-webkit-background-clip:text;background-clip:text;color:transparent}.lead{margin:18px 0 0;color:rgba(238,246,255,.82);font-size:clamp(15px,2vw,18px);line-height:1.58;max-width:72ch}.hero-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}.meta-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:22px}.meta{padding:14px;border:1px solid rgba(255,255,255,.10);border-radius:18px;background:rgba(0,0,0,.18)}.meta small{display:block;color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.12em;font-weight:900}.meta strong{display:block;margin-top:7px;font-size:15px}
+    .visual{padding:18px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;min-height:430px}.orb{width:min(320px,82vw);aspect-ratio:1;border-radius:50%;position:relative;background:radial-gradient(circle at 30% 20%,rgba(255,255,255,.40),transparent 16%),radial-gradient(circle at 50% 50%,rgba(56,255,122,.30),rgba(168,85,247,.18) 42%,rgba(0,0,0,.35) 72%);border:1px solid rgba(255,255,255,.18);box-shadow:inset 0 0 60px rgba(255,255,255,.12),0 0 80px rgba(56,255,122,.16)}.orb img{position:absolute;inset:12%;width:76%;height:76%;object-fit:contain;filter:drop-shadow(0 22px 34px rgba(0,0,0,.55))}.ring{position:absolute;left:-9%;right:-9%;top:45%;height:20%;border:8px solid rgba(56,255,122,.86);border-left-color:transparent;border-right-color:transparent;border-radius:50%;transform:rotate(-18deg);filter:drop-shadow(0 0 18px rgba(56,255,122,.60))}.visual h2{font:900 28px/1 Orbitron,monospace;margin:18px 0 8px}.visual p{margin:0;color:var(--muted);line-height:1.5}
 
-    /* Compact sticky Contents bar (mobile) */
-    .tocbar{
-      position: sticky;
-      top: var(--nav-h);
-      z-index: 75;
-      margin-top: 10px;
-      border:1px solid rgba(255,255,255,.10);
-      border-radius: 14px;
-      background: linear-gradient(180deg, rgba(3,4,10,.72), rgba(3,4,10,.40));
-      -webkit-backdrop-filter: blur(12px) saturate(120%);
-      backdrop-filter: blur(12px) saturate(120%);
-      box-shadow: 0 14px 34px rgba(0,0,0,.30);
-      overflow:hidden;
-    }
-    .tocbar-row{
-      display:flex;align-items:center;justify-content:space-between;gap:10px;
-      padding: 10px 10px;
-    }
-    .tocbar-left{display:flex;align-items:center;gap:10px;min-width:0}
-    .tocbar-left img{
-      width:30px;height:30px;border-radius:12px;border:1px solid var(--wp-stroke);object-fit:cover;
-    }
-    .tocbar-left .txt{min-width:0}
-    .tocbar-left strong{
-      display:block;
-      font-size: 12px;
-      letter-spacing:.12em;
-      text-transform:uppercase;
-      white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
-    }
-    .tocbar-left span{
-      display:block;
-      font-size:12px;color:var(--muted);
-      margin-top:2px;
-      white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
-    }
-    .tocbtn{
-      display:inline-flex;align-items:center;gap:8px;
-      padding: 8px 10px;border-radius: 12px;
-      border:1px solid rgba(255,255,255,.12);
-      background: rgba(255,255,255,.04);
-      color: var(--text);
-      font-weight: 900;
-      font-size: 12px;
-      white-space:nowrap;
-    }
-    .tocbtn:active{transform:translateY(1px)}
-    .tocbtn svg{width:18px;height:18px}
+    .tools{padding:0 0 16px}.tool-row{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;padding:12px;border:1px solid var(--line);border-radius:20px;background:rgba(255,255,255,.04);box-shadow:0 14px 45px rgba(0,0,0,.28)}.search{width:100%;border:1px solid rgba(255,255,255,.13);background:rgba(0,0,0,.24);color:var(--text);padding:13px 14px;border-radius:16px;outline:none;font-weight:700}.search:focus{border-color:rgba(56,255,122,.55);box-shadow:0 0 0 4px rgba(56,255,122,.09)}
 
-    /* Main layout */
-    .wrap{
-      display:grid;
-      gap: var(--gap);
-      margin-top: var(--gap);
-    }
+    .layout{display:grid;grid-template-columns:290px 1fr;gap:18px;padding:0 0 36px}.toc{position:sticky;top:calc(var(--nav-h) + 14px);align-self:start;max-height:calc(100vh - var(--nav-h) - 28px);overflow:auto;padding:14px}.toc h3{margin:6px 6px 12px;font:900 12px/1 Orbitron,monospace;text-transform:uppercase;letter-spacing:.15em;color:var(--muted)}.toc a{display:flex;align-items:center;gap:9px;padding:10px 10px;border-radius:14px;text-decoration:none;color:rgba(238,246,255,.76);font-weight:800;font-size:13px}.toc a:hover,.toc a.active{background:rgba(56,255,122,.09);color:#fff}.toc-dot{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.22)}.toc a.active .toc-dot{background:var(--green);box-shadow:0 0 14px rgba(56,255,122,.6)}
 
-    /* Section card */
-    .sec{
-      background: var(--wp-card);
-      border:1px solid var(--wp-stroke);
-      border-radius: 16px;
-      padding: var(--pad);
-      box-shadow: 0 12px 30px rgba(0,0,0,.22);
-    }
-    .sec h2{
-      margin:0 0 8px;
-      font: 800 clamp(16px, 4.4vw, 22px)/1.2 Orbitron,monospace;
-      letter-spacing:.2px;
-    }
-    .sec h3{
-      margin: 10px 0 6px;
-      color: var(--amber);
-      font: 900 13px/1.2 Inter,system-ui;
-    }
-    .sec p{
-      margin: 6px 0;
-      color: rgba(234,242,255,.86);
-      font-size: 13px;
-      line-height: 1.5;
-    }
-    .sec ul{
-      margin: 6px 0 0 16px;
-      padding:0;
-      color: rgba(234,242,255,.84);
-      font-size: 13px;
-      line-height: 1.5;
-    }
-    .sec li{ margin: 5px 0; }
+    main{display:grid;gap:14px}.section{scroll-margin-top:calc(var(--nav-h) + 18px);padding:24px}.section h2{margin:0 0 12px;font:900 clamp(20px,3vw,30px)/1.13 Orbitron,monospace;letter-spacing:-.02em}.section h3{margin:18px 0 8px;color:var(--gold);font:900 15px/1.3 Inter,sans-serif}.section p,.section li{color:rgba(238,246,255,.82);line-height:1.62;font-size:15px}.section p{margin:10px 0}.section ul{margin:8px 0 0 20px;padding:0}.section li{margin:7px 0}.callout{border:1px solid rgba(56,255,122,.25);background:linear-gradient(135deg,rgba(56,255,122,.10),rgba(168,85,247,.07));padding:14px;border-radius:18px;margin-top:14px;color:rgba(238,246,255,.90)}.callout.warn{border-color:rgba(246,199,68,.30);background:rgba(246,199,68,.08)}
+    .grid2{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:12px}.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:12px}.card{border:1px solid rgba(255,255,255,.10);background:rgba(0,0,0,.18);border-radius:18px;padding:16px}.card b{display:block;margin-bottom:7px}.card small{color:var(--muted);line-height:1.55}.kpi{font:900 24px/1 Orbitron,monospace;color:var(--green)}.mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;word-break:break-all}.copyline{display:flex;gap:8px;align-items:center;justify-content:space-between;border:1px solid rgba(255,255,255,.12);background:rgba(0,0,0,.22);padding:12px;border-radius:16px;margin-top:12px}.copyline code{font-size:13px;color:rgba(238,246,255,.88)}.mini{padding:8px 10px;border-radius:12px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.05);color:var(--text);font-weight:900;cursor:pointer;white-space:nowrap}.table-wrap{margin-top:14px;overflow:auto;border:1px solid rgba(255,255,255,.10);border-radius:18px;background:rgba(0,0,0,.18)}table{border-collapse:collapse;min-width:740px;width:100%}th,td{padding:14px;border-top:1px solid rgba(255,255,255,.09);text-align:left;vertical-align:top;color:rgba(238,246,255,.82);line-height:1.5;font-size:14px}th{color:#fff;background:rgba(255,255,255,.06);font-weight:900}.phase{display:grid;grid-template-columns:112px 1fr;gap:12px;align-items:start;border-top:1px solid rgba(255,255,255,.10);padding:16px 0}.phase:first-child{border-top:0;padding-top:4px}.tag{display:inline-flex;justify-content:center;border-radius:999px;padding:8px 10px;background:rgba(56,255,122,.10);border:1px solid rgba(56,255,122,.24);color:var(--green);font-weight:900}.socials{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.socials a{text-decoration:none;padding:14px;border:1px solid rgba(255,255,255,.11);border-radius:18px;background:rgba(255,255,255,.035);display:block}.socials b{display:block;color:#fff}.socials span{display:block;color:var(--muted);margin-top:5px;font-size:13px;word-break:break-word}.footer{border-top:1px solid var(--line);padding:26px 0 36px;text-align:center;color:var(--muted);font-size:13px}.toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%) translateY(24px);opacity:0;transition:.22s ease;z-index:500;background:#101a30;border:1px solid rgba(56,255,122,.3);box-shadow:0 16px 60px rgba(0,0,0,.55);padding:12px 14px;border-radius:999px;color:#fff;font-weight:900;font-size:13px}.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}.mobile-toc{display:none;position:fixed;right:16px;bottom:16px;z-index:220}.reveal{opacity:0;transform:translateY(18px);transition:opacity .55s ease, transform .55s ease}.reveal.in{opacity:1;transform:none}.highlight{outline:2px solid rgba(56,255,122,.45);box-shadow:0 0 0 6px rgba(56,255,122,.10)}
 
-    /* Neat callout */
-    .callout{
-      margin-top: 10px;
-      padding: 10px 10px;
-      border-radius: 14px;
-      border: 1px solid rgba(55,246,255,.22);
-      background: rgba(55,246,255,.08);
-      color: rgba(234,242,255,.90);
-      font-size: 12.5px;
-      line-height: 1.45;
+    @media(max-width:920px){
+      .btn .hide-sm{display:none}.hero-grid,.layout{grid-template-columns:1fr}.toc{display:none}.mobile-toc{display:inline-flex}.hero-main,.visual{min-height:auto}.meta-strip,.grid3,.socials{grid-template-columns:1fr 1fr}.grid2{grid-template-columns:1fr}.section{padding:18px}.tool-row{grid-template-columns:1fr}.visual{padding:22px}.nav-actions .btn:nth-child(1){display:none}
     }
-
-    /* Tight 2-col blocks */
-    .two{
-      display:grid;
-      grid-template-columns: 1fr;
-      gap: 10px;
-      margin-top: 8px;
-    }
-
-    /* Pill */
-    .pill{
-      display:inline-flex;gap:8px;align-items:center;
-      padding:6px 10px;border-radius:999px;
-      border:1px solid rgba(255,255,255,.12);
-      background: var(--wp-soft);
-      color: var(--muted);
-      font-weight: 900;
-      font-size: 12px;
-      white-space:nowrap;
-    }
-    .mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
-
-    /* Table: compact + scroll */
-    .table{
-      margin-top: 10px;
-      border-radius: 14px;
-      border:1px solid rgba(255,255,255,.10);
-      overflow:auto;
-      background: var(--wp-soft2);
-    }
-    table{border-collapse:collapse;min-width:640px;width:100%}
-    th,td{
-      padding:10px 10px;
-      border-top:1px solid rgba(255,255,255,.10);
-      vertical-align:top;
-      font-size: 13px;
-      line-height:1.45;
-      color: rgba(234,242,255,.86);
-    }
-    th{
-      position:sticky; top:0;
-      background: rgba(0,0,0,.30);
-      backdrop-filter: blur(10px);
-      text-align:left;
-      font-weight: 900;
-    }
-
-    /* Bottom-sheet TOC */
-    .sheet{
-      position:fixed; inset:0;
-      display:none; z-index: 120;
-    }
-    .sheet.open{display:block}
-    .sheet .backdrop{position:absolute;inset:0;background:rgba(0,0,0,.60)}
-    .sheet .panel{
-      position:absolute; left:0; right:0; bottom:0;
-      border-radius: 18px 18px 0 0;
-      border:1px solid rgba(255,255,255,.12);
-      background: linear-gradient(180deg, rgba(8,10,18,.96), rgba(8,10,18,.92));
-      -webkit-backdrop-filter: blur(14px) saturate(120%);
-      backdrop-filter: blur(14px) saturate(120%);
-      box-shadow: 0 -18px 60px rgba(0,0,0,.55);
-      padding: 10px 12px 14px;
-      max-height: 78vh;
-      overflow:auto;
-    }
-    .grab{
-      width: 44px; height: 4px;
-      background: rgba(255,255,255,.22);
-      border-radius: 999px;
-      margin: 6px auto 10px;
-    }
-    .sheet .head{
-      display:flex;align-items:center;justify-content:space-between;gap:10px;
-      padding: 0 2px 10px;
-      border-bottom:1px solid rgba(255,255,255,.08);
-      margin-bottom: 10px;
-    }
-    .sheet .head strong{
-      font-size: 12px;
-      letter-spacing:.12em;
-      text-transform:uppercase;
-    }
-    .xbtn{
-      display:inline-flex;align-items:center;justify-content:center;
-      width:36px;height:36px;border-radius: 12px;
-      border:1px solid rgba(255,255,255,.12);
-      background: rgba(255,255,255,.04);
-      color: var(--text);
-    }
-    .xbtn svg{width:18px;height:18px}
-
-    .sheet .links{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px}
-    .sheet .links a{
-      display:inline-flex;
-      padding:8px 10px;
-      border-radius:999px;
-      border:1px solid rgba(255,255,255,.12);
-      background: rgba(0,0,0,.18);
-      color: var(--muted);
-      font-weight: 900;
-      font-size: 12px;
-      text-decoration:none;
-    }
-    .sheet nav{display:grid;gap:6px}
-    .sheet nav a{
-      padding: 10px 10px;
-      border-radius: 12px;
-      border:1px solid rgba(255,255,255,.10);
-      background: rgba(255,255,255,.03);
-      color: rgba(234,242,255,.86);
-      text-decoration:none;
-      font-weight: 900;
-      font-size: 13px;
-      line-height:1.25;
-    }
-    .sheet nav a:hover{background:rgba(255,255,255,.06)}
-    .sheet nav a:active{transform:translateY(1px)}
-
-    /* Footer */
-    .wp-footer{
-      text-align:center;
-      color: var(--muted);
-      font-size: 12px;
-      padding: 0 22px 30px;
-    }
-
-    /* Desktop enhancements */
-    @media (min-width: 860px){
-      :root{ --pad: 16px; --gap: 12px; --anchor-offset: calc(var(--nav-h) + 16px); }
-      .tocbar{ display:none; } /* desktop doesn't need the sheet bar */
-      .two{ grid-template-columns: repeat(2,1fr); }
-      .title{ font-size: 34px; }
-      .lead{ font-size: 14px; }
-    }
-
-    @media (prefers-reduced-motion:reduce){
-      html{scroll-behavior:auto}
-    }
+    @media(max-width:560px){.container{width:min(100% - 22px,var(--max))}.nav{height:68px}.brand img{width:40px;height:40px}.brand b{font-size:13px}.brand span{display:none}.hero{padding-top:22px}.hero-main{padding:18px;border-radius:20px}.meta-strip,.grid3,.socials{grid-template-columns:1fr}.phase{grid-template-columns:1fr}.copyline{align-items:flex-start;flex-direction:column}.orb{width:min(280px,86vw)}.section p,.section li{font-size:14px}}
+    @media print{.nav,.tools,.toc,.mobile-toc,.progress,.toast,.hero-actions{display:none!important}body{background:#fff;color:#111}.glass,.section{box-shadow:none;border:1px solid #ddd;background:#fff;color:#111}.section p,.section li,td,th,.lead{color:#111}.layout,.hero-grid{display:block}.container{width:100%;max-width:none}.section{page-break-inside:avoid;margin-bottom:12px}.gradient{color:#111;background:none}.hero-main{min-height:auto}}
   </style>
 </head>
-
 <body>
-<a class="skip" href="#main">Skip to content</a>
+  <div class="progress" id="progress"></div>
+  <a class="skip" href="#main">Skip to whitepaper</a>
 
-<nav class="site-nav" role="navigation" aria-label="Primary">
-  <div class="container nav-row">
-    <div class="nav-left">
-      <a class="brand" href="../index.html" title="Back to $BURNA">
-        <img src="https://i.ibb.co/pvhLTdRH/Burna-logo.jpg" alt="$BURNA logo" />
-        <div class="name">
-          <h1>$BURNA</h1>
-          <div class="sub">Whitepaper</div>
-        </div>
+  <nav class="nav" aria-label="Primary navigation">
+    <div class="container nav-row">
+      <a class="brand" href="https://burnaverseprotocol.pages.dev" target="_blank" rel="noopener" aria-label="Burnaverse Protocol homepage">
+        <img src="https://i.ibb.co/WvhRxjF3/photo-2026-03-04-13-48-45.jpg" alt="Burnaverse Protocol logo" />
+        <span><b>Burnaverse Protocol</b><span>$BUV Whitepaper</span></span>
       </a>
-    </div>
-    <div class="nav-right">
-      <a class="btn btn--ghost" href="./index.html" aria-current="page">Whitepaper</a>
-      <a class="btn btn--neon" id="buyNow"
-         href="https://www.dextools.io/app/en/ether/pair-explorer/0x4dec3aaba65caf1c2ad64d411fc575a23297532fb714518659530bb012015db0">
-        Trade $BURNA
-      </a>
-    </div>
-  </div>
-</nav>
-
-<div class="wp">
-  <div class="container">
-
-    <header class="hero" aria-label="Whitepaper header">
-      <div class="kicker">
-        <span class="badge"><span class="dot"></span> ERC-20 • Ethereum</span>
-        <span class="badge">Version: 1.0</span>
-        <span class="badge">Status: Informational</span>
+      <div class="nav-actions">
+        <a class="btn" href="https://x.com/BURNAVERSEbnb" target="_blank" rel="noopener">X</a>
+        <a class="btn primary" href="https://burnaverseprotocol.pages.dev" target="_blank" rel="noopener"><span class="hide-sm">Official</span> Site</a>
       </div>
+    </div>
+  </nav>
 
-      <h1 class="title">$BURNA Token — Whitepaper</h1>
-      <p class="lead">
-        A compact, verifiable overview of <strong>$BURNA</strong>: purpose, token mechanics, roadmap, governance path, security posture, and risk disclosure.
-        This document is informational and may be updated over time.
-      </p>
-    </header>
-
-    <!-- Compact mobile TOC bar -->
-    <div class="tocbar" role="region" aria-label="Contents bar">
-      <div class="tocbar-row">
-        <div class="tocbar-left">
-          <img src="https://i.ibb.co/pvhLTdRH/Burna-logo.jpg" alt="" aria-hidden="true" />
-          <div class="txt">
-            <strong>Contents</strong>
-            <span>Jump quickly</span>
+  <header class="hero">
+    <div class="container hero-grid">
+      <section class="glass hero-main reveal">
+        <div>
+          <div class="badges" aria-label="Project badges">
+            <span class="badge"><span class="pulse"></span> Built on BNB Chain</span>
+            <span class="badge">Contract Verified</span>
+            <span class="badge">Version 2.0 Whitepaper</span>
+          </div>
+          <h1>Burnaverse <span class="gradient">Protocol</span></h1>
+          <p class="lead">
+            Burnaverse Protocol ($BUV) is a culture-powered, community-first Web3 ecosystem built on BNB Chain. The project connects digital identity, social participation, blockchain utility and long-term community growth through transparent token infrastructure.
+          </p>
+          <div class="hero-actions">
+            <button class="btn primary" type="button" data-copy="0xd14ec02a022d2bd4117a0eeba966423253a48ad1">Copy Contract</button>
+            <a class="btn" href="#tokenomics">View Tokenomics</a>
+            <button class="btn" type="button" id="printBtn">Print / Save PDF</button>
           </div>
         </div>
-        <button class="tocbtn" type="button" id="openToc">
-          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path d="M4 6h16M4 12h16M4 18h10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-          </svg>
-          Open
-        </button>
-      </div>
+        <div class="meta-strip">
+          <div class="meta"><small>Symbol</small><strong>$BUV</strong></div>
+          <div class="meta"><small>Network</small><strong>BNB Chain</strong></div>
+          <div class="meta"><small>Total Supply</small><strong>10B BUV</strong></div>
+        </div>
+      </section>
+
+      <aside class="glass visual reveal" aria-label="Burnaverse visual identity">
+        <div class="orb" aria-hidden="true">
+          <span class="ring"></span>
+          <img src="https://i.ibb.co/WvhRxjF3/photo-2026-03-04-13-48-45.jpg" alt="" />
+        </div>
+        <h2>$BUV</h2>
+        <p>Culture • Community • Blockchain</p>
+      </aside>
     </div>
+  </header>
 
-    <main class="wrap" id="main" aria-label="Whitepaper content">
+  <section class="tools">
+    <div class="container tool-row">
+      <input class="search" id="search" type="search" placeholder="Search this whitepaper: tokenomics, roadmap, governance, liquidity..." autocomplete="off" />
+      <button class="btn" type="button" id="clearSearch">Clear Search</button>
+    </div>
+  </section>
 
-      <section class="sec" id="intro">
-        <h2>1. Introduction</h2>
+  <button class="btn primary mobile-toc" type="button" id="mobileToc">Contents</button>
+
+  <div class="container layout" id="main">
+    <aside class="glass toc" aria-label="Whitepaper table of contents">
+      <h3>Contents</h3>
+      <a href="#summary"><span class="toc-dot"></span>Executive Summary</a>
+      <a href="#vision"><span class="toc-dot"></span>Vision</a>
+      <a href="#problem"><span class="toc-dot"></span>Market Context</a>
+      <a href="#solution"><span class="toc-dot"></span>Protocol Approach</a>
+      <a href="#tokenomics"><span class="toc-dot"></span>Tokenomics</a>
+      <a href="#utility"><span class="toc-dot"></span>Utility</a>
+      <a href="#liquidity"><span class="toc-dot"></span>Liquidity</a>
+      <a href="#roadmap"><span class="toc-dot"></span>Roadmap</a>
+      <a href="#governance"><span class="toc-dot"></span>Governance</a>
+      <a href="#security"><span class="toc-dot"></span>Security</a>
+      <a href="#community"><span class="toc-dot"></span>Official Channels</a>
+      <a href="#risk"><span class="toc-dot"></span>Risk Disclaimer</a>
+    </aside>
+
+    <main aria-label="Burnaverse Protocol whitepaper content">
+      <section class="glass section reveal" id="summary">
+        <h2>1. Executive Summary</h2>
         <p>
-          <strong>$BURNA</strong> is an ERC-20 token designed to support community programs, token-gated access, and on-chain incentives.
-          The project emphasizes contract verification and clear, auditable communication for all major updates.
+          Burnaverse Protocol is a BNB Chain token ecosystem designed to make community participation more transparent, accessible and rewarding. The project uses $BUV as the core digital asset for participation, identity alignment, campaign access and future ecosystem utilities.
+        </p>
+        <p>
+          The concept is simple: combine culture, blockchain and community into one branded Web3 movement where holders can follow public milestones, verify the contract, join official channels and participate in future experiences as they are released.
         </p>
         <div class="callout">
-          <strong>Safety note:</strong> Always verify the contract on a trusted explorer before trading. Look-alike tokens and spoofed links are common across public launches.
+          Primary contract: <span class="mono">0xd14ec02a022d2bd4117a0eeba966423253a48ad1</span>. Users should always verify this address before interacting with $BUV.
         </div>
       </section>
 
-      <section class="sec" id="objectives">
-        <h2>2. Objectives</h2>
-        <div class="two">
-          <div>
-            <h3>Core objectives</h3>
-            <ul>
-              <li>Enable token-gated access and participation frameworks.</li>
-              <li>Deliver incentive programs designed to be verifiable on-chain (where feasible).</li>
-              <li>Introduce governance gradually with transparent controls.</li>
-            </ul>
-          </div>
-          <div>
-            <h3>Operating principles</h3>
-            <ul>
-              <li><strong>Clarity:</strong> publish timelines, eligibility, and criteria.</li>
-              <li><strong>Verification:</strong> contract-first announcements across channels.</li>
-              <li><strong>Change control:</strong> document updates and publish revision notes.</li>
-            </ul>
-          </div>
+      <section class="glass section reveal" id="vision">
+        <h2>2. Vision & Mission</h2>
+        <div class="grid2">
+          <div class="card"><b>Vision</b><small>To build a recognizable Web3 universe where culture-driven communities can participate in blockchain-powered programs with transparency and shared identity.</small></div>
+          <div class="card"><b>Mission</b><small>To grow $BUV into a trusted community token with clear communication, public contract verification, responsible liquidity practices and practical utility expansion.</small></div>
         </div>
-      </section>
-
-      <section class="sec" id="context">
-        <h2>3. Context</h2>
+        <h3>Core principles</h3>
         <ul>
-          <li>Impersonation, malicious links, and contract clones are frequent risks.</li>
-          <li>Community programs require clear eligibility, transparency, and repeatable processes.</li>
-          <li>On-chain visibility improves accountability when paired with consistent disclosure.</li>
+          <li>Culture-first branding with global community appeal.</li>
+          <li>Contract-first communication to reduce impersonation risk.</li>
+          <li>Transparent token information, official links and public updates.</li>
+          <li>Gradual utility development instead of overpromised speculation.</li>
         </ul>
       </section>
 
-      <section class="sec" id="approach">
-        <h2>4. Proposed approach</h2>
-        <h3>Contract-first communication</h3>
+      <section class="glass section reveal" id="problem">
+        <h2>3. Market Context</h2>
         <p>
-          The contract address published in official channels is treated as the primary source of truth. Any mismatch between the contract shown on-site and a shared link should be treated as suspicious.
+          Many early community tokens struggle because their identity, official links, contract address and project direction are not clearly documented. This creates confusion, fake token risks and weak community trust.
         </p>
-        <h3>Program execution standards</h3>
-        <ul>
-          <li>Programs are announced with clear eligibility criteria and time windows.</li>
-          <li>Where possible, distributions and outcomes should be verifiable through public transactions.</li>
-          <li>Major program changes should be disclosed before taking effect.</li>
-        </ul>
+        <div class="grid3">
+          <div class="card"><span class="kpi">01</span><b>Fragmented Identity</b><small>Communities often operate across many platforms without one clear official reference point.</small></div>
+          <div class="card"><span class="kpi">02</span><b>Contract Risk</b><small>Fake addresses and cloned tokens can mislead users when verification is not emphasized.</small></div>
+          <div class="card"><span class="kpi">03</span><b>Utility Gap</b><small>Tokens need a realistic path from launch to participation, community rewards and future use cases.</small></div>
+        </div>
       </section>
 
-      <section class="sec" id="tokenomics">
-        <h2>5. Tokenomics</h2>
-        <p><strong>Total supply:</strong> <span class="pill">10,000,000,000 $BURNA</span></p>
-        <p><strong>Contract:</strong> <span id="contractText" class="mono"></span></p>
+      <section class="glass section reveal" id="solution">
+        <h2>4. Burnaverse Protocol Approach</h2>
+        <p>
+          Burnaverse Protocol positions $BUV as the central participation asset for a culture-led BNB Chain ecosystem. The protocol approach is built around four pillars:
+        </p>
+        <div class="grid2">
+          <div class="card"><b>Community Access</b><small>Future token-gated activities, campaigns, updates and participation programs for verified holders.</small></div>
+          <div class="card"><b>Digital Identity</b><small>A unified Burnaverse brand identity across X, Telegram, TikTok and the official website.</small></div>
+          <div class="card"><b>Transparent Growth</b><small>Public contract address, token information, official links and update history.</small></div>
+          <div class="card"><b>Utility Expansion</b><small>Phased rollout toward drops, membership perks, creator/community activations and governance pathways.</small></div>
+        </div>
+      </section>
 
-        <div class="table" aria-label="Token allocation table">
-          <table>
-            <thead>
-              <tr><th>Allocation</th><th>Share</th><th>Notes</th></tr>
-            </thead>
+      <section class="glass section reveal" id="tokenomics">
+        <h2>5. Tokenomics</h2>
+        <p>
+          $BUV is the native token of Burnaverse Protocol on BNB Chain. The tokenomics framework is designed for community growth, liquidity support, development and long-term ecosystem expansion.
+        </p>
+        <div class="copyline">
+          <code>0xd14ec02a022d2bd4117a0eeba966423253a48ad1</code>
+          <button class="mini" type="button" data-copy="0xd14ec02a022d2bd4117a0eeba966423253a48ad1">Copy</button>
+        </div>
+        <div class="table-wrap">
+          <table aria-label="Burnaverse Protocol tokenomics">
+            <thead><tr><th>Category</th><th>Allocation</th><th>Purpose</th><th>Notes</th></tr></thead>
             <tbody>
-              <tr><td>Community &amp; Rewards</td><td>40%</td><td>Programmatic distributions, incentives, and community initiatives</td></tr>
-              <tr><td>Public Sale / Liquidity</td><td>20%</td><td>Distribution + liquidity provisioning</td></tr>
-              <tr><td>Development</td><td>15%</td><td>Infrastructure, tooling, maintenance, and upgrades</td></tr>
-              <tr><td>Team &amp; Advisors</td><td>10%</td><td>Time-based vesting (details disclosed separately)</td></tr>
-              <tr><td>Treasury</td><td>10%</td><td>Reserves, grants, and growth initiatives</td></tr>
-              <tr><td>Marketing &amp; Partnerships</td><td>5%</td><td>Listings, onboarding, communications, partnerships</td></tr>
+              <tr><td>Community & Rewards</td><td>40%</td><td>Community incentives, participation rewards, campaign allocations and user growth programs.</td><td>Should be distributed using transparent criteria and public updates.</td></tr>
+              <tr><td>Liquidity & Market Support</td><td>20%</td><td>Initial and future liquidity provisioning, pool support and market accessibility.</td><td>Liquidity-lock or proof-of-liquidity actions should be published when available.</td></tr>
+              <tr><td>Ecosystem Development</td><td>15%</td><td>Website, smart tools, community infrastructure, integrations and future utility buildout.</td><td>Used to maintain and expand the Burnaverse ecosystem.</td></tr>
+              <tr><td>Treasury Reserve</td><td>10%</td><td>Operational reserve for grants, strategic growth, partnerships and contingency needs.</td><td>Long-term reserve should be managed transparently.</td></tr>
+              <tr><td>Team & Contributors</td><td>10%</td><td>Core team, design, development, operations and contributor incentives.</td><td>Recommended to use vesting/lock disclosure for public confidence.</td></tr>
+              <tr><td>Marketing & Partnerships</td><td>5%</td><td>Brand visibility, creator outreach, listing preparation, campaigns and collaborations.</td><td>Focused on sustainable community acquisition.</td></tr>
             </tbody>
           </table>
         </div>
-
-        <div class="two" style="margin-top:10px">
-          <div>
-            <h3>Utility (high level)</h3>
-            <ul>
-              <li>Access: token-gated participation and eligibility-based perks.</li>
-              <li>Incentives: programs designed for on-chain visibility (when feasible).</li>
-              <li>Payments: potential use for drops/tickets/digital goods (where supported).</li>
-            </ul>
-          </div>
-          <div>
-            <h3>Mechanics (high level)</h3>
-            <ul>
-              <li>Fees: <strong>2% buy / 2% sell</strong> (as stated on the main site).</li>
-              <li>Liquidity posture: described as “locked” (proof should be published publicly).</li>
-              <li>Any major changes should be disclosed and time-stamped.</li>
-            </ul>
-          </div>
-        </div>
       </section>
 
-      <section class="sec" id="usecases">
-        <h2>6. Use cases</h2>
-        <div class="two">
-          <div>
-            <h3>For holders</h3>
-            <ul>
-              <li>Eligibility-based participation (access frameworks).</li>
-              <li>Verified announcements and contract-referenced updates.</li>
-              <li>Participation in programs when published and active.</li>
-            </ul>
-          </div>
-          <div>
-            <h3>For partners</h3>
-            <ul>
-              <li>Campaigns with measurable on-chain engagement signals.</li>
-              <li>Transparent reporting standards and disclosure.</li>
-              <li>Phased delivery with security guardrails.</li>
-            </ul>
-          </div>
-        </div>
-      </section>
-
-      <section class="sec" id="security">
-        <h2>7. Security &amp; transparency</h2>
-        <h3>Security posture</h3>
-        <ul>
-          <li>Users should verify the contract and avoid unofficial links.</li>
-          <li>Audits (if any) should be published; absence implies additional risk.</li>
-          <li>Operational wallets and program rules should be disclosed where applicable.</li>
-        </ul>
-        <h3>Transparency standards</h3>
-        <ul>
-          <li>Maintain a single source of truth for official links and contract.</li>
-          <li>Provide evidence for claims such as “liquidity locked.”</li>
-          <li>Document revisions and announce changes before they take effect.</li>
-        </ul>
-      </section>
-<!-- Replace ONLY the Roadmap section in your whitepaper with this 4-phase version -->
-
-<section class="sec" id="roadmap">
-  <h2>8. Roadmap</h2>
-
-  <h3>Phase 1 — Launch & Foundation</h3>
-  <ul>
-    <li>Token deployment and contract verification.</li>
-    <li>Initial liquidity provisioning and public link registry (official sources).</li>
-    <li>Community onboarding and first distribution programs (as announced).</li>
-  </ul>
-
-  <h3>Phase 2 — Ecosystem Expansion</h3>
-  <ul>
-    <li>Structured community programs with published eligibility criteria.</li>
-    <li>Partnership activations and measurable engagement reporting.</li>
-    <li>Operational transparency updates (wallet disclosures where applicable).</li>
-  </ul>
-
-  <h3>Phase 3 — Experiences & Utilities</h3>
-  <ul>
-    <li>Token-gated experiences and access-based perks.</li>
-    <li>Utility drops (digital goods / tickets / perks) with verifiable fulfillment.</li>
-    <li>Iteration based on feedback, security reviews, and program performance.</li>
-  </ul>
-
-  <h3>Phase 4 — Governance & Long-Term Sustainability</h3>
-  <ul>
-    <li>Introduce governance framework (proposal rules, voting thresholds, documentation).</li>
-    <li>Treasury controls (e.g., multisig execution) and public reporting cadence.</li>
-    <li>Long-term roadmap updates driven by community priorities and compliance constraints.</li>
-  </ul>
-</section>
-
-      <section class="sec" id="governance">
-        <h2>9. Governance</h2>
+      <section class="glass section reveal" id="utility">
+        <h2>6. Current & Future Utility</h2>
         <p>
-          Governance (if introduced) should include clear proposal rules, voting thresholds, and transparent execution controls (e.g., multisig).
-          Governance details should be time-stamped and referenced from official channels.
+          $BUV begins as the participation token for Burnaverse Protocol. Utility should be rolled out in stages and announced only when features are live or ready for public testing.
         </p>
-      </section>
-
-      <section class="sec" id="legal">
-        <h2>10. Legal &amp; risk disclaimer</h2>
+        <div class="grid2">
+          <div class="card"><b>Current Utility</b><small>Community identity, holder alignment, official ecosystem participation and public BNB Chain token access.</small></div>
+          <div class="card"><b>Planned Utility</b><small>Token-gated campaigns, reward programs, NFT/digital collectibles, community voting and partner activations.</small></div>
+        </div>
+        <h3>Practical utility direction</h3>
         <ul>
-          <li>Informational only — not financial, legal, or tax advice.</li>
-          <li>Digital assets are volatile and can result in total loss.</li>
-          <li>Smart contract, custody, and regulatory risks apply.</li>
-          <li>Users are responsible for compliance and security hygiene.</li>
+          <li>Holder-only announcements and private community access tiers.</li>
+          <li>Campaign eligibility for rewards, whitelist events and digital drops.</li>
+          <li>Burnaverse-branded experiences around culture, entertainment and blockchain participation.</li>
+          <li>Future governance framework once the ecosystem reaches sufficient maturity.</li>
         </ul>
       </section>
 
+      <section class="glass section reveal" id="liquidity">
+        <h2>7. Liquidity & Market Access</h2>
+        <p>
+          Burnaverse Protocol is designed for BUV/BNB market access through decentralized exchanges on BNB Chain. The preferred early-stage structure is a simple BUV/BNB V2 liquidity pair because it is easier for new users to understand and keeps liquidity active across the full price curve.
+        </p>
+        <div class="callout warn">
+          Liquidity size strongly affects price stability. Very small liquidity pools can experience high price movement from small buys or sells. Users should understand slippage, pool depth and volatility before trading.
+        </div>
+        <h3>Liquidity policy recommendations</h3>
+        <ul>
+          <li>Publish the official pool link after liquidity is added.</li>
+          <li>Publish liquidity-lock or burn proof if LP tokens are locked or burned.</li>
+          <li>Avoid changing official trading links without public notice.</li>
+          <li>Maintain clear contract address visibility across the website and social profiles.</li>
+        </ul>
+      </section>
+
+      <section class="glass section reveal" id="roadmap">
+        <h2>8. Roadmap</h2>
+        <div class="phase"><span class="tag">Phase 1</span><div><h3>Foundation & Public Identity</h3><ul><li>Deploy and verify the BUV token contract on BNB Chain.</li><li>Launch official website and social channels.</li><li>Publish whitepaper, contract address and community onboarding materials.</li><li>Prepare BUV/BNB liquidity and market access information.</li></ul></div></div>
+        <div class="phase"><span class="tag">Phase 2</span><div><h3>Community Growth</h3><ul><li>Launch community education campaigns across X, Telegram and TikTok.</li><li>Introduce holder updates and transparent project reporting.</li><li>Begin structured community reward and engagement programs.</li><li>Expand branding assets, social templates and official media kits.</li></ul></div></div>
+        <div class="phase"><span class="tag">Phase 3</span><div><h3>Utility & Ecosystem Activation</h3><ul><li>Introduce token-gated activities and access-based community benefits.</li><li>Explore digital collectibles, creator collaborations and culture-driven campaigns.</li><li>Build smart website tools, token dashboards and user-friendly onboarding flows.</li><li>Develop partnership opportunities around Web3 culture and community engagement.</li></ul></div></div>
+        <div class="phase"><span class="tag">Phase 4</span><div><h3>Governance & Sustainability</h3><ul><li>Introduce community proposal guidelines when the ecosystem is ready.</li><li>Publish treasury and operational transparency standards.</li><li>Develop long-term sustainability programs around utility, partnerships and holder participation.</li><li>Review legal, security and compliance posture as the protocol grows.</li></ul></div></div>
+      </section>
+
+      <section class="glass section reveal" id="governance">
+        <h2>9. Governance Framework</h2>
+        <p>
+          Governance should not be rushed. Burnaverse Protocol may introduce governance gradually after the project establishes stable communication, active community participation and clear operational processes.
+        </p>
+        <ul>
+          <li>Proposal submission rules and minimum eligibility requirements.</li>
+          <li>Voting standards for community decisions.</li>
+          <li>Transparent execution process for approved proposals.</li>
+          <li>Treasury controls such as multi-signature authorization where appropriate.</li>
+        </ul>
+      </section>
+
+      <section class="glass section reveal" id="security">
+        <h2>10. Security & Transparency</h2>
+        <p>
+          Security begins with clarity. Burnaverse Protocol should keep its contract, official channels and website links consistent everywhere to reduce impersonation risk.
+        </p>
+        <div class="grid2">
+          <div class="card"><b>Verification Standard</b><small>Every public post, exchange request, listing form and website update should reference the same BNB Chain contract address.</small></div>
+          <div class="card"><b>Operational Transparency</b><small>Major wallet actions, liquidity updates, tokenomics changes and roadmap changes should be publicly documented.</small></div>
+        </div>
+        <div class="callout warn">
+          This whitepaper is informational. It is not an audit. Independent contract review, liquidity verification and user due diligence are still necessary.
+        </div>
+      </section>
+
+      <section class="glass section reveal" id="community">
+        <h2>11. Official Channels</h2>
+        <p>Use only the official channels below when verifying Burnaverse Protocol updates. No Instagram channel is listed in this whitepaper.</p>
+        <div class="socials">
+          <a href="https://x.com/BURNAVERSEbnb" target="_blank" rel="noopener"><b>X</b><span>@BURNAVERSEbnb</span></a>
+          <a href="https://t.me/burnaverseprotocol" target="_blank" rel="noopener"><b>Telegram</b><span>burnaverseprotocol</span></a>
+          <a href="https://www.tiktok.com/@burnaversebnb" target="_blank" rel="noopener"><b>TikTok</b><span>@burnaversebnb</span></a>
+          <a href="https://burnaverseprotocol.pages.dev" target="_blank" rel="noopener"><b>Website</b><span>burnaverseprotocol.pages.dev</span></a>
+        </div>
+      </section>
+
+      <section class="glass section reveal" id="risk">
+        <h2>12. Legal & Risk Disclaimer</h2>
+        <ul>
+          <li>This whitepaper is for informational and community communication purposes only.</li>
+          <li>Nothing in this document is financial, investment, tax or legal advice.</li>
+          <li>Digital assets are volatile and may result in partial or total loss.</li>
+          <li>Smart contract, liquidity, custody, regulatory and market risks apply.</li>
+          <li>Users are responsible for verifying the contract address and official links before taking action.</li>
+        </ul>
+      </section>
     </main>
   </div>
-</div>
 
-<div class="wp-footer">
-  <small>© <span id="year"></span> $BURNA — All rights reserved.</small>
-</div>
-
-<!-- Bottom-sheet TOC -->
-<div class="sheet" id="tocSheet" aria-hidden="true">
-  <div class="backdrop" id="closeToc"></div>
-  <div class="panel" role="dialog" aria-modal="true" aria-label="Contents">
-    <div class="grab" aria-hidden="true"></div>
-    <div class="head">
-      <strong>Contents</strong>
-      <button class="xbtn" type="button" id="xClose" aria-label="Close">
-        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-          <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-        </svg>
-      </button>
+  <footer class="footer">
+    <div class="container">
+      © <span id="year"></span> Burnaverse Protocol ($BUV). All rights reserved. Built for culture. Powered by blockchain.
     </div>
+  </footer>
 
-    <div class="links" aria-label="Quick links">
-      <a id="wl_token" href="#" target="_blank" rel="noopener">Etherscan (Token)</a>
-      <a href="https://etherscan.io/address/0x00b8a9bb1dcab2cf2375284d70b39e6ef7d86aae" target="_blank" rel="noopener">Etherscan (Contract)</a>
-      <a href="https://x.com/BURNAVERSEbnb" target="_blank" rel="noopener">X</a>
-      <a href="https://t.me/burnatokencommunity" target="_blank" rel="noopener">Telegram</a>
-    </div>
+  <div class="toast" id="toast" role="status" aria-live="polite">Copied</div>
 
-    <nav aria-label="Contents navigation">
-      <a href="#intro" class="tocLink">1. Introduction</a>
-      <a href="#objectives" class="tocLink">2. Objectives</a>
-      <a href="#context" class="tocLink">3. Context</a>
-      <a href="#approach" class="tocLink">4. Proposed approach</a>
-      <a href="#tokenomics" class="tocLink">5. Tokenomics</a>
-      <a href="#usecases" class="tocLink">6. Use cases</a>
-      <a href="#security" class="tocLink">7. Security & transparency</a>
-      <a href="#roadmap" class="tocLink">8. Roadmap</a>
-      <a href="#governance" class="tocLink">9. Governance</a>
-      <a href="#legal" class="tocLink">10. Legal & risk disclaimer</a>
-    </nav>
-  </div>
-</div>
+  <script>
+    const CONTRACT = "0xd14ec02a022d2bd4117a0eeba966423253a48ad1";
+    const toast = document.getElementById('toast');
+    const showToast = (msg='Copied') => { toast.textContent = msg; toast.classList.add('show'); clearTimeout(window.__toast); window.__toast = setTimeout(()=>toast.classList.remove('show'), 1800); };
 
-<div class="toast" id="toast" role="status" aria-live="polite"></div>
+    document.getElementById('year').textContent = new Date().getFullYear();
+    document.getElementById('printBtn')?.addEventListener('click', () => window.print());
 
-<!-- Shared JS: contract + Etherscan token link + DEXTools + year -->
-<script src="../assets/js/site.js" defer></script>
+    document.querySelectorAll('[data-copy]').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        const text = btn.getAttribute('data-copy') || CONTRACT;
+        try { await navigator.clipboard.writeText(text); showToast('Contract copied'); }
+        catch { showToast('Copy manually: ' + text.slice(0,10) + '...'); }
+      });
+    });
 
-<!-- Page JS: TOC sheet behavior -->
-<script>
-(() => {
-  const sheet = document.getElementById("tocSheet");
-  const openBtn = document.getElementById("openToc");
-  const closeBg = document.getElementById("closeToc");
-  const xClose  = document.getElementById("xClose");
+    const progress = document.getElementById('progress');
+    const updateProgress = () => {
+      const max = document.documentElement.scrollHeight - innerHeight;
+      progress.style.width = Math.max(0, Math.min(100, (scrollY / max) * 100)) + '%';
+    };
+    addEventListener('scroll', updateProgress, {passive:true}); updateProgress();
 
-  function open(){
-    sheet.classList.add("open");
-    sheet.setAttribute("aria-hidden","false");
-    document.body.style.overflow = "hidden";
-  }
-  function close(){
-    sheet.classList.remove("open");
-    sheet.setAttribute("aria-hidden","true");
-    document.body.style.overflow = "";
-  }
+    const reveal = document.querySelectorAll('.reveal');
+    const io = new IntersectionObserver(entries => entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } }), {threshold:.08});
+    reveal.forEach(el => io.observe(el));
 
-  openBtn?.addEventListener("click", open);
-  closeBg?.addEventListener("click", close);
-  xClose?.addEventListener("click", close);
+    const sections = [...document.querySelectorAll('main .section')];
+    const tocLinks = [...document.querySelectorAll('.toc a')];
+    const sectionSpy = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if(entry.isIntersecting){
+          tocLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + entry.target.id));
+        }
+      })
+    }, {rootMargin:'-35% 0px -55% 0px', threshold:.01});
+    sections.forEach(s => sectionSpy.observe(s));
 
-  // Close after selecting a section
-  sheet?.querySelectorAll(".tocLink").forEach(a => {
-    a.addEventListener("click", () => setTimeout(close, 80));
-  });
+    const search = document.getElementById('search');
+    const clearSearch = document.getElementById('clearSearch');
+    function runSearch(){
+      const q = search.value.trim().toLowerCase();
+      sections.forEach(s => {
+        s.classList.remove('highlight');
+        if(!q){ s.hidden = false; return; }
+        const hit = s.innerText.toLowerCase().includes(q);
+        s.hidden = !hit;
+        if(hit) s.classList.add('highlight');
+      });
+      if(q && sections.every(s => s.hidden)) showToast('No matching section found');
+    }
+    search.addEventListener('input', runSearch);
+    clearSearch.addEventListener('click', () => { search.value=''; runSearch(); search.focus(); });
 
-  // ESC closes
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && sheet.classList.contains("open")) close();
-  });
-})();
-</script>
+    document.getElementById('mobileToc')?.addEventListener('click', () => {
+      const target = document.querySelector('.toc');
+      const links = tocLinks.map(a => `${a.textContent.trim()} — ${location.origin}${location.pathname}${a.getAttribute('href')}`).join('\n');
+      navigator.clipboard?.writeText(links).then(() => showToast('Contents copied')).catch(()=>showToast('Use the page sections below'));
+      document.getElementById('summary')?.scrollIntoView({behavior:'smooth'});
+    });
+  </script>
 </body>
 </html>
-
-
