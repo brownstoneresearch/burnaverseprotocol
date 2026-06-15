@@ -37,3 +37,8 @@ Web3 v15 upgrade:
 - Connect Wallet and Add Token now guide users into mobile wallet dApp browsers when no injected wallet is detected.
 - Simplified premium footer for desktop and minimized footer for mobile.
 - Added support page to sitemap, PWA shortcuts and service worker cache.
+
+Footer beauty upgrade:
+- Desktop footer redesigned as a premium Web3 glass panel with animated-feel gradient depth, cleaner pill links, and contract strip.
+- Mobile footer simplified into a compact brand row, four quick actions, and small copy-contract strip.
+- Whitepaper footer restyled for desktop and mobile/PDF friendliness.

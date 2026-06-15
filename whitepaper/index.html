@@ -120,7 +120,51 @@
     }
 
     @media print{.nav,.skip,.tools,.toc,.mobile-toc,.progress,.toast,.hero-actions,.pdf-note{display:none!important}body{background:#fff;color:#111}.glass,.section{box-shadow:none;border:1px solid #ddd;background:#fff;color:#111}.section p,.section li,td,th,.lead{color:#111}.layout,.hero-grid{display:block}.container{width:100%;max-width:none}.section{page-break-inside:avoid;margin-bottom:12px}.gradient{color:#111;background:none}.hero-main{min-height:auto}}
-  </style>
+  
+
+    /* v4 Premium whitepaper footer beauty upgrade */
+    .footer{
+      border-top:0!important;
+      padding:18px 0 26px!important;
+      margin-top:16px;
+      text-align:center;
+    }
+    .footer .container{
+      position:relative;
+      width:min(100% - 28px,var(--max));
+      padding:13px 16px;
+      border:1px solid rgba(255,255,255,.12);
+      border-radius:22px;
+      background:
+        radial-gradient(circle at 8% 0%, rgba(251,183,35,.20), transparent 38%),
+        radial-gradient(circle at 92% 30%, rgba(56,255,122,.14), transparent 36%),
+        linear-gradient(135deg, rgba(255,255,255,.055), rgba(255,255,255,.018));
+      box-shadow:0 22px 70px rgba(0,0,0,.30), inset 0 1px 0 rgba(255,255,255,.08);
+      color:rgba(238,246,255,.64);
+      overflow:hidden;
+    }
+    .footer .container:before{
+      content:"";
+      position:absolute;left:16px;right:16px;top:0;height:1px;
+      background:linear-gradient(90deg,transparent,rgba(251,183,35,.68),rgba(56,255,122,.48),transparent);
+    }
+    .footer .container:after{
+      content:"BNB CHAIN • VERIFIED CONTRACT";
+      display:block;
+      margin-top:5px;
+      font-size:10px;
+      letter-spacing:.18em;
+      color:rgba(56,255,122,.62);
+      font-weight:900;
+    }
+    @media(max-width:700px){
+      .footer{padding:10px 0 calc(10px + env(safe-area-inset-bottom))!important;margin-top:8px!important;}
+      .footer .container{width:100%!important;border-left:0;border-right:0;border-bottom:0;border-radius:18px 18px 0 0;padding:10px 10px 9px;font-size:10.5px!important;line-height:1.25!important;}
+      .footer .container:after{font-size:8.5px;letter-spacing:.12em;margin-top:4px;}
+      .footer .full-footer{display:none!important;}
+      .footer .short-footer{display:inline!important;}
+    }
+</style>
 </head>
 <body>
   <div class="progress" id="progress" data-html2canvas-ignore="true" data-html2pdf-ignore="true"></div>
