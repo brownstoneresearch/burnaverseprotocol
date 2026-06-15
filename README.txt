@@ -31,3 +31,11 @@ Contract:
 - PancakeSwap link now points directly to the BSC swap screen with BUV as output token.
 - Service worker requires HTTPS or localhost. It will not run from file://.
 - For production, update BNB price in the liquidity planner or connect a live price API if desired.
+
+Higher Smart Upgrade v3
+-----------------------
+- Rebuilt the install prompt into a smart PWA install manager.
+- Detects installed app mode, Android/Chrome install prompts, iOS Safari Add-to-Home-Screen flow, unsupported browsers, online/offline state, and dismissed reminders.
+- Added install guide modal, app benefits, refreshable offline cache, and less-intrusive repeat-visit logic.
+- Upgraded service worker to v3 with core-page precaching, runtime caching, navigation fallback, and offline.html.
+- Expanded manifest with app id, scope, display_override, category metadata, orientation, and shortcuts for Swap, Tokenomics, and Contract.

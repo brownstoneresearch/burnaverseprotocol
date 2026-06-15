@@ -291,11 +291,18 @@
     <button class="dockBtn" type="button" data-share-project title="Share project">↗ <span>Share</span></button>
     <a class="dockBtn" data-link="pancakeswap" target="_blank" rel="noreferrer" title="Open PancakeSwap">◈ <span>Swap</span></a>
   </div>
-  <div class="installHint" role="status" aria-live="polite">
-    <img src="assets/logo.png" width="34" height="34" alt="" style="border-radius:10px" />
-    <span>Install Burnaverse Protocol for faster access.</span>
-    <button class="mini good" type="button" data-install-app>Install</button>
-    <button class="mini" type="button" data-install-close>Close</button>
+  <div class="installHint smartInstall" role="status" aria-live="polite" data-install-card hidden>
+    <div class="installIconWrap"><img src="assets/logo.png" width="38" height="38" alt="" /></div>
+    <div class="installCopy">
+      <strong data-install-title>Install Burnaverse Protocol</strong>
+      <span data-install-message>Install for faster access, offline viewing, and direct token shortcuts.</span>
+      <div class="installMeta" data-install-meta>Checking device support…</div>
+    </div>
+    <div class="installActions">
+      <button class="mini good" type="button" data-install-app>Install</button>
+      <button class="mini" type="button" data-install-guide>Guide</button>
+      <button class="mini" type="button" data-install-close>Later</button>
+    </div>
   </div>
 
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
