@@ -18,9 +18,9 @@
     dexToolsUrl:
       "https://www.dextools.io/app/en/ether/pair-explorer/0x4dec3aaba65caf1c2ad64d411fc575a23297532fb714518659530bb012015db0",
     socials: {
-      x: "https://x.com/burnadapp?s=21",
+      x: "https://x.com/BURNAVERSEbnb",
       telegram: "https://t.me/burnatokencommunity",
-      youtube: "https://www.youtube.com/@burnadapp",
+      youtube: "https://www.youtube.com/@BURNAVERSEbnb",
     },
     // Airdrop target (local time of visitor)
     airdropStart: "2025-11-14T00:00:00",
