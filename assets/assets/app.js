@@ -2,12 +2,12 @@
 /* Static site helpers: copy contract, add token, active nav, quick link wiring */
 
 window.CONFIG = {
-  baseUrl: "https://burnaverseprotocol.xyz",
+  baseUrl: "https://burnaverseprotocol.pages.dev",
   contract: "0xd14Ec02A022D2BD4117a0EEba966423253a48ad1",
   tokenName: "Burnaverse Protocol",
   tokenSymbol: "BUV",
   decimals: 18,
-  tokenImage: "https://burnaverseprotocol.xyz/assets/logo.png", // token logo for wallets
+  tokenImage: "https://burnaverseprotocol.pages.dev/assets/logo.png", // token logo for wallets
   bscscanToken: "https://bscscan.com/token/0xd14Ec02A022D2BD4117a0EEba966423253a48ad1",
   bscscanContract: "https://bscscan.com/address/0xd14Ec02A022D2BD4117a0EEba966423253a48ad1",
   pancakeswap: "https://pancakeswap.finance/" // replace with exact swap URL when live
@@ -88,8 +88,8 @@ function fillGlobals(){
     x: "#",
     discord: "#",
     medium: "#",
-    email: "mailto:contact@burnaverseprotocol.xyz",
-    whitepaper: "#",
+    email: "mailto:hello@burnaverseprotocol.pages.dev",
+    whitepaper: "whitepaper/index.html",
     audit: "#",
     github: "#"
   };

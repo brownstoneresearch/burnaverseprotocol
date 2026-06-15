@@ -12,21 +12,21 @@
 
 (() => {
   const CONFIG = {
-    tokenSymbol: "BURNA",
-    chainLabel: "Ethereum (ERC-20)",
-    contract: "0x00b8a9bb1dcab2cf2375284d70b39e6ef7d86aae",
+    tokenSymbol: "BUV",
+    chainLabel: "BNB Chain (BEP-20)",
+    contract: "0xd14ec02a022d2bd4117a0eeba966423253a48ad1",
     dexToolsUrl:
-      "https://www.dextools.io/app/en/ether/pair-explorer/0x4dec3aaba65caf1c2ad64d411fc575a23297532fb714518659530bb012015db0",
+      "https://pancakeswap.finance/swap?chain=bsc&outputCurrency=0xd14ec02a022d2bd4117a0eeba966423253a48ad1",
     socials: {
       x: "https://x.com/BURNAVERSEbnb",
-      telegram: "https://t.me/burnatokencommunity",
-      youtube: "https://www.youtube.com/@BURNAVERSEbnb",
+      telegram: "https://t.me/burnaverseprotocol",
+      tiktok: "https://www.tiktok.com/@burnaversebnb",
     },
     // Airdrop target (local time of visitor)
     airdropStart: "2025-11-14T00:00:00",
   };
 
-  const ETH_ADDR_RE = /^0x[a-fA-F0-9]{40}$/;
+  const BSC_ADDR_RE = /^0x[a-fA-F0-9]{40}$/;
   const $ = (id) => document.getElementById(id);
 
   const toastEl = $("toast");
@@ -53,9 +53,9 @@
   function wireTokenLink(a, valid, addr) {
     if (!a) return;
     if (valid) {
-      a.href = `https://etherscan.io/token/${addr}`;
+      a.href = `https://bscscan.com/token/${addr}`;
       a.setAttribute("aria-disabled", "false");
-      a.title = "Open on Etherscan (Token)";
+      a.title = "Open on BscScan (Token)";
     } else {
       a.href = "#";
       a.setAttribute("aria-disabled", "true");
@@ -65,7 +65,7 @@
 
   function syncExplorerLinks() {
     const addr = (contractText?.textContent || CONFIG.contract).trim();
-    const valid = ETH_ADDR_RE.test(addr);
+    const valid = BSC_ADDR_RE.test(addr);
 
     wireTokenLink($("explorerLink"), valid, addr);
     wireTokenLink($("footerContract"), valid, addr);
@@ -77,7 +77,7 @@
 
   async function copyContract() {
     const addr = (contractText?.textContent || "").trim();
-    if (!ETH_ADDR_RE.test(addr)) {
+    if (!BSC_ADDR_RE.test(addr)) {
       showToast("<strong>Invalid contract address</strong>");
       return;
     }

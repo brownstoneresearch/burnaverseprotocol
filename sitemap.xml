@@ -1,47 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://burnaverseprotocol.xyz</loc>
+    <loc>https://burnaverseprotocol.pages.dev</loc>
     <lastmod>2026-02-13</lastmod>
   </url>
   <url>
-    <loc>https://burnaverseprotocol.xyz/impact.html</loc>
+    <loc>https://burnaverseprotocol.pages.dev/impact.html</loc>
     <lastmod>2026-02-13</lastmod>
   </url>
   <url>
-    <loc>https://burnaverseprotocol.xyz/tokenomics.html</loc>
+    <loc>https://burnaverseprotocol.pages.dev/tokenomics.html</loc>
     <lastmod>2026-02-13</lastmod>
   </url>
   <url>
-    <loc>https://burnaverseprotocol.xyz/entertainment.html</loc>
+    <loc>https://burnaverseprotocol.pages.dev/entertainment.html</loc>
     <lastmod>2026-02-13</lastmod>
   </url>
   <url>
-    <loc>https://burnaverseprotocol.xyz/sports.html</loc>
+    <loc>https://burnaverseprotocol.pages.dev/sports.html</loc>
     <lastmod>2026-02-13</lastmod>
   </url>
   <url>
-    <loc>https://burnaverseprotocol.xyz/academics.html</loc>
+    <loc>https://burnaverseprotocol.pages.dev/academics.html</loc>
     <lastmod>2026-02-13</lastmod>
   </url>
   <url>
-    <loc>https://burnaverseprotocol.xyz/community.html</loc>
+    <loc>https://burnaverseprotocol.pages.dev/community.html</loc>
     <lastmod>2026-02-13</lastmod>
   </url>
   <url>
-    <loc>https://burnaverseprotocol.xyz/civic.html</loc>
+    <loc>https://burnaverseprotocol.pages.dev/civic.html</loc>
     <lastmod>2026-02-13</lastmod>
   </url>
   <url>
-    <loc>https://burnaverseprotocol.xyz/roadmap.html</loc>
+    <loc>https://burnaverseprotocol.pages.dev/roadmap.html</loc>
     <lastmod>2026-02-13</lastmod>
   </url>
   <url>
-    <loc>https://burnaverseprotocol.xyz/faq.html</loc>
+    <loc>https://burnaverseprotocol.pages.dev/faq.html</loc>
     <lastmod>2026-02-13</lastmod>
   </url>
   <url>
-    <loc>https://burnaverseprotocol.xyz/contact.html</loc>
+    <loc>https://burnaverseprotocol.pages.dev/contact.html</loc>
     <lastmod>2026-02-13</lastmod>
+  </url>
+  <url>
+    <loc>https://burnaverseprotocol.pages.dev/whitepaper/index.html</loc>
+    <lastmod>2026-06-15</lastmod>
   </url>
 </urlset>

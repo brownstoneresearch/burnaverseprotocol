@@ -11,11 +11,11 @@
   <meta property="og:title" content="Burnaverse Protocol ($BUV) — Whitepaper" />
   <meta property="og:description" content="Culture. Community. Blockchain. Burnaverse Protocol is a BNB Chain ecosystem built around participation, utility and transparent Web3 growth." />
   <meta property="og:type" content="article" />
-  <meta property="og:image" content="https://i.ibb.co/WvhRxjF3/photo-2026-03-04-13-48-45.jpg" />
+  <meta property="og:image" content="https://burnaverseprotocol.pages.dev/assets/og.svg" />
   <meta name="twitter:card" content="summary_large_image" />
 
-  <link rel="icon" href="https://i.ibb.co/WvhRxjF3/photo-2026-03-04-13-48-45.jpg" />
-  <link rel="apple-touch-icon" href="https://i.ibb.co/WvhRxjF3/photo-2026-03-04-13-48-45.jpg" />
+  <link rel="icon" href="../assets/logo.png" />
+  <link rel="apple-touch-icon" href="../assets/logo.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Orbitron:wght@600;700;800;900&display=swap" rel="stylesheet" />
@@ -81,6 +81,7 @@
     /* Smart online PDF export mode: used by the Print / Save PDF button and window.print override */
     body.pdf-exporting{background:#05070d!important;overflow:visible!important;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
     body.pdf-exporting .nav,
+    body.pdf-exporting .skip,
     body.pdf-exporting .tools,
     body.pdf-exporting .toc,
     body.pdf-exporting .mobile-toc,
@@ -99,17 +100,36 @@
     body.pdf-exporting .reveal{opacity:1!important;transform:none!important;}
     body.pdf-exporting .footer{padding-bottom:18px!important;}
 
-    @media print{.nav,.tools,.toc,.mobile-toc,.progress,.toast,.hero-actions{display:none!important}body{background:#fff;color:#111}.glass,.section{box-shadow:none;border:1px solid #ddd;background:#fff;color:#111}.section p,.section li,td,th,.lead{color:#111}.layout,.hero-grid{display:block}.container{width:100%;max-width:none}.section{page-break-inside:avoid;margin-bottom:12px}.gradient{color:#111;background:none}.hero-main{min-height:auto}}
+
+
+    /* v3 operational polish: compact mobile footer + smart PDF state */
+    .footer .full-footer{display:inline;}
+    .footer .short-footer{display:none;}
+    .pdf-note{font-size:12px;color:var(--muted);margin-top:6px}
+    .btn[disabled]{opacity:.58;cursor:wait;transform:none!important}
+    @media(max-width:640px){
+      .footer{padding:10px 0 calc(12px + env(safe-area-inset-bottom))!important;font-size:11px!important;line-height:1.35!important;}
+      .footer .container{width:min(100% - 22px,var(--max));}
+      .footer .full-footer{display:none!important;}
+      .footer .short-footer{display:inline!important;}
+      .toast{max-width:calc(100% - 28px);bottom:12px;border-radius:14px;white-space:normal;text-align:center}
+      .mobile-toc{right:12px;bottom:12px}
+      .hero-actions .btn{flex:1 1 auto;justify-content:center}
+      .nav-actions{gap:6px}
+      .nav-actions .btn{padding:9px 10px}
+    }
+
+    @media print{.nav,.skip,.tools,.toc,.mobile-toc,.progress,.toast,.hero-actions,.pdf-note{display:none!important}body{background:#fff;color:#111}.glass,.section{box-shadow:none;border:1px solid #ddd;background:#fff;color:#111}.section p,.section li,td,th,.lead{color:#111}.layout,.hero-grid{display:block}.container{width:100%;max-width:none}.section{page-break-inside:avoid;margin-bottom:12px}.gradient{color:#111;background:none}.hero-main{min-height:auto}}
   </style>
 </head>
 <body>
-  <div class="progress" id="progress"></div>
+  <div class="progress" id="progress" data-html2canvas-ignore="true" data-html2pdf-ignore="true"></div>
   <a class="skip" href="#main">Skip to whitepaper</a>
 
-  <nav class="nav" aria-label="Primary navigation">
+  <nav class="nav" data-html2canvas-ignore="true" data-html2pdf-ignore="true" aria-label="Primary navigation">
     <div class="container nav-row">
       <a class="brand" href="https://burnaverseprotocol.pages.dev" target="_blank" rel="noopener" aria-label="Burnaverse Protocol homepage">
-        <img src="https://i.ibb.co/WvhRxjF3/photo-2026-03-04-13-48-45.jpg" alt="Burnaverse Protocol logo" />
+        <img src="../assets/logo.png" alt="Burnaverse Protocol logo" />
         <span><b>Burnaverse Protocol</b><span>$BUV Whitepaper</span></span>
       </a>
       <div class="nav-actions">
@@ -148,7 +168,7 @@
       <aside class="glass visual reveal" aria-label="Burnaverse visual identity">
         <div class="orb" aria-hidden="true">
           <span class="ring"></span>
-          <img src="https://i.ibb.co/WvhRxjF3/photo-2026-03-04-13-48-45.jpg" alt="" />
+          <img src="../assets/logo.png" alt="" />
         </div>
         <h2>$BUV</h2>
         <p>Culture • Community • Blockchain</p>
@@ -163,7 +183,7 @@
     </div>
   </section>
 
-  <button class="btn primary mobile-toc" type="button" id="mobileToc">Contents</button>
+  <button class="btn primary mobile-toc" type="button" id="mobileToc" data-html2canvas-ignore="true" data-html2pdf-ignore="true">Contents</button>
 
   <div class="container layout" id="main">
     <aside class="glass toc" aria-label="Whitepaper table of contents">
@@ -356,11 +376,13 @@
 
   <footer class="footer">
     <div class="container">
-      © <span id="year"></span> Burnaverse Protocol ($BUV). All rights reserved. Built for culture. Powered by blockchain.
+      <span class="full-footer">© <span id="year"></span> Burnaverse Protocol ($BUV). All rights reserved. Built for culture. Powered by blockchain.</span>
+      <span class="short-footer">© <span id="yearMobile"></span> Burnaverse Protocol • $BUV</span>
+      <div class="pdf-note" id="pdfStatus" aria-live="polite">Online PDF export ready.</div>
     </div>
   </footer>
 
-  <div class="toast" id="toast" role="status" aria-live="polite">Copied</div>
+  <div class="toast" id="toast" data-html2canvas-ignore="true" data-html2pdf-ignore="true" role="status" aria-live="polite">Copied</div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-YcsIPGdhPK4P/uRW6/sruonlYjBz5VA6GYaJxz4nvYC2UeFNnmSJuyHr3sBhtn7N1lTks0EVpO1B8xN4kR+kHQ==" crossorigin="anonymous" referrerpolicy="no-referrer" defer></script>
 
@@ -369,7 +391,11 @@
     const toast = document.getElementById('toast');
     const showToast = (msg='Copied') => { toast.textContent = msg; toast.classList.add('show'); clearTimeout(window.__toast); window.__toast = setTimeout(()=>toast.classList.remove('show'), 1800); };
 
-    document.getElementById('year').textContent = new Date().getFullYear();
+    const __yr = new Date().getFullYear();
+    document.getElementById('year').textContent = __yr;
+    document.getElementById('yearMobile') && (document.getElementById('yearMobile').textContent = __yr);
+    const pdfStatus = document.getElementById('pdfStatus');
+    const setPdfStatus = (msg) => { if(pdfStatus) pdfStatus.textContent = msg; };
 
     const originalNativePrint = window.print.bind(window);
 
@@ -395,50 +421,63 @@
       });
     }
 
-    async function downloadWhitepaperPDF(){
+    async function downloadWhitepaperPDF(source='button'){
       const btn = document.getElementById('printBtn');
       const oldText = btn?.textContent;
+      if (document.body.classList.contains('pdf-exporting')) return;
       try{
         if (!navigator.onLine) {
+          setPdfStatus('Offline: native print fallback opened.');
           showToast('Offline: opening native print dialog');
           originalNativePrint();
           return;
         }
 
         btn && (btn.disabled = true, btn.textContent = 'Generating PDF...');
+        setPdfStatus('Generating downloadable PDF from live index.html...');
         showToast('Preparing PDF download...');
         await loadPdfEngine();
 
+        // Wait for fonts + visible images to settle before capture.
+        if (document.fonts && document.fonts.ready) { await document.fonts.ready.catch(()=>{}); }
+        const imgs = [...document.images].filter(img => !img.complete);
+        await Promise.allSettled(imgs.map(img => new Promise(res => { img.onload = img.onerror = res; })));
         await new Promise(requestAnimationFrame);
         document.body.classList.add('pdf-exporting');
+        document.documentElement.classList.add('pdf-exporting');
         await new Promise(requestAnimationFrame);
 
+        const sourceEl = document.body;
         const options = {
-          margin: [0.22, 0.22, 0.22, 0.22],
+          margin: [0.20, 0.20, 0.20, 0.20],
           filename: 'Burnaverse-Protocol-BUV-Whitepaper.pdf',
           image: { type: 'jpeg', quality: 0.98 },
           html2canvas: {
-            scale: 2,
+            scale: Math.min(2, Math.max(1.35, window.devicePixelRatio || 1.5)),
             useCORS: true,
             allowTaint: true,
             backgroundColor: '#05070d',
             scrollX: 0,
             scrollY: 0,
             windowWidth: 1200,
-            logging: false
+            logging: false,
+            removeContainer: true
           },
           jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait', compress: true },
-          pagebreak: { mode: ['css', 'legacy'], avoid: ['.glass', '.section', '.card', '.callout', '.meta-strip', '.socials'] }
+          pagebreak: { mode: ['css', 'legacy'], avoid: ['.glass', '.section', '.card', '.callout', '.meta-strip', '.socials', '.phase'] }
         };
 
-        await window.html2pdf().set(options).from(document.body).save();
-        showToast('PDF downloaded');
+        await window.html2pdf().set(options).from(sourceEl).save();
+        setPdfStatus('PDF downloaded successfully.');
+        showToast(source === 'shortcut' ? 'PDF downloaded from Ctrl/Cmd + P' : 'PDF downloaded');
       } catch (err){
         console.error(err);
+        setPdfStatus('PDF engine failed. Native print fallback opened.');
         showToast('PDF export failed - opening print dialog');
         originalNativePrint();
       } finally {
         document.body.classList.remove('pdf-exporting');
+        document.documentElement.classList.remove('pdf-exporting');
         if (btn) { btn.disabled = false; btn.textContent = oldText || 'Download PDF'; }
       }
     }
@@ -448,6 +487,17 @@
 
     // Any script-triggered print request now uses the smart PDF downloader first.
     window.print = downloadWhitepaperPDF;
+
+    // Intercept Ctrl/Cmd + P while online so the whitepaper downloads as a PDF instead of opening a browser-only print sheet.
+    document.addEventListener('keydown', (e) => {
+      if ((e.ctrlKey || e.metaKey) && String(e.key).toLowerCase() === 'p') {
+        e.preventDefault();
+        downloadWhitepaperPDF('shortcut');
+      }
+    });
+
+    addEventListener('online', () => { setPdfStatus('Online PDF export ready.'); showToast('Back online'); });
+    addEventListener('offline', () => { setPdfStatus('Offline: PDF export will use native print fallback.'); showToast('Offline mode'); });
 
     document.querySelectorAll('[data-copy]').forEach(btn => {
       btn.addEventListener('click', async () => {
