@@ -12,6 +12,7 @@ window.CONFIG = {
   bscscanContract: "https://bscscan.com/address/0xd14Ec02A022D2BD4117a0EEba966423253a48ad1",
   pancakeswap: "https://pancakeswap.finance/swap?chain=bsc&outputCurrency=0xd14Ec02A022D2BD4117a0EEba966423253a48ad1",
   supportUrl: "https://burnaverseprotocol.pages.dev/support.html",
+  supportModalUrl: "https://burnaverseprotocol.pages.dev/#apply-support",
   totalSupply: 10000000000
 };
 

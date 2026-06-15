@@ -250,22 +250,86 @@ function closeDrawerIfOpen(){
 function initModal(){
   const back = document.getElementById("modalBack");
   if(!back) return;
-  const close = ()=> back.classList.remove("show");
+
+  const cfg = window.CONFIG || {};
+  const modalUrl = cfg.supportModalUrl || "https://burnaverseprotocol.pages.dev/#apply-support";
+  const close = (syncHash=true)=>{
+    back.classList.remove("show");
+    back.setAttribute("aria-hidden","true");
+    document.body.classList.remove("modal-open");
+    if(syncHash && location.hash === "#apply-support"){
+      history.replaceState(null, "", location.pathname + location.search);
+    }
+  };
+  const open = (pushHash=false)=>{
+    closeDrawerIfOpen();
+    back.classList.add("show");
+    back.setAttribute("aria-hidden","false");
+    document.body.classList.add("modal-open");
+    if(pushHash && location.hash !== "#apply-support") history.pushState(null, "", "#apply-support");
+    const first = back.querySelector("input,textarea,select,button");
+    if(first) setTimeout(()=>first.focus(), 50);
+  };
+
+  // Upgrade the popup into a shareable Web3 container without requiring manual HTML edits on every page.
+  const modal = back.querySelector(".modal");
+  if(modal && !modal.dataset.web3Upgraded){
+    modal.dataset.web3Upgraded = "1";
+    modal.classList.add("supportPopupWeb3");
+    const head = modal.querySelector(".modalHead");
+    if(head && !head.querySelector("[data-copy-support-modal-link]")){
+      const actions = document.createElement("div");
+      actions.className = "modalShareActions";
+      actions.innerHTML = '<button class="mini good" type="button" data-copy-support-modal-link>Copy popup link</button><button class="mini" type="button" data-share-support-modal-link>Share</button>';
+      head.appendChild(actions);
+    }
+    const form = modal.querySelector("#applyForm");
+    if(form && !form.querySelector("#walletAddress")){
+      const walletBlock = document.createElement("div");
+      walletBlock.className = "field walletFieldBlock";
+      walletBlock.innerHTML = '<label for="walletAddress">Wallet address (optional)</label><div class="inlineField"><input class="input" id="walletAddress" name="walletAddress" placeholder="0x… public wallet only" /><button class="mini" type="button" data-fill-connected-wallet>Use connected</button></div><div class="walletMiniGrid"><button class="mini good" type="button" data-modal-connect-wallet>Connect Wallet</button><a class="mini" data-wallet-open="metamask" target="_blank" rel="noreferrer">MetaMask</a><a class="mini" data-wallet-open="trust" target="_blank" rel="noreferrer">Trust</a><a class="mini" data-wallet-open="safepal" target="_blank" rel="noreferrer">SafePal</a><a class="mini" data-wallet-open="okx" target="_blank" rel="noreferrer">OKX</a></div><div class="helper">For mobile users, open the link inside a wallet dApp browser to connect externally. Never share seed phrases/private keys.</div>';
+      const msg = form.querySelector("#message")?.closest(".field");
+      if(msg) msg.insertAdjacentElement("beforebegin", walletBlock);
+      else form.insertBefore(walletBlock, form.firstChild);
+    }
+  }
+
+  const copyText = async (text, msg)=>{
+    try{ await navigator.clipboard.writeText(text); }
+    catch(_){ const t=document.createElement("textarea"); t.value=text; document.body.appendChild(t); t.select(); document.execCommand("copy"); t.remove(); }
+    window.toast && window.toast(msg || "Copied");
+  };
+  const sharePopup = async ()=>{
+    const data = {title:"Apply for Burnaverse Support", text:"Open the Burnaverse Support application popup.", url: modalUrl};
+    if(navigator.share){ try{ await navigator.share(data); return; }catch(_){} }
+    await copyText(modalUrl, "Popup link copied");
+  };
+
   back.addEventListener("click",(e)=>{ if(e.target === back) close(); });
-  document.querySelectorAll("[data-modal-close]").forEach(b=>b.addEventListener("click", close));
+  document.querySelectorAll("[data-modal-close]").forEach(b=>b.addEventListener("click", ()=>close()));
   document.addEventListener("keydown",(e)=>{ if(e.key === "Escape") close(); });
+  document.querySelectorAll("[data-open-modal]").forEach(btn=>btn.addEventListener("click", ()=>open(true)));
+  document.querySelectorAll("[data-copy-support-modal-link]").forEach(btn=>btn.addEventListener("click", ()=>copyText(modalUrl, "Popup link copied")));
+  document.querySelectorAll("[data-share-support-modal-link]").forEach(btn=>btn.addEventListener("click", sharePopup));
+  document.querySelectorAll("[data-modal-connect-wallet]").forEach(btn=>btn.addEventListener("click", connectWallet));
+  document.querySelectorAll("[data-fill-connected-wallet]").forEach(btn=>btn.addEventListener("click", ()=>{
+    const field = modal?.querySelector("#walletAddress") || document.getElementById("walletAddress");
+    const saved = localStorage.getItem("bv_wallet") || "";
+    if(field && saved){ field.value = saved; window.toast && window.toast("Connected wallet added"); }
+    else { window.toast && window.toast("Connect wallet first"); }
+  }));
+  if(window.BurnaverseWallets && window.BurnaverseWallets.applyLinks) window.BurnaverseWallets.applyLinks(back);
 
-  document.querySelectorAll("[data-open-modal]").forEach(btn=>{
-    btn.addEventListener("click", ()=>{
-      closeDrawerIfOpen();
-      back.classList.add("show");
-      const first = back.querySelector("input,textarea,select,button");
-      if(first) setTimeout(()=>first.focus(), 50);
-    });
-  });
+  const openFromUrl = ()=>{
+    const params = new URLSearchParams(location.search);
+    if(location.hash === "#apply-support" || params.get("apply") === "support") open(false);
+  };
+  openFromUrl();
+  window.addEventListener("hashchange", openFromUrl);
 
-  const form = document.getElementById("applyForm");
-  if(form){
+  const form = modal ? modal.querySelector("#applyForm") : document.getElementById("applyForm");
+  if(form && !form.dataset.modalReady){
+    form.dataset.modalReady = "1";
     form.addEventListener("submit",(e)=>{
       e.preventDefault();
       const fd = new FormData(form);
@@ -276,12 +340,13 @@ function initModal(){
         return;
       }
       const key = "bv_submissions";
-      const cur = JSON.parse(localStorage.getItem(key) || "[]");
-      cur.unshift({ ...obj, ts: new Date().toISOString() });
+      let cur = [];
+      try{ cur = JSON.parse(localStorage.getItem(key) || "[]") || []; }catch(_){ cur=[]; }
+      cur.unshift({ ...obj, source: "support-popup", popupLink: modalUrl, ts: new Date().toISOString() });
       localStorage.setItem(key, JSON.stringify(cur).slice(0, 200000));
       form.reset();
       close();
-      window.toast && window.toast("Submitted. We’ll reach out if selected.");
+      window.toast && window.toast("Submitted locally. Connect backend/email for live delivery.");
     });
   }
 }
@@ -659,7 +724,8 @@ function initSidebar(){
 /* === Burnaverse Web3 mobile wallet launcher + support utilities === */
 (function(){
   const APP_URL = "https://burnaverseprotocol.pages.dev/";
-  const SUPPORT_URL = "https://burnaverseprotocol.pages.dev/support.html";
+  const SUPPORT_URL = (window.CONFIG && window.CONFIG.supportUrl) || "https://burnaverseprotocol.pages.dev/support.html";
+  const SUPPORT_MODAL_URL = (window.CONFIG && window.CONFIG.supportModalUrl) || "https://burnaverseprotocol.pages.dev/#apply-support";
   const currentUrl = () => {
     try{
       const href = window.location.href || APP_URL;
@@ -742,7 +808,10 @@ function initSidebar(){
     applyLinks(document);
     const linkText = document.getElementById("supportLinkText");
     if(linkText) linkText.textContent = SUPPORT_URL;
+    const modalLinkText = document.getElementById("supportModalLinkText");
+    if(modalLinkText) modalLinkText.textContent = SUPPORT_MODAL_URL;
     document.querySelectorAll("[data-copy-support-link]").forEach(btn=>btn.addEventListener("click", ()=>copyText(SUPPORT_URL, "Support link copied")));
+    document.querySelectorAll("[data-copy-support-modal-link]").forEach(btn=>btn.addEventListener("click", ()=>copyText(SUPPORT_MODAL_URL, "Popup link copied")));
     document.querySelectorAll("[data-share-support-link]").forEach(btn=>btn.addEventListener("click", shareSupport));
     document.querySelectorAll("[data-copy-dapp-url]").forEach(btn=>btn.addEventListener("click", ()=>copyText(currentUrl(), "dApp URL copied")));
     const inline = document.getElementById("connectWalletInline");
@@ -769,7 +838,7 @@ function initSidebar(){
       }, {capture:true});
     }
   }
-  window.BurnaverseWallets = { open: openWalletSheet, close: closeWalletSheet, links: walletLinks };
+  window.BurnaverseWallets = { open: openWalletSheet, close: closeWalletSheet, links: walletLinks, applyLinks: applyLinks };
   document.addEventListener("DOMContentLoaded", initSupportUtilities);
 })();
 

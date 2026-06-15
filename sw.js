@@ -1,7 +1,7 @@
-const CACHE='burnaverse-v6-core';
-const RUNTIME='burnaverse-v6-runtime';
+const CACHE='burnaverse-v7-web3-core';
+const RUNTIME='burnaverse-v7-web3-runtime';
 const CORE=[
-  './','./index.html','./tokenomics.html','./impact.html','./roadmap.html','./faq.html','./contact.html','./community.html','./civic.html','./entertainment.html','./sports.html','./academics.html',
+  './','./index.html','./tokenomics.html','./impact.html','./roadmap.html','./faq.html','./contact.html','./community.html','./civic.html','./entertainment.html','./sports.html','./academics.html','./support.html',
   './offline.html','./manifest.webmanifest','./assets/styles.css','./assets/advanced.css','./assets/app.js','./assets/ui.js','./assets/advanced.js','./assets/logo.png','./assets/logo_badge.png','./assets/favicon.svg','./assets/og.svg','./assets/whitepaper.pdf','./whitepaper/index.html'
 ];
 self.addEventListener('install',e=>{e.waitUntil(caches.open(CACHE).then(async c=>{await Promise.allSettled(CORE.map(u=>c.add(u)));}).then(()=>self.skipWaiting()))});
