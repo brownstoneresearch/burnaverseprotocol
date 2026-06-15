@@ -18,9 +18,15 @@
   <meta name="twitter:card" content="summary_large_image" />
   <link rel="icon" href="assets/logo.png" type="image/png" />
   <link rel="stylesheet" href="assets/styles.css" />
+  <link rel="stylesheet" href="assets/advanced.css" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
 
 </head>
 <body>
+  <a class="skipLink" href="#mainContent">Skip to content</a>
+  <div class="progressBar" aria-hidden="true"></div>
   <div id="sidebarOverlay" class="sidebarOverlay" aria-hidden="true"></div>
   <div class="pageShell">
     <aside class="sidebar" aria-label="Sidebar navigation">
@@ -128,7 +134,7 @@
     </div>
   </header>
 
-  <main class="wrap">
+  <main class="wrap" id="mainContent">
     <div class="sectionTitle">
       <div class="sectionActions">
         <button class="btn" type="button" data-open-modal>Apply / Partner</button>
@@ -316,9 +322,22 @@
   </div>
 
 
+
+  <div class="floatingDock" aria-label="Quick actions">
+    <button class="dockBtn" type="button" data-share-project title="Share project">↗ <span>Share</span></button>
+    <a class="dockBtn" data-link="pancakeswap" target="_blank" rel="noreferrer" title="Open PancakeSwap">◈ <span>Swap</span></a>
+  </div>
+  <div class="installHint" role="status" aria-live="polite">
+    <img src="assets/logo.png" width="34" height="34" alt="" style="border-radius:10px" />
+    <span>Install Burnaverse Protocol for faster access.</span>
+    <button class="mini good" type="button" data-install-app>Install</button>
+    <button class="mini" type="button" data-install-close>Close</button>
+  </div>
+
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
-  <script src="assets/app.js"></script>
-  <script src="assets/ui.js"></script>
+  <script src="assets/app.js" defer></script>
+  <script src="assets/ui.js" defer></script>
+  <script src="assets/advanced.js" defer></script>
     </div>
   </div>
 </body>

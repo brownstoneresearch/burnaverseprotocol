@@ -18,9 +18,16 @@
   <meta name="twitter:card" content="summary_large_image" />
   <link rel="icon" href="assets/logo.png" type="image/png" />
   <link rel="stylesheet" href="assets/styles.css" />
+  <link rel="stylesheet" href="assets/advanced.css" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
 
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Organization", "name": "Burnaverse Protocol", "alternateName": "BUV", "url": "https://burnaverseprotocol.xyz/", "logo": "https://burnaverseprotocol.xyz/assets/logo.png", "sameAs": ["https://x.com/burnaversedapp?s=21", "https://t.me/burnaverseprotocol"], "description": "Burnaverse Protocol (BUV) is a BNB Chain Web3 and community impact project."}</script>
 </head>
 <body>
+  <a class="skipLink" href="#mainContent">Skip to content</a>
+  <div class="progressBar" aria-hidden="true"></div>
   <div id="sidebarOverlay" class="sidebarOverlay" aria-hidden="true"></div>
   <div class="pageShell">
     <aside class="sidebar" aria-label="Sidebar navigation">
@@ -128,7 +135,7 @@
     </div>
   </header>
 
-  <main class="wrap">
+  <main class="wrap" id="mainContent">
     <div class="hero">
       <div class="card left">
         <div class="kicker"><span class="kdot"></span> Investor-grade narrative + measurable community outcomes</div>
@@ -263,6 +270,67 @@
       </div>
     </section>
 
+
+    <section class="heroWrap" id="liquidity-planner">
+      <div class="heroGlowLine"></div>
+      <div class="sectionTitle">
+        <div>
+          <h3>V2 Liquidity Planner</h3>
+          <p>Calculate a cleaner starting ratio before you add BUV/BNB liquidity.</p>
+        </div>
+        <div class="sectionActions">
+          <button class="btn ghost" type="button" data-share-project>Share Project</button>
+        </div>
+      </div>
+
+      <div class="card pad col12 advancedPanel" data-liquidity-planner>
+        <div class="inputGrid">
+          <div class="field">
+            <label for="calcBnb">BNB to deposit</label>
+            <input id="calcBnb" data-calc-bnb type="number" min="0" step="0.001" value="0.026" inputmode="decimal" />
+            <small>Keep some BNB for gas.</small>
+          </div>
+          <div class="field">
+            <label for="calcBnbUsd">BNB price (USD)</label>
+            <input id="calcBnbUsd" data-calc-bnb-usd type="number" min="0" step="1" value="600" inputmode="decimal" />
+            <small>Adjust to current market price.</small>
+          </div>
+          <div class="field">
+            <label for="calcFdv">Target FDV (USD)</label>
+            <input id="calcFdv" data-calc-fdv type="number" min="1" step="1000" value="25000" inputmode="decimal" />
+            <small>Example: 25000 or 50000.</small>
+          </div>
+          <div class="field">
+            <label for="calcRatio">Or set BUV per 1 BNB</label>
+            <input id="calcRatio" data-calc-ratio type="number" min="0" step="1" placeholder="Example: 40000" inputmode="decimal" />
+            <small>Overrides FDV when edited.</small>
+          </div>
+        </div>
+
+        <div class="calcResults">
+          <div class="calcBox"><p class="k">BUV to pair</p><p class="v" data-out-buv>—</p></div>
+          <div class="calcBox"><p class="k">Starting price</p><p class="v" data-out-price>—</p></div>
+          <div class="calcBox"><p class="k">Pool value</p><p class="v" data-out-pool>—</p></div>
+          <div class="calcBox"><p class="k">Pool ratio</p><p class="v" data-out-ratio>—</p></div>
+        </div>
+
+        <div class="toolRow">
+          <span class="statusPill" data-calc-warning>Planner ready.</span>
+          <button class="mini" type="button" data-copy-calc>Copy plan</button>
+          <button class="mini" type="button" data-reset-calc>Reset</button>
+          <a class="mini good" data-link="pancakeswap" target="_blank" rel="noreferrer">Open PancakeSwap</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="heroWrap" id="security-checks">
+      <div class="sectionTitle">
+        <h3>Verification & Safety Checks</h3>
+        <p>Quick trust signals visitors expect before trading or partnering.</p>
+      </div>
+      <div class="auditGrid" data-security-checks></div>
+    </section>
+
     <footer>
       <div class="footRow">
         <div class="left">
@@ -364,9 +432,22 @@
   </div>
 
 
+
+  <div class="floatingDock" aria-label="Quick actions">
+    <button class="dockBtn" type="button" data-share-project title="Share project">↗ <span>Share</span></button>
+    <a class="dockBtn" data-link="pancakeswap" target="_blank" rel="noreferrer" title="Open PancakeSwap">◈ <span>Swap</span></a>
+  </div>
+  <div class="installHint" role="status" aria-live="polite">
+    <img src="assets/logo.png" width="34" height="34" alt="" style="border-radius:10px" />
+    <span>Install Burnaverse Protocol for faster access.</span>
+    <button class="mini good" type="button" data-install-app>Install</button>
+    <button class="mini" type="button" data-install-close>Close</button>
+  </div>
+
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
-  <script src="assets/app.js"></script>
-  <script src="assets/ui.js"></script>
+  <script src="assets/app.js" defer></script>
+  <script src="assets/ui.js" defer></script>
+  <script src="assets/advanced.js" defer></script>
     </div>
   </div>
 </body>
